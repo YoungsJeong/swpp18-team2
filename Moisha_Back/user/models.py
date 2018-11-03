@@ -24,7 +24,7 @@ class Department(models.Model):
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=20)
-    student_id = models.IntegerField(unique=True)
+    studentId = models.IntegerField(unique=True)
     major = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='majorUsers')
     nickName = models.CharField(max_length=20)
     interests = models.ManyToManyField(Interest, related_name='members')

@@ -17,16 +17,15 @@ export interface SignUpPayload {
   password: string
   nickName: string
 }
-
 export interface AuthResponse {
   name: string;
   token: string;
 }
-
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
   constructor(
     private http: HttpClient,
     private router: Router,
