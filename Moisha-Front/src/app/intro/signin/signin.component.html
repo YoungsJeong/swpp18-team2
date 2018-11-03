@@ -28,17 +28,17 @@
   </div>
   <div class="alert alert-danger" *ngIf="error">
     아이디 또는 비밀번호를 다시 확인해주세요
-    <br> 졸업하샤에 등록되지 않은 아이디이거나, 아이디 또는 비밀번호를 잘못 입력하셨습니다.
+    <br> 등록되지 않은 아이디이거나, 아이디 또는 비밀번호를 잘못 입력하셨습니다.
   </div>
   <button class="btn btn-lg btn-primary btn-block " type="submit">
     <ng-container *ngIf="!pending else loading ">로그인</ng-container>
   </button>
   <button class="btn btn-lg btn-primary btn-block" (click)="goToSignUp()">회원가입</button>
   <br>
-  <p class="mt-5 mb-3 text-muted ">2018-1학기 소프트웨어응용 인면조</p>
+  <p class="mt-5 mb-3 text-muted ">SWPP Team Q</p>
 </form>
 </body>
 
 <ng-template #loading>
-  <loading></loading>
+  <app-loading></app-loading>
 </ng-template>
