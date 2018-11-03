@@ -8,10 +8,12 @@ from user.models import User
 
 
 class ArticleTag(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, unique=True)
 
-class Type(models.Model):
-    name = models.CharField(max_length=20)
+
+class ArticleType(models.Model):
+    name = models.CharField(max_length=20, unique=True)
+
 
 class Article(models.Model):
     title = models.CharField(max_length=80)
@@ -20,4 +22,4 @@ class Article(models.Model):
     createdDate = models.DateTimeField(default=datetime.now)
     interest = models.ForeignKey(Interest, on_delete=models.CASCADE, related_name='articles')
     tags = models.ManyToManyField(ArticleTag,blank = True, related_name='articles')
-    type = models.ManyToManyField(Type, related_name='articles')
+    type = models.ManyToManyField(ArticleType, related_name='articles')
