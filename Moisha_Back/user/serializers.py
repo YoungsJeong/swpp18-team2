@@ -43,7 +43,6 @@ class UserDetailSerializer(serializers.ModelSerializer):
         data = super(UserDetailSerializer, self).to_representation(instance)
         data.update({
             'major': DepartmentSerializer(instance.major).data,
-            'minor': DepartmentSerializer(instance.minor).data,\
             "interests": InterestSerializer(list(instance.interests.all()), many=True).data,
         })
         return data

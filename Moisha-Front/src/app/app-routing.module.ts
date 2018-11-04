@@ -9,12 +9,12 @@ const routes: Routes = [
     loadChildren: '../app/intro/intro.module#IntroModule',
     canLoad: [AuthGuard]
   },
-  /*
   {
     path: 'signup',
-    loadChildren: '..app/signup/signup.module#SignupModule',
+    loadChildren: '../app/signup/signup.module#SignupModule',
     canLoad: [AuthGuard]
-  },
+  }
+  /*
   {
     path: '**',
     component: NotFoundComponent

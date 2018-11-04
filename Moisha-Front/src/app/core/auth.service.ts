@@ -12,10 +12,10 @@ export function tokenGetter() {
 export interface SignUpPayload {
   email: string
   name: string
+  nickName: string
   studentId: number
   major: string
   password: string
-  nickName: string
 }
 export interface AuthResponse {
   name: string;

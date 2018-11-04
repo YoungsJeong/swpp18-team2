@@ -20,7 +20,8 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('is_active', True)
 
         extra_fields.update({
-            'student_id': random.randrange(0, 100000),
+            'studentId': random.randrange(0, 100000),
+            'nickName': 'admin' + str(random.randrange(0, 100000)),
             'name': 'SUPERUSER',
         })
         return self.create_user(email, password, **extra_fields)
