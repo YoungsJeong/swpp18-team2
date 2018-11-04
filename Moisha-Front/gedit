@@ -1,0 +1,19 @@
+diff --git a/Moisha-Front/package.json b/Moisha-Front/package.json
+index aee019a..03a597f 100644
+--- a/Moisha-Front/package.json
++++ b/Moisha-Front/package.json
+@@ -27,12 +27,14 @@
+     "@ng-bootstrap/ng-bootstrap": "^2.0.0",
+     "@ngrx/effects": "^5.2.0",
+     "@ngrx/store": "^5.2.0",
++    "@ngtools/webpack": "^1.2.4",
+     "angular-font-awesome": "^3.1.2",
+     "bootstrap": ">=4.1.2",
+     "core-js": "^2.5.4",
+     "font-awesome": "^4.7.0",
+     "rxjs": "^6.0.0",
+     "rxjs-compat": "^6.1.0",
++    "typescript-compiler": "^1.4.1-2",
+     "zone.js": "~0.8.26"
+   },
+   "devDependencies": {

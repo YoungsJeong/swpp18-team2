@@ -1,3 +1,6 @@
 from django.contrib import admin
+from interest.models import InterestTag, Interest
 
-# Register your models here.
+
+admin.site.register(InterestTag)
+admin.site.register(Interest)

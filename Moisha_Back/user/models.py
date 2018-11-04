@@ -26,8 +26,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=20)
     studentId = models.IntegerField(unique=True)
     major = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='majorUsers')
-    nickName = models.CharField(max_length=20)
-    interests = models.ManyToManyField(Interest, related_name='members')
+    nickName = models.CharField(max_length=20, unique=True)
+    interests = models.ManyToManyField(Interest,blank=True, related_name='members')
     USERNAME_FIELD = 'email'
     objects = UserManager()
     is_staff = models.BooleanField(
