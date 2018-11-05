@@ -1,0 +1,12 @@
+<div class="panel panel-primary">
+<div class="panel-heading">{{article.title}}
+    <span *ngFor="let tag of article.tags; let i of index"
+          [attr.id]="'tagBadge'+i" class="badge">{{tag.name}}</span>
+  {{article.author}}
+</div>
+<div class="panel-body">{{article.content}}</div>
+</div>
+
+
+
+

@@ -13,7 +13,12 @@ const routes: Routes = [
     path: 'signup',
     loadChildren: '../app/signup/signup.module#SignupModule',
     canLoad: [AuthGuard]
-  }
+  },
+  {
+    path: '',
+    loadChildren: '../app/feed/feed.module#FeedModule',
+    canLoad: [AuthGuard]
+  },
   /*
   {
     path: '**',

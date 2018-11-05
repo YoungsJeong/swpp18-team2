@@ -12,7 +12,7 @@ export class AuthGuard implements CanLoad {
     const url = route.path;
     console.log('url in guard: ', url);
     const isLoggedIn = this.auth.isLoggedIn;
-    if (url === '' || url === 'courses') {
+    if (url === '' || url === 'feed') {
       if (isLoggedIn) {
         return true;
       }

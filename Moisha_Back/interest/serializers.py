@@ -9,14 +9,10 @@ class InterestTagSerializer(serializers.ModelSerializer):
 
 
 class InterestSerializer(serializers.ModelSerializer):
+    tags = InterestTagSerializer(read_only=True, many=True)
     class Meta:
         model = Interest
         fields = '__all__'
     def to_representation(self, instance):
         data = super(InterestSerializer, self).to_representation(instance)
-        data.update({
-            'tags': {
-                InterestTagSerializer(list(instance.tags.all()), many=True).data
-            },
-        })
         return data

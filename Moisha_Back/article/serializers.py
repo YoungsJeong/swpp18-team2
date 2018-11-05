@@ -15,21 +15,16 @@ class ArticleTypeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ArticleSerializer(serializers.ModelSerializer):
+    tags = ArticleTagSerializer(read_only=True, many=True)
+    type = ArticleTypeSerializer(read_only=True, many=True)
     class Meta:
         model = Article
         fields = '__all__'
 
     def to_representation(self, instance):
         data = super(ArticleSerializer, self).to_representation(instance)
-
         data.update({
             'author': UserSerializer(instance.author).data['nickName'],
-            'interest': InterestSerializer(instance.interest),
-            'tags': {
-                ArticleTagSerializer(list(instance.tags.all()), many=True).data
-            },
-            'type': {
-                ArticleTypeSerializer(list(instance.type.all()),many=True).data
-            }
+            'interest': InterestSerializer(instance.interest).data
         })
         return data

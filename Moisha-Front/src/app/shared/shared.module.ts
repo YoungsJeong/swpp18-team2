@@ -9,9 +9,12 @@ import {
   NgbDropdownModule,
   NgbModalModule
 } from '@ng-bootstrap/ng-bootstrap';
+import {NavbarComponent} from './navbar/navbar.component';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   imports: [
+    RouterModule,
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
@@ -20,7 +23,7 @@ import {
     NgbDropdownModule,
     NgbModalModule
   ],
-  declarations: [LoadingComponent],
+  declarations: [LoadingComponent, NavbarComponent],
   exports: [
     CommonModule,
     LoadingComponent,
@@ -29,7 +32,8 @@ import {
     NgbModule,
     NgbTypeaheadModule,
     NgbDropdownModule,
-    NgbModalModule
+    NgbModalModule,
+    NavbarComponent
   ]
 })
 export class SharedModule {}
