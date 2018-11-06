@@ -19,6 +19,11 @@ const routes: Routes = [
     loadChildren: '../app/feed/feed.module#FeedModule',
     canLoad: [AuthGuard]
   },
+  {
+    path: 'search',
+    loadChildren: '../app/search/search.module#SearchModule',
+    canLoad: [AuthGuard]
+  },
   /*
   {
     path: '**',

@@ -1,18 +1,24 @@
-.panel-heading{
-  font-size: 20px;
-  color: #555;
-  background: #E8E8E8;
-  padding: 4px 5px;
-  border-radius: 3px;
-  vertical-align: middle;
-}
-.panel-body{
+.title{
   font-size: 20px;
   color: #555;
   padding: 4px 5px;
   border-radius: 3px;
   vertical-align: middle;
 }
-#tagBadge1{
-  font-size: 50px;
+.author{
+  font-size: 20px;
+  color: #555;
+  padding: 4px 5px;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+.badge{
+  color: #ffffff;
+  float: right;
+  font-size: 18px;
+  margin: auto;
+  alignment: right;
+  padding: 4px 5px;
+  border-radius: 3px;
+  vertical-align: middle;
 }

@@ -1,0 +1,4 @@
+<app-navbar [name]="auth?.user?.name" (search)="searchInterest($event)"></app-navbar>
+<div class="searchResult col-4">
+  <app-search-list [interests]="searchResult"></app-search-list>
+</div>

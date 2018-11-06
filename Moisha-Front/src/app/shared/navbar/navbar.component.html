@@ -11,13 +11,14 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">홈</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/courses" routerLinkActive="active">강의검색</a>
-      </li>
     </ul>
+    <form class="form-inline" (ngSubmit)="searchInterest()" >
+      <input class="form-control" name="searchKeyword" [(ngModel)]="keyword" placeholder="Search" aria-label="Search">
+      <button class="btn btn-success" type="submit">Search</button>
+    </form>
   </div>
   <button class="btn btn-outline-dark" (click)="goToProfile()">
-    <b style="font-size:20px;">{{ name }}</b>님
+    <b style="font-size:18px;">{{ name }}님</b>
   </button>
   <div ngbDropdown class="d-inline-block" style="margin-left:5px">
     <button class="btn btn-outline-dark" id="dropdownBasic1" ngbDropdownToggle></button>

@@ -1,12 +1,11 @@
-<div class="panel panel-primary">
-<div class="panel-heading">{{article.title}}
+<div class="card">
+<div class="card-header">
+  <span class="title">{{article.title}}</span>
     <span *ngFor="let tag of article.tags; let i of index"
-          [attr.id]="'tagBadge'+i" class="badge">{{tag.name}}</span>
-  {{article.author}}
+          class="badge" [ngStyle] = "{'background-color': tag.color.rgb}">{{tag.name}}</span>
+  <br>
+  <span class="author">{{article.author}}</span>
 </div>
-<div class="panel-body">{{article.content}}</div>
+<div class="card-body">{{article.content}}</div>
 </div>
-
-
-
-
+<br>

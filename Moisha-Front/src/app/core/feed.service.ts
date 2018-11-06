@@ -1,9 +1,16 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {DepartmentSearchResponse} from './user.service';
+
+export interface TagColor {
+  id: number,
+  name: string,
+  rgb: string
+}
 export interface ArticleTag {
   id: number,
-  name: string
+  name: string,
+  color: TagColor
 }
 export interface ArticleType {
   id: number,

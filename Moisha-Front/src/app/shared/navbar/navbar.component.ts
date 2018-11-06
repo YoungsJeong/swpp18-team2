@@ -1,7 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AuthService} from '../../core/auth.service';
 import {Router} from '@angular/router';
 import {NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
+import {InterestService} from '../../core/interest.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,13 +11,20 @@ import {NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
 })
 export class NavbarComponent implements OnInit {
   @Input() name: string;
+  @Output() search = new EventEmitter();
+
+  keyword: string
   constructor(public auth: AuthService,
               private router: Router,
-              private config: NgbDropdownConfig) {
+              private config: NgbDropdownConfig,
+              private interestService: InterestService) {
     config.placement = 'bottom-right';
   }
 
   ngOnInit() {
+  }
+  searchInterest() {
+    this.search.emit(this.keyword)
   }
   goToProfile() {
     this.router.navigate(['profile']);

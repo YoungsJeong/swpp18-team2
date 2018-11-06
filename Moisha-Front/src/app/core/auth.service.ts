@@ -71,4 +71,13 @@ export class AuthService {
     this.router.navigate(['intro']);
   }
 
+  getUser() {
+    return this.http.get('/user/info').pipe(
+      tap((user: any) => {
+        this.user = user;
+        console.log('user: ', user);
+      })
+    );
+  }
+
 }

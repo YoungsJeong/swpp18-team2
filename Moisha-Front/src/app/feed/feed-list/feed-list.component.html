@@ -1,5 +1,5 @@
-<div class="panel-group" *ngIf="articles.length >= 1">
-    <div *ngFor="let article of articles">
+<div class="view" *ngIf="articles.length >= 1">
+    <div class="container" *ngFor="let article of articles">
       <app-article
         [article] = "article">
       </app-article>
