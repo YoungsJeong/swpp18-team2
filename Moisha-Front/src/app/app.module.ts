@@ -1,6 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
 import {AppComponent} from './app.component';
 import {ChatComponent} from './components/chat/chat.component';
 import {SideMenuComponent} from './components/side-menu/side-menu.component';
@@ -16,7 +15,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {tokenGetter} from './core/auth.service';
 import {SignupModule} from './signup/signup.module';
 import {SigninComponent} from './intro/signin/signin.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [

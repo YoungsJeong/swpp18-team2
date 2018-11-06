@@ -20,7 +20,8 @@ const routes: Routes = [
     //   loadChildren: '../app/signup/signup.module#SignupModule',
     component: SignupModule, // TODO find out why loadChildren doesn't work
     canLoad: [AuthGuard]
-  }, /*
+  },
+  /*
   {
     path: '**',
     component: NotFoundComponent
