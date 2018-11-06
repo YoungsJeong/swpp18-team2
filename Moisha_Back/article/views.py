@@ -13,3 +13,13 @@ def getArticles(request):
         return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
     articles = Article.objects.filter(interest__in = user.interests.all()).all()
     return Response(data=ArticleSerializer(articles, many = True).data, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def createArticle(request):
+    data = request.data
+    serializer = ArticleSerializer(data=data)
+    if serializer.is_valid():
+        opinion = serializer.save()
+        return Response(serializer.data)
+    return Response(data=serializer.errors)

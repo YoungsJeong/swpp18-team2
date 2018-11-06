@@ -24,6 +24,11 @@ const routes: Routes = [
     loadChildren: '../app/search/search.module#SearchModule',
     canLoad: [AuthGuard]
   },
+  {
+    path: 'interest',
+    loadChildren: '../app/interest/interest.module#InterestModule',
+    canLoad: [AuthGuard]
+  },
   /*
   {
     path: '**',

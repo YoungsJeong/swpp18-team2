@@ -1,6 +1,7 @@
 from haystack import indexes
 
-from interest.models import Interest
+from article.models import ArticleTag
+from interest.models import Interest, InterestTag
 from user.models import Department
 
 
@@ -11,6 +12,40 @@ class DepartmentIndex(indexes.SearchIndex, indexes.Indexable):
 
     def get_model(self):
         return Department
+
+    def index_queryset(self, using=None):
+        """Used when the entire index for model is updated."""
+        return self.get_model().objects.all()
+
+
+class ArticleTagIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=False)
+    name = indexes.CharField(model_attr='name')
+    color = indexes.MultiValueField()
+    autocomplete_search = indexes.EdgeNgramField(model_attr='name')
+
+    def get_model(self):
+        return ArticleTag
+
+    def index_queryset(self, using=None):
+        """Used when the entire index for model is updated."""
+        return self.get_model().objects.all()
+
+
+class InterestTagIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=False)
+    name = indexes.CharField(model_attr='name')
+    color = indexes.MultiValueField()
+    autocomplete_search = indexes.EdgeNgramField(model_attr='name')
+
+    def prepare_name(self, obj):
+        return InterestTag.objects.get(id=obj.id).name
+
+    def prepare_color(self, obj):
+        return InterestTag.objects.get(id=obj.id).color
+
+    def get_model(self):
+        return InterestTag
 
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated."""

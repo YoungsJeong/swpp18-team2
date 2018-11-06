@@ -6,23 +6,24 @@ from user.serializers import UserSerializer
 from .models import ArticleTag, ArticleType, Article, TagColor
 
 
-
 class ArticleTagSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArticleTag
         fields = '__all__'
+
     def to_representation(self, instance):
         data = super(ArticleTagSerializer, self).to_representation(instance)
         data.update({
             'color': TagColorSerializer(instance.color).data
         })
-
         return data
+
 
 class ArticleTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArticleType
         fields = '__all__'
+
 
 class ArticleSerializer(serializers.ModelSerializer):
     tags = ArticleTagSerializer(read_only=True, many=True)

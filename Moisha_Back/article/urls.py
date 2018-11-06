@@ -3,4 +3,5 @@ from article import views
 
 urlpatterns = [
     path('', views.getArticles),
+    path('', views.createArticle),
 ]

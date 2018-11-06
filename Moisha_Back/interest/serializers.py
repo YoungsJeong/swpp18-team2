@@ -16,12 +16,13 @@ class InterestTagSerializer(serializers.ModelSerializer):
 
         return data
 
-
 class InterestSerializer(serializers.ModelSerializer):
     tags = InterestTagSerializer(read_only=True, many=True)
+
     class Meta:
         model = Interest
         fields = '__all__'
+
     def to_representation(self, instance):
         data = super(InterestSerializer, self).to_representation(instance)
         return data

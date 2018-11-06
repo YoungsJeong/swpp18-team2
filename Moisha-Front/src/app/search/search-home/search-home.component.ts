@@ -12,7 +12,8 @@ export class SearchHomeComponent implements OnInit {
   searchResult: Interest[]
   constructor(public auth: AuthService, private router: Router, private route: ActivatedRoute, private interestService: InterestService) { }
   ngOnInit() {
-    this.auth.getUser().subscribe(console.log)
+    if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
+      this.auth.getUser().subscribe(console.log);
     const keyword =  this.route.snapshot.paramMap.get('keyword')
     if (keyword != null && keyword !== '') {
       this.searchInterest(keyword)

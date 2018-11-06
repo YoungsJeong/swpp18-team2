@@ -12,7 +12,8 @@ export class HomeComponent implements OnInit {
   constructor(public auth: AuthService, private route: Router) { }
 
   ngOnInit() {
-    this.auth.getUser().subscribe(console.log);
+    if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
+      this.auth.getUser().subscribe(console.log);
   }
   searchInterest(keyword: string) {
     if (!keyword) keyword = ''
