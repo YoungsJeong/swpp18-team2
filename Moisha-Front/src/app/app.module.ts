@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {ChatComponent} from './components/chat/chat.component';
-import {SideMenuComponent} from './components/side-menu/side-menu.component';
+// import {SideMenuComponent} from './components/side-menu/side-menu.component';
 import {NavbarComponent} from './components/navbar/navbar.component';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
@@ -21,7 +21,7 @@ import {ReactiveFormsModule, FormsModule} from '@angular/forms';
   declarations: [
     AppComponent,
     ChatComponent,
-    SideMenuComponent,
+//    SideMenuComponent,
     NavbarComponent,
     SigninComponent,
   ],
