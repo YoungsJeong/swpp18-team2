@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {AuthService} from '../../core/auth.service';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-signin',
@@ -13,6 +14,7 @@ export class SigninComponent implements OnInit {
   error: any;
   submitAttempt: boolean;
   signInForm: FormGroup;
+  @Input() formGroup
   constructor(private router: Router, private auth: AuthService) { }
 
   ngOnInit() {
