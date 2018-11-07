@@ -8,9 +8,10 @@ import {FeedRoutingModule} from './feed-routing.module';
 import {IntroRoutingModule} from '../intro/intro-routing.module';
 import {IntroComponent} from '../intro/intro/intro.component';
 import {SigninComponent} from '../intro/signin/signin.component';
+import { FilterComponent } from './filter/filter.component';
 
 @NgModule({
   imports: [SharedModule, FeedRoutingModule],
-  declarations: [ ArticleComponent, FeedListComponent, FeedComponent, HomeComponent]
+  declarations: [ ArticleComponent, FeedListComponent, FeedComponent, HomeComponent, FilterComponent]
 })
 export class FeedModule { }
