@@ -11,6 +11,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import {NavbarComponent} from './navbar/navbar.component';
 import {RouterModule} from '@angular/router';
+import {SideBarComponent} from './side-bar/side-bar.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,7 @@ import {RouterModule} from '@angular/router';
     NgbDropdownModule,
     NgbModalModule
   ],
-  declarations: [LoadingComponent, NavbarComponent],
+  declarations: [LoadingComponent, NavbarComponent, SideBarComponent],
   exports: [
     CommonModule,
     LoadingComponent,
@@ -33,7 +34,8 @@ import {RouterModule} from '@angular/router';
     NgbTypeaheadModule,
     NgbDropdownModule,
     NgbModalModule,
-    NavbarComponent
+    NavbarComponent,
+    SideBarComponent
   ]
 })
 export class SharedModule {}

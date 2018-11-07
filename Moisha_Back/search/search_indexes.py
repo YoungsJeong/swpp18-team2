@@ -31,7 +31,6 @@ class ArticleTagIndex(indexes.SearchIndex, indexes.Indexable):
         """Used when the entire index for model is updated."""
         return self.get_model().objects.all()
 
-
 class InterestTagIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=False)
     name = indexes.CharField(model_attr='name')
