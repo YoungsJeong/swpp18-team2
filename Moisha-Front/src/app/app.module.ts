@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ChatComponent } from './components/chat/chat.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -19,7 +18,6 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
   declarations: [
     AppComponent,
     ChatComponent,
-    NavbarComponent,
     SideBarComponent
   ],
   imports: [

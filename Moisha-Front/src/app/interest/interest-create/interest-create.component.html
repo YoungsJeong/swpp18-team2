@@ -1,0 +1,4 @@
+<app-navbar [name]="auth?.user?.name" (search)="searchInterest($event)"></app-navbar>
+<section class="create-app">
+  <app-interest-form (confirm)="createInterest($event)" ></app-interest-form>
+</section>

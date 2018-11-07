@@ -13,7 +13,7 @@ class CollegeSerializer(serializers.ModelSerializer):
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
-        fields = '__all_'
+        fields = '__all__'
 
     def to_representation(self, instance):
         data = super(DepartmentSerializer, self).to_representation(instance)
@@ -35,6 +35,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
+    interests = InterestSerializer(read_only=True, many=True)
     class Meta:
         model = User
         exclude = ['password', 'is_superuser', 'is_active', 'is_staff', 'last_login', 'groups', 'user_permissions']
@@ -42,7 +43,6 @@ class UserDetailSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super(UserDetailSerializer, self).to_representation(instance)
         data.update({
-            'major': DepartmentSerializer(instance.major).data,
-            "interests": InterestSerializer(list(instance.interests.all()), many=True).data,
+            'major': DepartmentSerializer(instance.major).data
         })
         return data

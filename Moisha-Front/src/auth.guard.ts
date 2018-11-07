@@ -12,7 +12,7 @@ export class AuthGuard implements CanLoad {
     const url = route.path;
     console.log('url in guard: ', url);
     const isLoggedIn = this.auth.isLoggedIn;
-    if (url === '' || url === 'courses') {
+    if (url === '' || url === 'feed') {
       if (isLoggedIn) {
         return true;
       }
@@ -23,6 +23,18 @@ export class AuthGuard implements CanLoad {
         return true;
       }
       this.router.navigate(['/']);
+    } else if (url === 'search') {
+      if (isLoggedIn) {
+        return true;
+      }
+      this.auth.redirectUrl = url;
+      this.router.navigate(['intro']);
+    } else if (url === 'interest') {
+      if (isLoggedIn) {
+        return true;
+      }
+      this.auth.redirectUrl = url;
+      this.router.navigate(['intro']);
     } else {
       console.error('unhandled url: ', url);
       return true;

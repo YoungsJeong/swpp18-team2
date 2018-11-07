@@ -3,4 +3,6 @@ from search import views
 
 urlpatterns = [
     path('department/', views.searchDepartment),
+    path('interest/', views.searchInterest),
+    path('tag/',views.searchInterestTag)
 ]

@@ -1,0 +1,79 @@
+<form class="form-interest" [formGroup]="interestForm" (ngSubmit)="confirmInterest()">
+  <input type="text"
+         class="form-control"
+         id="inputName"
+         placeholder="관심사 이름"
+         formControlName="name"
+         [class.is-valid]="formName?.valid"
+         [class.is-invalid]="formName?.dirty && formName?.invalid">
+  <div class="alert alert-danger" *ngIf="formName?.dirty && formName?.errors?.required">
+    이름을 입력해주세요
+  </div>
+  <div class="alert alert-danger" *ngIf="formName?.dirty && formName?.errors?.invalidName">
+    이름은 20자 이내여야 합니다. 현재: {{formName.value.length}} 자
+  </div>
+  <br>
+  <textarea type="text"
+         class="form-control"
+         id="inputDetail"
+         placeholder="설명(Optional)"
+         formControlName="detail"
+         [class.is-valid]="formDetail?.valid"
+         [class.is-invalid]="formDetail?.dirty && formDetail?.invalid">
+  </textarea>
+  <div class="alert alert-danger" *ngIf="formDetail?.dirty && formDetail?.errors?.invalidDetail">
+    설명은 200자 이내여야 합니다. 현재: {{formDetail.value.length}} 자
+  </div>
+  <br>
+  <br>
+  <br>
+  <div class="form-contorl">
+    <span class="badge badgefirst" [ngStyle] = "{'background-color': tag.color.rgb}" *ngFor="let tag of selectedTags">
+    {{tag.name}}
+    <span class="removeSelected" (click)="remove(tag)">&nbsp;x</span>
+  </span>
+  <input type="select"
+         class="form-control"
+         id="inputTag"
+         placeholder="태그? ex) 취미, 동아리, 학술 ..."
+         formControlName="tag"
+         [ngbTypeahead]="tagSearch"
+         [focusFirst] = "false"
+         (selectItem) = "selected($event)"
+         [resultTemplate]="rt"
+         [resultFormatter]="tagFormatter"
+         [inputFormatter]="tagFormatter"
+         [class.is-valid]="formTag?.valid"
+         [class.is-invalid]="formTag?.dirty && formTag?.invalid">
+  </div>
+  <div class="alert alert-danger" *ngIf="formTag?.dirty && formTag?.errors?.invalidTag">
+    존재하지 않는 태그입니다
+  </div>
+  <br>
+  <input type="text"
+         maxlength="2000"
+         class="form-control"
+         id="inputPhotoURL"
+         placeholder="이미지 URL"
+         formControlName="photoURL"
+         [class.is-valid]="formPhotoURL?.valid"
+         [class.is-invalid]="formPhotoURL?.dirty && formPhotoURL?.invalid">
+  <div class="alert alert-danger" *ngIf="formPhotoURL?.dirty && formPhotoURL?.errors?.invalidURL">
+    URL 형식을 올바르게 입력해주세요.
+  </div>
+  <br>
+  <div *ngIf="error" class="alert alert-danger">
+    이미 존재하는 관심사 이름입니다.
+  </div>
+  <button [disabled]="interestForm?.invalid" type="submit" class="btn btn-lg btn-primary btn-block">
+    <ng-container *ngIf="!pending else loading ">저장</ng-container>
+  </button>
+</form>
+<ng-template #loading>
+  <app-loading></app-loading>
+</ng-template>
+<ng-template #rt let-tag="result" let-t="term">
+  <span class="badge" [ngStyle] = "{'background-color': tag.color.rgb}">
+    {{ tag.name }}
+  </span>
+</ng-template>

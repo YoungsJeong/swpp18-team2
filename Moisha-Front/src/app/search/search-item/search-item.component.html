@@ -1,0 +1,14 @@
+<div class="card">
+  <div class="card-header flex-column">
+    <img src={{interest.photoURL}} class="img-responsive">
+    <span class="name">{{interest.name}}</span>
+    <div *ngFor="let tag of interest.tags;">
+          <span
+            class="badge" [ngStyle] = "{'background-color': tag.color.rgb}" >{{tag.name}}
+          </span>
+    </div>
+    <span class="creator">Manager : {{interest.createUser}}</span>
+  </div>
+  <div class="card-body">{{interest.createdDate}}</div>
+</div>
+<br>

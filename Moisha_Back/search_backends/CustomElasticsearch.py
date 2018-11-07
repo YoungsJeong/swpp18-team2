@@ -4,6 +4,7 @@ from haystack.backends.elasticsearch2_backend import Elasticsearch2SearchBackend
 class CustomSearchBackend(Elasticsearch2SearchBackend):
     DEFAULT_SETTINGS = {
         'settings': {
+
             "analysis": {
                 "analyzer": {
                     "ngram_analyzer": {

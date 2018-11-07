@@ -37,10 +37,10 @@ describe('SigninComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  fit('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('test login', async(() => {
+  fit('test login', async(() => {
     const email = component.signInForm.get('email')
     const password = component.signInForm.get('password')
     email.setValue('invalid')
@@ -61,12 +61,12 @@ describe('SigninComponent', () => {
     expect(component.signInForm.valid).toEqual(true)
     expect(component.error).toEqual(true)
   }));
-  it('test signup', () => {
+  fit('test signup', () => {
     const navigateSpy = spyOn((<any>component).router, 'navigate');
     component.goToSignUp();
     expect(navigateSpy).toHaveBeenCalledWith(['/signup']);
   });
-  it('test forms', () => {
+  fit('test forms', () => {
     const email = component.signInForm.get('email')
     const password = component.signInForm.get('password')
     expect(email).toEqual(component.formEmail)
