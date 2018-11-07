@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" style="cursor:pointer" (click)="openDetail()">
 <div class="card-header">
   <span class="title">{{article.title}}</span>
     <span *ngFor="let tag of article.tags; let i of index"

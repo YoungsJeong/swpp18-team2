@@ -13,7 +13,6 @@ from .serializers import UserSerializer, UserDetailSerializer
 @api_view(['POST'])
 def logIn(request):
     serializer = AuthTokenSerializer(data=request.data)
-    print(request.data)
     if serializer.is_valid():
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)

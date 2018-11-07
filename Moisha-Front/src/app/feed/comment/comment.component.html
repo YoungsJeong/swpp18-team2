@@ -1,0 +1,30 @@
+<div class="card" style="cursor:pointer" (click)="commentClicked()">
+  <div class="card-header comment-author">
+    {{comment.author}}
+  </div>
+  <div class="card-body comment-content">
+    {{comment.content}}
+  </div>
+  <div class="card-footer comment-createdDate">
+    {{comment.createdDate}}
+  </div>
+</div>
+<div class="reply" [hidden]="!isClicked">
+<i *ngIf = "comment.replies?.length >0" class="fa fa-reply fa-rotate-180 fa-2x" aria-hidden="true"></i>
+<div *ngFor="let reply of comment.replies;"
+     class="card reply" >
+  <div class="card-header reply-author">
+    {{reply.author}}
+  </div>
+  <div class="card-body reply-content">
+    {{reply.content}}
+  </div>
+  <div class="card-footer reply-createdDate">
+    {{reply.createdDate}}
+  </div>
+</div>
+  <app-write-reply [articleID]="comment.article" [comment]="comment"></app-write-reply>
+</div>
+<ng-template #loading>
+  <app-loading></app-loading>
+</ng-template>

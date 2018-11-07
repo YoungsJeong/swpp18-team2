@@ -1,9 +1,12 @@
+import operator
+
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from article.models import Article
 from article.serializers import ArticleSerializer
+from comment.serializers import CommentSerializer
 
 
 @api_view(['GET'])
@@ -23,3 +26,13 @@ def createArticle(request):
         opinion = serializer.save()
         return Response(serializer.data)
     return Response(data=serializer.errors)
+
+
+@api_view(['GET'])
+def getCommentsByArticle(request, pk):
+    user = request.user
+    if user.is_anonymous:
+        return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
+    article = Article.objects.get(pk=pk)
+    comments = article.comments.order_by('createdDate').all()
+    return Response(data=CommentSerializer(comments, many = True).data, status=status.HTTP_200_OK)

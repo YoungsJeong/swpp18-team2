@@ -14,7 +14,6 @@ def createInterest(request):
     if serializer.is_valid():
         interest = serializer.save()
         return Response(serializer.data)
-    print(serializer.errors)
     return Response(data=serializer.errors, status= status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])

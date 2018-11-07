@@ -1,0 +1,15 @@
+<form class="form-reply" [formGroup]="replyForm" (ngSubmit)="writeReply()" novalidate>
+  <label for="inputContent" class="sr-only">내용</label>
+  <textarea type="text"
+            rows="5"
+            id="inputContent"
+            class="form-control"
+            placeholder="댓글 달기"
+            formControlName="content"
+            (input)="error=false">
+  </textarea>
+  <button class="btn btn-lg btn-primary btn-block " type="submit">
+    <ng-container *ngIf="!pending else loading ">작성</ng-container>
+  </button>
+  <p style="clear:both;">&nbsp;</p>
+</form>
