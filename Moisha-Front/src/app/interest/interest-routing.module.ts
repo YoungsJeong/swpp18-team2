@@ -1,11 +1,25 @@
 import {RouterModule, Routes} from '@angular/router';
-import {SearchHomeComponent} from '../search/search-home/search-home.component';
 import {NgModule} from '@angular/core';
-import {InterestFormComponent} from './interest-form/interest-form.component';
 import {InterestCreateComponent} from './interest-create/interest-create.component';
+import {InterestHomeComponent} from './interest-home/interest-home.component';
+import {SearchModule} from '../search/search.module';
+import {InterestFeedComponent} from './interest-feed/interest-feed.component';
 
 const routes: Routes = [
-  {path: 'create', component: InterestCreateComponent}
+  {
+    path: '',
+    component: InterestHomeComponent,
+    children: [
+      {
+        path: 'create',
+        component: InterestCreateComponent
+      },
+      {
+        path: ':id',
+        component: InterestFeedComponent
+      },
+    ]
+  }
 ];
 
 @NgModule({

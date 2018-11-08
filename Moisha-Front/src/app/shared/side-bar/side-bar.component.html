@@ -2,7 +2,7 @@
   <div class="gab"></div>
   <ul class="interests list-group">
     <a *ngFor="let interest of interests" class="list-group-item"
-       routerLink="/interest/{{interest.id}}">
+       href="interest/{{interest.id}}">
       <span class="badge">{{interest.name}}</span>
     </a>
   </ul>

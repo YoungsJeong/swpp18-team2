@@ -1,20 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import {Article, ArticleTag, FeedService} from '../../core/feed.service';
+import {ActivatedRoute, ActivatedRouteSnapshot} from '@angular/router';
 
 @Component({
-  selector: 'app-feed',
-  templateUrl: './feed.component.html',
-  styleUrls: ['./feed.component.css']
+  selector: 'app-interest-feed',
+  templateUrl: './interest-feed.component.html',
+  styleUrls: ['./interest-feed.component.css']
 })
-
-export class FeedComponent implements OnInit {
+export class InterestFeedComponent implements OnInit {
   articles: Article[] = [];
-  articleTags
-  //articleTags: Map<number, ArticleTag> = new Map<number, ArticleTag>()
-  constructor(private feedService: FeedService) { }
+  articleTags = null;
+  constructor(private feedService: FeedService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.feedService.getArticleByUser().subscribe(
+    this.getArticles()
+  }
+
+  getArticles() {
+    this.articles = []
+    this.articleTags = null;
+    this.feedService.getArticleByInterest(+this.route.snapshot.paramMap.get('id')).subscribe(
       (articles) => {
         this.articles = articles
         const articleTagMap: Map<number, ArticleTag> = new Map<number, ArticleTag>()

@@ -1,3 +1,9 @@
 .searchResult{
   margin: auto
 }
+.newButton{
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 20px;
+}

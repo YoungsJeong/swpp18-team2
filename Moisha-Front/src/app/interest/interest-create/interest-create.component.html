@@ -1,4 +1,6 @@
-<app-navbar [name]="auth?.user?.name" (search)="searchInterest($event)"></app-navbar>
+<div class="container col-5">
 <section class="create-app">
+  <h2>새 관심사 만들기</h2>
   <app-interest-form (confirm)="createInterest($event)" ></app-interest-form>
 </section>
+</div>

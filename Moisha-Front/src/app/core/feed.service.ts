@@ -31,7 +31,10 @@ export interface Article {
 export class FeedService {
 
   constructor(private http: HttpClient) { }
-  getArticles() {
-    return this.http.get<Article[]>('/article');
+  getArticleByUser() {
+    return this.http.get<Article[]>('/article/');
+  }
+  getArticleByInterest(id: number) {
+    return this.http.get<Article[]>('/article/interest/'+ id + '/');
   }
 }

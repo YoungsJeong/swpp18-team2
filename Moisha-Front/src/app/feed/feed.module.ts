@@ -13,6 +13,7 @@ import { WriteReplyComponent } from './write-reply/write-reply.component';
 @NgModule({
   imports: [SharedModule, FeedRoutingModule],
   declarations: [ ArticleComponent, FeedListComponent, FeedComponent, HomeComponent, FilterComponent, ArticleDetailComponent, CommentComponent, WriteReplyComponent],
-  entryComponents:[ArticleDetailComponent]
+  entryComponents:[ArticleDetailComponent],
+  exports: [FilterComponent, ArticleComponent, ArticleDetailComponent, CommentComponent, FeedListComponent, WriteReplyComponent]
 })
 export class FeedModule { }

@@ -1,4 +1,6 @@
 <app-navbar [name]="auth?.user?.name" (search)="searchInterest($event)"></app-navbar>
+<app-side-bar></app-side-bar>
 <div class="searchResult col-4">
+  <button class="btn btn-dark newButton" routerLink="/interest/create/">새로운 관심사 만들기</button>
   <app-search-list [interests]="searchResult"></app-search-list>
 </div>

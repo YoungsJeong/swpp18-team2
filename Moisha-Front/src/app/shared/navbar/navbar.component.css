@@ -1,0 +1,26 @@
+.moisha{
+  margin-left:18px;
+  font-size: 24px;
+}
+.home{
+  font-size: 20px
+}
+.navbar{
+  background: #444444;
+  color: #ffffff;
+}
+.name-button{
+  background-color:#444444;
+}
+.user-name{
+  font-size:18px;
+  color: #ffffff;
+}
+.d-inline-block{
+  margin-left:5px;
+  background-color: #343A40;
+}
+.dropdownButton{
+  background-color: #343A40;
+  color: #ffffff;
+}
