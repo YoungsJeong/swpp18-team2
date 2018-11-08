@@ -8,15 +8,19 @@ import {Interest} from './interest.service';
 export interface Reply {
   id: number,
   content: string,
-  author: string,
+  author: Author,
   createdDate: string
+}
+export interface Author {
+  id: number,
+  nickName: String
 }
 export interface Comment {
   id: number,
   replies: Reply[],
   content: string,
   createdDate: string,
-  author: string,
+  author: Author,
   article: string,
   comment: number
 }
@@ -27,8 +31,15 @@ export class ReplyService {
 
   constructor(private http: HttpClient) { }
   getCommentsToArticle(id: number): Observable<Comment[]> {
-    // ${} is not working
     return this.http.get<Comment[]>('/article/' + id + '/comment/').pipe(tap((result) => console.log(result)))
   }
-
+  createComment(payload) {
+    return this.http.post('/comment/', payload);
+  }
+  deleteComment(id: number) {
+    return this.http.delete('/comment/' + id + '/')
+  }
+  editComment(editPayload) {
+    return this.http.put('/comment/' + editPayload.id + '/', editPayload).subscribe((result) => console.log('editted',result))
+  }
 }

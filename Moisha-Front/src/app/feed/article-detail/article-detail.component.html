@@ -1,6 +1,6 @@
 <div class="detail">
   <div class="modal-header">
-    <h4 class="modal-title">강의 정보</h4>
+    <h4 class="modal-title">피드 자세히 보기</h4>
     <button type="button" class="close" aria-label="Close" (click)="dismiss()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -24,8 +24,8 @@
     </tr>
     </tbody>
   </table>
-<app-write-reply [comment]="null" [articleID]="article.id"></app-write-reply>
+<app-write-reply (write)="writeReply($event)" [comment]="null" [articleID]="article.id"></app-write-reply>
   <div *ngFor = "let comment of comments">
-    <app-comment [comment]="comment"></app-comment>
+    <app-comment (write)="writeReply($event)" (delete)="deleteReply($event)" (edit)="editReply($event)" [user]="user" [comment]="comment"></app-comment>
   </div>
 </div>

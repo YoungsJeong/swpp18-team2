@@ -1,9 +1,13 @@
 <div class="card" style="cursor:pointer" (click)="commentClicked()">
   <div class="card-header comment-author">
-    {{comment.author}}
+    {{comment.author.nickName}}
   </div>
   <div class="card-body comment-content">
     {{comment.content}}
+    <div *ngIf ="user.id == comment.author.id" class="buttons">
+      <button (click)="editReply(comment)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+      <button (click)="deleteReply(comment)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+    </div>
   </div>
   <div class="card-footer comment-createdDate">
     {{comment.createdDate}}
@@ -11,19 +15,23 @@
 </div>
 <div class="reply" [hidden]="!isClicked">
 <i *ngIf = "comment.replies?.length >0" class="fa fa-reply fa-rotate-180 fa-2x" aria-hidden="true"></i>
-<div *ngFor="let reply of comment.replies;"
+<div *ngFor="let reply of comment.replies; let i of index"
      class="card reply" >
   <div class="card-header reply-author">
-    {{reply.author}}
+    {{reply.author.nickName}}
   </div>
   <div class="card-body reply-content">
     {{reply.content}}
+    <div *ngIf ="user.id == reply.author.id" class="buttons">
+    <button (click)="editReply(reply)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+    <button (click)="deleteReply(reply)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+    </div>
   </div>
   <div class="card-footer reply-createdDate">
     {{reply.createdDate}}
   </div>
 </div>
-  <app-write-reply [articleID]="comment.article" [comment]="comment"></app-write-reply>
+  <app-write-reply (write)="writeReply($event)" [articleID]="comment.article" [comment]="comment"></app-write-reply>
 </div>
 <ng-template #loading>
   <app-loading></app-loading>

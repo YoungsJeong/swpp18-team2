@@ -13,6 +13,7 @@ def createInterest(request):
     serializer = InterestSerializer(data=data)
     if serializer.is_valid():
         interest = serializer.save()
+        interest.tags.add(*data['tags'])
         return Response(serializer.data)
     return Response(data=serializer.errors, status= status.HTTP_400_BAD_REQUEST)
 

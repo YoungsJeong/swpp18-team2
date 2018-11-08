@@ -7,6 +7,12 @@
   margin-left: 10%;
   margin-bottom: 10px;
 }
-.fa{
+.fa-reply{
   margin-left: 5%;
+}
+.editbutton{
+  float:right;
+}
+.deletebutton{
+  float:right;
 }

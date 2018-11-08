@@ -39,7 +39,7 @@ export class InterestService {
     }).pipe(tap((result) => console.log(result)));
   }
   createInterest(payload) {
-    return this.http.post('/interest/create/', payload);
+    return this.http.post('/interest/', payload);
   }
   getUserInterests(): Observable<Interest[]> {
     return this.http.get<Interest[]>('/interest/user').pipe(tap((result) => console.log(result)))

@@ -23,7 +23,7 @@ def createArticle(request):
     data = request.data
     serializer = ArticleSerializer(data=data)
     if serializer.is_valid():
-        opinion = serializer.save()
+        article = serializer.save()
         return Response(serializer.data)
     return Response(data=serializer.errors)
 

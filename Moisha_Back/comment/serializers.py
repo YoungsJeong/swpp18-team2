@@ -14,11 +14,16 @@ class ReplySerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super(ReplySerializer, self).to_representation(instance)
+        user = UserSerializer(instance.author)
         data.update({
-            'author': UserSerializer(instance.author).data['nickName']
+            'author': {'nickName': user.data['nickName'], 'id':user.data['id']}
         })
         return data
 
+class CommentCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = '__all__'
 
 class CommentSerializer(serializers.ModelSerializer):
     replies = ReplySerializer(read_only=True, many=True)
@@ -27,6 +32,7 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = '__all__'
     def to_representation(self, instance):
         data = super(CommentSerializer, self).to_representation(instance)
+        user = UserSerializer(instance.author)
         '''
         replies = instance.replies.values()
         if len(replies) == 0:
@@ -35,6 +41,6 @@ class CommentSerializer(serializers.ModelSerializer):
             })
         '''
         data.update({
-            'author': UserSerializer(instance.author).data['nickName']
+            'author': {'nickName': user.data['nickName'], 'id':user.data['id']}
         })
         return data

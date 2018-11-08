@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Comment, ReplyService} from '../../core/reply.service';
 
@@ -10,11 +10,9 @@ import {Comment, ReplyService} from '../../core/reply.service';
 export class WriteReplyComponent implements OnInit {
   @Input() comment: Comment
   @Input() articleID: number
-  pending: boolean;
-  error: any;
-  submitAttempt: boolean;
+  @Output() write = new EventEmitter();
   replyForm: FormGroup;
-  constructor(private replyService: ReplyService) { }
+  constructor() { }
 
   ngOnInit() {
     this.createForm()
@@ -27,8 +25,17 @@ export class WriteReplyComponent implements OnInit {
       }
     );
   }
+  get formContent() {
+    return this.replyForm.get('content')
+  }
   writeReply() {
-
+    const payload = {
+      content: this.formContent.value,
+      article: this.articleID,
+      comment: this.comment ? this.comment.id : '',
+      author: ''
+    }
+    this.write.emit(payload)
   }
 
 }
