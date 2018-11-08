@@ -5,12 +5,14 @@ import { FeedComponent } from './feed/feed.component';
 import {SharedModule} from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
 import {FeedRoutingModule} from './feed-routing.module';
-import {IntroRoutingModule} from '../intro/intro-routing.module';
-import {IntroComponent} from '../intro/intro/intro.component';
-import {SigninComponent} from '../intro/signin/signin.component';
+import { FilterComponent } from './filter/filter.component';
+import { ArticleDetailComponent } from './article-detail/article-detail.component';
+import { CommentComponent } from './comment/comment.component';
+import { WriteReplyComponent } from './write-reply/write-reply.component';
 
 @NgModule({
   imports: [SharedModule, FeedRoutingModule],
-  declarations: [ ArticleComponent, FeedListComponent, FeedComponent, HomeComponent]
+  declarations: [ ArticleComponent, FeedListComponent, FeedComponent, HomeComponent, FilterComponent, ArticleDetailComponent, CommentComponent, WriteReplyComponent],
+  entryComponents:[ArticleDetailComponent]
 })
 export class FeedModule { }

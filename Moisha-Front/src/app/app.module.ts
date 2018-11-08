@@ -12,13 +12,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { JwtModule } from '@auth0/angular-jwt';
 import {AppRoutingModule} from './app-routing.module';
 import { tokenGetter } from './core/auth.service';
-import { SideBarComponent } from './components/side-bar/side-bar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ChatComponent,
-    SideBarComponent
   ],
   imports: [
     BrowserModule,

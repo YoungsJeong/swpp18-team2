@@ -1,0 +1,11 @@
+.form-reply{
+  margin-left: 10%;
+  width:80%;
+  margin-bottom: 10px;
+}
+.btn{
+  font-size: 16px;
+  width:10%;
+  text-align: center;
+  float: right;
+}

@@ -1,0 +1,31 @@
+<div class="detail">
+  <div class="modal-header">
+    <h4 class="modal-title">피드 자세히 보기</h4>
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <table class="table-striped table-hover table-bordered">
+    <tbody>
+    <tr>
+      <th class="head">author</th>
+      <td class="content"><p>{{article.author}}</p></td>
+    </tr>
+    <tr>
+      <th clas="head">tags</th>
+      <td>
+      <span *ngFor="let tag of article.tags;"
+            class="badge" [ngStyle] = "{'background-color': tag.color.rgb}">{{tag.name}}</span>
+      </td>
+    </tr>
+    <tr>
+      <th class="head">content</th>
+      <td class="content"><p>{{article.content}}</p></td>
+    </tr>
+    </tbody>
+  </table>
+<app-write-reply (write)="writeReply($event)" [comment]="null" [articleID]="article.id"></app-write-reply>
+  <div *ngFor = "let comment of comments">
+    <app-comment (write)="writeReply($event)" (delete)="deleteReply($event)" (edit)="editReply($event)" [user]="user" [comment]="comment"></app-comment>
+  </div>
+</div>

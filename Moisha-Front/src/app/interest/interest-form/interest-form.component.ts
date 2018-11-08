@@ -20,6 +20,7 @@ export class InterestFormComponent implements OnInit {
   tagSearch;
   tagFormatter;
   selectedTags: InterestTag[] = [];
+  tagIDs: number[] = [];
   pending: boolean;
   error: any;
   constructor(
@@ -66,7 +67,10 @@ export class InterestFormComponent implements OnInit {
     this.selectedTags.forEach( (item, index) => {
       if(item.id === $event.item.id) isFound = true
     });
-    if(!isFound)  this.selectedTags.push($event.item)
+    if(!isFound)  {
+      this.selectedTags.push($event.item)
+      this.tagIDs.push($event.item.id)
+    }
   }
   remove(tag) {
     this.selectedTags = this.selectedTags.filter((t) => t.id !== tag.id)
@@ -86,7 +90,7 @@ export class InterestFormComponent implements OnInit {
   confirmInterest() {
     const payload = {
       name: this.formName.value,
-      tags: this.selectedTags,
+      tags: this.tagIDs,
       detail: this.formDetail.value,
       photoURL: this.formPhotoURL.value
     };
