@@ -9,7 +9,6 @@ import {InterestService} from '../../core/interest.service';
   styleUrls: ['./interest-create.component.css']
 })
 export class InterestCreateComponent implements OnInit {
-
   constructor(public auth: AuthService, private interestService: InterestService, private route: Router) { }
   ngOnInit() {
     if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
@@ -20,6 +19,7 @@ export class InterestCreateComponent implements OnInit {
     this.route.navigate(['search', {keyword: keyword}])
   }
   createInterest(payload) {
+    payload.createUser = this.auth.user.id
     this.interestService.createInterest(payload).subscribe((interest) =>{
       console.log('created :' + interest)
     })

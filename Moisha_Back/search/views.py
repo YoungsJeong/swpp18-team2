@@ -44,6 +44,36 @@ def searchArticleTag(request):
     serializer = ArticleTagSearchSerializer(serializer_list, many=True)
     return Response(data=serializer.data, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+def searchInterestTag(request):
+    q = request.GET.get('q', '')
+    if q is '':
+        return Response(data=[], status=status.HTTP_200_OK)
+    sqs = SearchQuerySet().models(InterestTag).filter(name__contains=q)
+    if len(sqs) == 0:
+        sqs = SearchQuerySet().models(InterestTag).autocomplete(autocomplete_search=q)
+    serializer_list = []
+    for sqs_element in sqs:
+        interestTag = InterestTag.objects.get(id=sqs_element.object.id)
+        serializer_list.append(interestTag)
+    serializer = InterestTagSearchSerializer(serializer_list, many=True)
+    return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def searchInterest(request):
+    q = request.GET.get('q', '')
+    if q is '':
+        return Response(data=[], status=status.HTTP_200_OK)
+    sqs = SearchQuerySet().models(Interest).filter(name__contains=q)
+    if len(sqs) == 0:
+        sqs = SearchQuerySet().models(Interest).autocomplete(autocomplete_search=q)
+    serializer_list = []
+    for sqs_element in sqs:
+        interest = Interest.objects.get(id=sqs_element.object.id)
+        serializer_list.append(interest)
+    serializer = InterestSearchSerializer(serializer_list, many=True)
+    return Response(data=serializer.data, status=status.HTTP_200_OK)
+
 
 @api_view(['GET'])
 def searchInterestTag(request):
@@ -62,13 +92,15 @@ def searchInterestTag(request):
 
 
 @api_view(['GET'])
-def searchInterest(request):
+def searchInterestByUser(request):
     q = request.GET.get('q', '')
     if q is '':
         return Response(data=[], status=status.HTTP_200_OK)
-    sqs = SearchQuerySet().models(Interest).filter(name__contains=q)
+    user = request.user
+    sqsUser = SearchQuerySet().models(Interest).filter(id__in=user.interests.all().values_list('id',flat=True))
+    sqs = sqsUser.filter(name__contains=q)
     if len(sqs) == 0:
-        sqs = SearchQuerySet().models(Interest).autocomplete(autocomplete_search=q)
+        sqs = sqsUser.autocomplete(autocomplete_search=q)
     serializer_list = []
     for sqs_element in sqs:
         interest = Interest.objects.get(id=sqs_element.object.id)

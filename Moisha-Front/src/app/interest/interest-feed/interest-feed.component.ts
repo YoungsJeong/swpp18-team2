@@ -10,6 +10,7 @@ import {ActivatedRoute, ActivatedRouteSnapshot} from '@angular/router';
 export class InterestFeedComponent implements OnInit {
   articles: Article[] = [];
   articleTags = null;
+  interestID: number;
   constructor(private feedService: FeedService, private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -19,7 +20,8 @@ export class InterestFeedComponent implements OnInit {
   getArticles() {
     this.articles = []
     this.articleTags = null;
-    this.feedService.getArticleByInterest(+this.route.snapshot.paramMap.get('id')).subscribe(
+    this.interestID = +this.route.snapshot.paramMap.get('id')
+    this.feedService.getArticleByInterest(this.interestID).subscribe(
       (articles) => {
         this.articles = articles
         const articleTagMap: Map<number, ArticleTag> = new Map<number, ArticleTag>()

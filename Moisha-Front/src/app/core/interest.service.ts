@@ -25,7 +25,12 @@ export interface Interest {
 export class InterestService {
 
   constructor(private http: HttpClient) { }
-
+  searchInterestByUser(keyword: string) {
+    const params = new HttpParams().set('q', keyword);
+    return this.http.get<Interest[]>('/search/interest/user', {
+      params
+    });
+  }
   searchInterest(keyword: string) {
     const params = new HttpParams().set('q', keyword);
       return this.http.get<Interest[]>('/search/interest', {
@@ -34,14 +39,17 @@ export class InterestService {
   }
   searchTag(search: string): Observable<InterestTag[]> {
     const params = new HttpParams().set('q', search);
-    return this.http.get<InterestTag[]>('/search/tag', {
+    return this.http.get<InterestTag[]>('/search/interest/tag', {
       params
     }).pipe(tap((result) => console.log(result)));
   }
   createInterest(payload) {
-    return this.http.post('/interest/', payload);
+    return this.http.post('/interest/create/', payload);
   }
   getUserInterests(): Observable<Interest[]> {
     return this.http.get<Interest[]>('/interest/user').pipe(tap((result) => console.log(result)))
+  }
+  getInterestByID(id: number){
+    return this.http.get<Interest>('/interest/' + id + '/')
   }
 }

@@ -24,7 +24,6 @@ export class InterestFormComponent implements OnInit {
   pending: boolean;
   error: any;
   constructor(
-    private auth: AuthService,
     private fb: FormBuilder,
     private interestService: InterestService,
     private config: NgbTypeaheadConfig
@@ -89,8 +88,9 @@ export class InterestFormComponent implements OnInit {
   }
   confirmInterest() {
     const payload = {
+      createUser: null,
       name: this.formName.value,
-      tags: this.tagIDs,
+      interestTags: this.tagIDs,
       detail: this.formDetail.value,
       photoURL: this.formPhotoURL.value
     };

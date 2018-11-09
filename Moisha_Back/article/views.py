@@ -21,12 +21,21 @@ def getArticlesByUser(request):
 
 @api_view(['POST'])
 def createArticle(request):
+    user = request.user
+    if user.is_anonymous:
+        return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
     data = request.data
-    serializer = ArticleSerializer(data=data)
-    if serializer.is_valid():
-        article = serializer.save()
-        return Response(serializer.data)
-    return Response(data=serializer.errors)
+    interests = list(data['interest'])
+    for interest in interests:
+        articleData = data
+        articleData['interest'] = interest
+        serializer = ArticleSerializer(data=articleData)
+        if serializer.is_valid():
+            article = serializer.save()
+            article.tags.add(*data['articleTags'])
+        else:
+            return Response(data=serializer.errors)
+    return Response(status=200)
 
 
 @api_view(['GET'])

@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {DepartmentSearchResponse} from './user.service';
+import {tap} from 'rxjs/operators';
+import {InterestTag} from './interest.service';
+import {Observable} from 'rxjs';
 
 export interface TagColor {
   id: number,
@@ -29,12 +32,20 @@ export interface Article {
   providedIn: 'root'
 })
 export class FeedService {
-
+  searchTag(search: string): Observable<ArticleTag[]> {
+    const params = new HttpParams().set('q', search);
+    return this.http.get<InterestTag[]>('/search/article/tag', {
+      params
+    }).pipe(tap((result) => console.log(result)));
+  }
   constructor(private http: HttpClient) { }
   getArticleByUser() {
     return this.http.get<Article[]>('/article/');
   }
   getArticleByInterest(id: number) {
     return this.http.get<Article[]>('/article/interest/'+ id + '/');
+  }
+  createArticle(payload) {
+    return this.http.post('/article/create/', payload);
   }
 }

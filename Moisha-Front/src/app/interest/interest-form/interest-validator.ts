@@ -20,7 +20,7 @@ export class InterestValidator {
     if (!value || value === '') {
       return null;
     }
-    return value.id ? null : { invalidDepartment: true };
+    return value.id ? null : { invalidTag: true };
   }
   static validateURL(control: FormControl): ValidationErrors {
     const { value } = control;

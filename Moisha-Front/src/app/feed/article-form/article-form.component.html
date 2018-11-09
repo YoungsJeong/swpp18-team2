@@ -1,0 +1,100 @@
+<form class="form-interest" [formGroup]="articleForm" (ngSubmit)="confirmArticle()">
+  <div class="form-contorl">
+    <span class="badge badgefirst" style="background-color: lightcoral" *ngFor="let interest of selectedInterests">
+    {{interest.name}}
+    <span class="removeSelected" (click)="removeInterest(interest)">&nbsp;x</span>
+  </span>
+  <input type="select"
+         class="form-control"
+         id="inputInterest"
+         placeholder="어떤 관심사에 쓸까요?"
+         formControlName="interest"
+         [ngbTypeahead]="interestSearch"
+         [focusFirst] = "false"
+         (selectItem) = "interestSelected($event)"
+         [resultTemplate]="interestResult"
+         [resultFormatter]="interestFormatter"
+         [inputFormatter]="interestFormatter"
+         [class.is-valid]="formInterest?.valid"
+         [class.is-invalid]="formInterest?.dirty && formInterest?.invalid">
+  </div>
+  <div class="alert alert-danger" *ngIf="selectedInterests.length ==0">
+    글이 작성될 관심사를 입력해주세요
+  </div>
+  <div class="alert alert-danger" *ngIf="formInterest?.dirty && formInterest?.errors?.invalidInterest">
+    구독한 관심사에만 작성할 수 있습니다.
+  </div>
+  <br>
+  <div class="form-contorl">
+    <span class="badge badgefirst"[ngStyle] = "{'background-color': articleTag.color.rgb}" *ngFor="let articleTag of selectedArticleTags">
+    {{articleTag.name}}
+    <span class="removeSelected" (click)="removeArticleTag(articleTag)">&nbsp;x</span>
+  </span>
+    <input type="select"
+           class="form-control"
+           id="inputArticleTag"
+           placeholder="태그? ex) 공지, 잡담, QNA ..."
+           formControlName="articleTag"
+           [ngbTypeahead]="articleTagSearch"
+           [focusFirst] = "false"
+           (selectItem) = "articleTagSelected($event)"
+           [resultTemplate]="articleTagResult"
+           [resultFormatter]="articleTagFormatter"
+           [inputFormatter]="articleTagFormatter"
+           [class.is-valid]="formArticleTag?.valid"
+           [class.is-invalid]="formArticleTag?.dirty && formArticleTag?.invalid">
+  </div>
+  <div class="alert alert-danger" *ngIf="formArticleTag?.dirty && formArticleTag?.errors?.invalidArticleTag">
+    존재하지 않는 태그입니다
+  </div>
+  <br>
+  <textarea type="text"
+            class="form-control"
+            id="inputTitle"
+            placeholder="글 제목"
+            formControlName="title"
+            [class.is-valid]="formTitle?.valid"
+            [class.is-invalid]="formTitle?.dirty && formTitle?.invalid">
+  </textarea>
+  <div class="alert alert-danger" *ngIf="formTitle?.dirty && formTitle?.errors?.required">
+    글 제목을 입력해주세요
+  </div>
+  <div class="alert alert-danger" *ngIf="formTitle?.dirty && formTitle?.errors?.invalidTitle">
+    제목은 80자 이내여야 합니다. 현재: {{formTitle.value.length}} 자
+  </div>
+  <br>
+  <textarea type="text"
+            class="form-control"
+            id="inputContent"
+            placeholder="글 내용"
+            formControlName="content"
+            [class.is-valid]="formContent?.valid"
+            [class.is-invalid]="formContent?.dirty && formContent?.invalid">
+  </textarea>
+  <div class="alert alert-danger" *ngIf="formContent?.dirty && formContent?.errors?.required">
+    글 내을 입력해주세요
+  </div>
+  <div class="alert alert-danger" *ngIf="formContent?.dirty && formContent?.errors?.invalidContent">
+    내용은 1400자 이내여야 합니다. 현재: {{formContent.value.length}} 자
+  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <button [disabled]="articleForm?.invalid" type="submit" class="btn btn-lg btn-primary btn-block">
+    <ng-container *ngIf="!pending else loading ">저장</ng-container>
+  </button>
+</form>
+<ng-template #loading>
+  <app-loading></app-loading>
+</ng-template>
+<ng-template #interestResult let-interest="result" let-t="term">
+  <span class="badge" style="background-color: lightcoral">
+    {{ interest.name }}
+  </span>
+</ng-template>
+<ng-template #articleTagResult let-articleTag="result" let-t="term">
+  <span class="badge" [ngStyle] = "{'background-color': articleTag.color.rgb}">
+    {{ articleTag.name }}
+  </span>
+</ng-template>
