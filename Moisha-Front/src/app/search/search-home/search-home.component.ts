@@ -15,18 +15,16 @@ export class SearchHomeComponent implements OnInit {
     if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
       this.auth.getUser().subscribe(console.log);
     const keyword =  this.route.snapshot.paramMap.get('keyword')
-    if (keyword != null && keyword !== '') {
-      this.searchInterest(keyword)
-    }
+    this.searchInterest(keyword)
   }
   searchInterest(keyword: string) {
-    if(keyword !== '' && keyword !== null && keyword !== undefined) {
-      this.interestService.searchInterest(keyword).subscribe((result) => {
-        console.log()
-        this.searchResult = result
-        this.router.navigate(['search', {keyword: keyword}])
-      })
-    }
-    else this.searchResult = []
+    this.searchResult = []
+    if (keyword === '' || keyword === null || keyword === undefined)
+      keyword = ''
+    this.interestService.searchInterest(keyword).subscribe((result) => {
+      console.log()
+      this.searchResult = result
+      this.router.navigate(['search', {keyword: keyword}])
+    })
   }
 }

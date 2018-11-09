@@ -14,7 +14,7 @@ export class FeedComponent implements OnInit {
   constructor(private feedService: FeedService) { }
 
   ngOnInit() {
-    this.feedService.getArticleByUser().subscribe(
+    this.feedService.getArticleByUser(10).subscribe(
       (articles) => {
         this.articles = articles
         const articleTagMap: Map<number, ArticleTag> = new Map<number, ArticleTag>()

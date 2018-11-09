@@ -39,11 +39,21 @@ export class FeedService {
     }).pipe(tap((result) => console.log(result)));
   }
   constructor(private http: HttpClient) { }
-  getArticleByUser() {
-    return this.http.get<Article[]>('/article/');
+  getArticleByUser(limit?: number) {
+    let params;
+    if(limit)
+      params = new HttpParams().set('limit', limit.toString());
+    return this.http.get<Article[]>('/article/', {
+      params
+    });
   }
-  getArticleByInterest(id: number) {
-    return this.http.get<Article[]>('/article/interest/'+ id + '/');
+  getArticleByInterest(id: number, limit?: number) {
+     let params;
+      if(limit)
+        params = new HttpParams().set('limit', limit.toString());
+      return this.http.get<Article[]>('/article/interest/' + id + '/', {
+      params
+    });
   }
   createArticle(payload) {
     return this.http.post('/article/create/', payload);

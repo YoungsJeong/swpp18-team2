@@ -1,0 +1,10 @@
+<div class="card" style="cursor:pointer" (click)="openDetail()">
+  <div class="card-header">
+    <span class="nickName">{{user.nickName}}</span>
+    <span class="studentID">{{user.studentId.toString() | slice:0:4}}학번</span>
+  </div>
+  <div class="card-body">
+    <span class=" major">{{user.major.college}} {{user.major.name}}</span>
+  </div>
+</div>
+<br>

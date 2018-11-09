@@ -6,6 +6,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework import status
+
+from interest.models import Interest
 from .models import User
 from .serializers import UserSerializer, UserDetailSerializer
 
@@ -36,3 +38,18 @@ def getUserInfo(request):
     if user.is_anonymous:
         return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
     return Response(data=UserDetailSerializer(user).data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def getUserByInterest(request, pk):
+    user = request.user
+    if user.is_anonymous:
+        return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
+    limit = request.GET.get('limit', 0)
+    limit = int(limit)
+    interest = Interest.objects.get(pk=pk)
+    if limit > 0:
+        members = interest.members.all()[:limit]
+    else:
+        members = interest.members.all()
+    return Response(data=UserDetailSerializer(members, many=True).data, status=status.HTTP_200_OK)
+

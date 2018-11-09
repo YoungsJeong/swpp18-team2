@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {Article} from './feed.service';
 
 export interface DepartmentSearchResponse {
   id: string;
@@ -18,4 +19,13 @@ export class UserService {
       params
     });
   }
+  getUserByInterest(id: number, limit?: number) {
+    let params;
+    if(limit)
+      params = new HttpParams().set('limit', limit.toString());
+    return this.http.get<Article[]>('/user/interest/' + id + '/', {
+    params
+    });
+    }
+
 }

@@ -10,7 +10,7 @@ from article.models import ArticleTag
 from interest.models import Interest, InterestTag
 from search.serializers import DepartmentSearchSerializer, InterestSearchSerializer, ArticleTagSearchSerializer, \
     InterestTagSearchSerializer
-from user.models import Department
+from user.models import Department, User
 
 
 @api_view(['GET'])
@@ -61,12 +61,11 @@ def searchInterestTag(request):
 
 @api_view(['GET'])
 def searchInterest(request):
-    q = request.GET.get('q', '')
-    if q is '':
-        return Response(data=[], status=status.HTTP_200_OK)
-    sqs = SearchQuerySet().models(Interest).filter(name__contains=q)
-    if len(sqs) == 0:
-        sqs = SearchQuerySet().models(Interest).autocomplete(autocomplete_search=q)
+    q = request.GET.get('q', 0)
+    if q == '' or q is None or q == ' ':
+        sqs = SearchQuerySet().models(Interest).all()
+    else:
+        sqs = SearchQuerySet().models(Interest).filter(name__contains=q)
     serializer_list = []
     for sqs_element in sqs:
         interest = Interest.objects.get(id=sqs_element.object.id)

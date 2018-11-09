@@ -7,9 +7,7 @@ import {Article} from '../../core/feed.service';
   styleUrls: ['./feed-list.component.css']
 })
 export class FeedListComponent implements OnInit {
-  @Input()
-  articles: Article[]
-
+  @Input() articles: Article[]
   constructor() { }
 
   ngOnInit() {

@@ -1,0 +1,13 @@
+<div class="container-1">
+  <div class="container col-4 feed-container">
+    <div class="header" routerLink="feed"><span class="badge badge-title">New Feed</span></div>
+    <app-feed-list class="feed-list" [articles]="articles"></app-feed-list>
+  </div>
+  <div class="container col-4 info-container">
+    <div class="header"><span class="badge badge-title">Detail</span></div>
+  </div>
+  <div class="container col-4 people-container">
+    <div class="header"><span class="badge badge-title">People</span></div>
+    <app-interest-people-list [users] = "users"></app-interest-people-list>
+  </div>
+</div>
