@@ -8,6 +8,9 @@
 .navbar{
   background: #444444;
   color: #ffffff;
+  z-index: 1;
+  position: fixed;
+  width: 100%;
 }
 .name-button{
   background-color:#444444;
