@@ -5,7 +5,7 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <table class="table-striped table-hover table-bordered">
+  <table class="table-hover table-bordered">
     <tbody>
     <tr>
       <th class="head">이름</th>
@@ -29,11 +29,9 @@
     <tr>
       <th class="head">{{user.nickName}}님의 관심사</th>
       <td class="content">
-        <div *ngFor="let interest of user.interests;">
-          <span
-            class="badge badge-secondary" >{{interest.name}}
+          <span *ngFor="let interest of user.interests;"
+            class="badge badge-pill badge-success" >{{interest.name}}
           </span>
-        </div>
       </td>
     </tr>
     </tbody>

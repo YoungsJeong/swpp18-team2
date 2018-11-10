@@ -4,7 +4,12 @@
     <app-feed-list class="feed-list" [articles]="articles"></app-feed-list>
   </div>
   <div class="container col-4 info-container">
-    <div class="header"><span class="badge badge-title">Detail</span></div>
+    <div class="header"><div class="badge badge-title">About &nbsp; {{interest?.name}}
+         <span *ngFor="let tag of interest?.tags;" class="badge badge-tag" [ngStyle] = "{'background-color': tag.color.rgb}" >{{tag.name}}
+        </span>
+    </div>
+    </div>
+    <app-interest-info [interest]="interest"></app-interest-info>
   </div>
   <div class="container col-4 people-container">
     <div class="header"><span class="badge badge-title">People</span></div>

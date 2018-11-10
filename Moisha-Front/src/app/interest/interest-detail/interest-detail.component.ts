@@ -3,6 +3,7 @@ import {Article, ArticleTag, FeedService} from '../../core/feed.service';
 import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '../../core/auth.service';
 import {UserService} from '../../core/user.service';
+import {Interest, InterestService} from '../../core/interest.service';
 
 @Component({
   selector: 'app-interest-detail',
@@ -12,21 +13,29 @@ import {UserService} from '../../core/user.service';
 export class InterestDetailComponent implements OnInit {
 
   constructor(private feedService: FeedService, private route: ActivatedRoute,
-              private auth: AuthService, private userService: UserService) { }
+              private auth: AuthService, private userService: UserService, private interestService: InterestService) { }
   articles: Article[] = [];
   users = [];
   articleTags = null;
+  interest: Interest
   interestID: number;
   ngOnInit() {
     if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
       this.auth.getUser().subscribe(console.log);
+    this.interestID = +this.route.snapshot.paramMap.get('id')
     this.getArticles()
     this.getUsers()
+    this.getInterest()
+  }
+  getInterest() {
+    this.interestService.getInterestByID(this.interestID).subscribe((result)=>{
+      this.interest = result
+      console.log(result)
+    })
   }
   getArticles() {
     this.articles = []
     this.articleTags = null;
-    this.interestID = +this.route.snapshot.paramMap.get('id')
     this.feedService.getArticleByInterest(this.interestID, 3).subscribe(
       (articles) => {
         this.articles = articles

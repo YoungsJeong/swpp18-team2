@@ -3,6 +3,10 @@
   margin-left:15%;
   clear: both;
 }
+.name{
+  margin-left: 15px;
+  font-size: 28px;
+}
 .feed-container{
   margin-left: 10%;
   min-height: 400px;
@@ -42,4 +46,8 @@
   margin-left: 20px;
   color: #ffffff;
   font-size: 30px;
+}
+.badge-tag{
+  display: inline-block;
+  font-size: 18px;
 }

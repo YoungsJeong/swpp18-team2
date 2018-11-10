@@ -1,32 +1,14 @@
 .detail{
   min-height: 600px;
 }
-.table-striped{
-  margin-top: 5%;
-  font-size: 18px;
-  margin-left: 10%;
-  width: 80%;
-  margin-bottom: 5%;
-}
-.table, th, td{
-  border: 1px solid #111111;
-}
 .badge{
   color: #ffffff;
   font-size: 18px;
-  margin: auto;
-  padding: 4px 5px;
-  border-radius: 3px;
-  vertical-align: middle;
+  margin-left: 8px;
 }
 .head{
   width: 20%;
 }
 .content{
   width: 80%;
-}
-.card{
-  width:80%;
-  margin-left: 5%;
-  margin-bottom: 10px;
 }
