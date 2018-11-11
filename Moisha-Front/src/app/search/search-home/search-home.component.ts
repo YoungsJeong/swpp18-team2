@@ -24,7 +24,6 @@ export class SearchHomeComponent implements OnInit {
     this.interestService.searchInterest(keyword).subscribe((result) => {
       console.log()
       this.searchResult = result
-      this.router.navigate(['search', {keyword: keyword}])
     })
   }
 }

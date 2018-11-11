@@ -1,18 +1,26 @@
-<div class="container-1">
-  <div class="container col-4 feed-container">
-    <div class="header" routerLink="feed"><span class="badge badge-title">New Feed</span></div>
-    <app-feed-list class="feed-list" [articles]="articles"></app-feed-list>
-  </div>
-  <div class="container col-4 info-container">
-    <div class="header"><div class="badge badge-title">About &nbsp; {{interest?.name}}
-         <span *ngFor="let tag of interest?.tags;" class="badge badge-tag" [ngStyle] = "{'background-color': tag.color.rgb}" >{{tag.name}}
+<div *ngIf = "interest else noResult">
+  <div class="container-1">
+    <div class="container col-4 feed-container">
+      <div class="header" routerLink="feed"><span class="badge badge-title">New Feed</span></div>
+      <app-feed-list class="feed-list" [articles]="articles"></app-feed-list>
+    </div>
+    <div class="container col-4 info-container">
+      <div class="header"><div class="form-inline badge-title">About &nbsp; {{interest?.name}}
+        <span *ngFor="let tag of interest?.tags;" class="badge badge-tag" [ngStyle] = "{'background-color': tag.color.rgb}" >{{tag.name}}
         </span>
+      </div>
+      </div>
+      <app-interest-info [interest]="interest"></app-interest-info>
     </div>
+    <div class="container col-4 people-container">
+      <div class="header" routerLink="people"><span class="badge badge-title">People</span></div>
+      <app-interest-people-list [users] = "users"></app-interest-people-list>
     </div>
-    <app-interest-info [interest]="interest"></app-interest-info>
-  </div>
-  <div class="container col-4 people-container">
-    <div class="header"><span class="badge badge-title">People</span></div>
-    <app-interest-people-list [users] = "users"></app-interest-people-list>
   </div>
 </div>
+<ng-template #noResult>
+  <div class="container">
+    <h1>존재 하지 않는 관심사입니다.</h1>
+    <button class="btn btn-success" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">홈으로</button>
+  </div>
+</ng-template>

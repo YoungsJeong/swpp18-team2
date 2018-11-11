@@ -8,8 +8,7 @@ import {Interest} from '../../core/interest.service';
   styleUrls: ['./search-list.component.css']
 })
 export class SearchListComponent implements OnInit {
-  @Input()
-  interests: Interest[]
+  @Input() interests: Interest[]
   constructor() { }
 
   ngOnInit() {

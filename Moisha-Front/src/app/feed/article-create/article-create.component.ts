@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../../core/auth.service';
-import {InterestService} from '../../core/interest.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FeedService} from '../../core/feed.service';
 
@@ -15,7 +14,7 @@ export class ArticleCreateComponent implements OnInit {
   ngOnInit() {
     this.interestID = +this.route.snapshot.paramMap.get('id')
     if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
-      this.auth.getUser().subscribe(console.log);
+      this.auth.getUser()
   }
   searchInterest(keyword: string) {
     if (!keyword) keyword = ''

@@ -18,7 +18,8 @@ export class ArticleComponent implements OnInit {
     const modal = this.modalService.open(ArticleDetailComponent, {size: 'lg', backdrop: true}).componentInstance
     modal.article = this.article
   }
+  /*
   textClick() {
     event.stopPropagation();
-  }
+  }*/
 }

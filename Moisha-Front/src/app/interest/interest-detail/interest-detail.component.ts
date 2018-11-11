@@ -22,13 +22,15 @@ export class InterestDetailComponent implements OnInit {
   ngOnInit() {
     if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
       this.auth.getUser().subscribe(console.log);
-    this.interestID = +this.route.snapshot.paramMap.get('id')
+    this.route.paramMap.subscribe((params) => {
+      this.interestID = +params.get('id')
+    })
+    this.getInterest()
     this.getArticles()
     this.getUsers()
-    this.getInterest()
   }
   getInterest() {
-    this.interestService.getInterestByID(this.interestID).subscribe((result)=>{
+    this.interestService.getInterestByID(this.interestID).subscribe((result) => {
       this.interest = result
       console.log(result)
     })

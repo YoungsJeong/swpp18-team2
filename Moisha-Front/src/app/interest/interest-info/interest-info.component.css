@@ -1,3 +1,7 @@
+.interest-detail{
+  height: 100%;
+  color: #ffffff;
+}
 .picture{
   margin-top: 10px;
   border-bottom: 2px solid #444444;
@@ -6,11 +10,14 @@
   border-radius: 10px;
 }
 .created{
-  font-size:40px;
+  font-size:30px;
   border-bottom: 2px solid #333333;
 }
+.manager{
+  font-size: 30px;
+}
 .members{
-  font-size:40px;
+  font-size:30px;
   border-bottom: 2px solid #333333;
 }
 .detail{
@@ -18,14 +25,12 @@
   margin-left: 30%;
 }
 .detail-text{
+  background-color: #b0bec5;
+  color: #ffffff;
   min-height: 100px;
   font-size: 18px;
 }
-.noDetail{
-  font-size: 18px;
-  height: 100px;
-}
 .info{
-  border: 2px solid #444444;
+  border-radius: 10px;
   min-height: 450px;
 }

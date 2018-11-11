@@ -12,7 +12,8 @@ def getInterestByID(request, pk):
     user = request.user
     if user.is_anonymous:
         return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
-    if not user.interests.filter(pk=pk).exists():
+    create = request.GET.get('create', '')
+    if create is not '' and not user.interests.filter(pk=pk).exists():
         return Response('Only Subscribed User can write', status=status.HTTP_400_BAD_REQUEST)
     interest = Interest.objects.filter(pk=pk)
     if interest.exists():

@@ -1,11 +1,13 @@
-<div class="picture"><img src={{interest?.photoURL}} class="img-fluid image" alt="Responsive image"></div>
+<div class="interest-detail">
+<div class="picture"><img src={{interest?.photoURL}} class="img-fluid image" alt="이미지를 찾을 수 없습니다."></div>
 <div class="info">
   <h6 class="created">생성:{{interest?.createdDate|slice:0:4}}년{{interest?.createdDate|slice:5:7}}월{{interest?.createdDate|slice:8:10}}일</h6>
+  <h6 class="manager">회장: {{interest?.createUser}}</h6>
   <h6 class="members">회원수:{{interest?.members}}명</h6>
   <p class="detail">소개</p><div *ngIf= "interest?.detail.length >0 else noDetail"
                                     class="form-control detail-text">{{interest?.detail}}</div>
 </div>
-
 <ng-template #noDetail>
-  <div class="form-control noDetail">등록된 소개말이 없습니다.</div>
+  <div class="form-control detail-text">등록된 소개말이 없습니다.</div>
 </ng-template>
+</div>

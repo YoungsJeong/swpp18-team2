@@ -3,8 +3,10 @@ import {TestBed, inject, async} from '@angular/core/testing';
 import {DepartmentSearchResponse, UserService} from './user.service';
 import {HttpClient, HttpClientModule, HttpParams} from '@angular/common/http';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
 const mockDepartment = [{ id: '1', name: 'test'}];
+const mockUser = [{id: '1', name: 'test'}]
 export class UserServcie {
   constructor(private http: HttpClient) {}
   searchDepartment() {
@@ -15,34 +17,47 @@ export class UserServcie {
   }
 }
 describe('UserService', () => {
-  let httpClient: HttpClient;
-  let httpTestingController: HttpTestingController;
-  let userService: UserService;
+  let httpClient;
   const todoApi = '/search/department';
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [UserService]
     });
-    httpClient = TestBed.get(HttpClient);
-    httpTestingController = TestBed.get(HttpTestingController);
-    userService = TestBed.get(UserService);
+    httpClient = TestBed.get(HttpTestingController)
   });
 
-  fit('should be created', inject([UserService], (service: UserService) => {
+  it('should be created', inject([UserService], (service: UserService) => {
     expect(service).toBeTruthy();
   }));
-  fit('test search department', async(inject([UserService], (service: UserService) => {
+  it('should be able to search department', async(inject([UserService], (service: UserService) => {
       service.searchDepartment('test').subscribe(
         result => {
           return expect(result).toEqual(mockDepartment);
         })
-      const req = httpTestingController.expectOne('/search/department?q=test');
+    const req = httpClient.expectOne(req => req.url.includes(`/search/department`));
       expect(req.request.method).toEqual('GET');
       req.flush(mockDepartment);
     })
   ));
-  afterEach(() => {
-    httpTestingController.verify();
-  });
+  it('should be able to get user by interest with limit', async(inject([UserService], (service: UserService) => {
+      service.getUserByInterest(3, 3).subscribe(
+        result => {
+          return expect(result).toEqual(mockUser);
+        })
+      const req = httpClient.expectOne(req => req.url.includes(`/user/interest/3/`));
+      expect(req.request.method).toEqual('GET');
+      req.flush(mockUser);
+    })
+  ));
+  it('should be able to get user by interest without limit', async(inject([UserService], (service: UserService) => {
+      service.getUserByInterest(3).subscribe(
+        result => {
+          return expect(result).toEqual(mockUser);
+        })
+      const req = httpClient.expectOne(req => req.url.includes(`/user/interest/3/`));
+      expect(req.request.method).toEqual('GET');
+      req.flush(mockUser);
+    })
+  ));
 });

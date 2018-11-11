@@ -1,4 +1,5 @@
 <form class="form-interest" [formGroup]="articleForm" (ngSubmit)="confirmArticle()">
+  <ngb-alert *ngIf="this.errorMessage" [dismissible]="true">{{this.errorMessage}}</ngb-alert>
   <div class="form-contorl">
     <span class="badge badgefirst" style="background-color: lightcoral" *ngFor="let interest of selectedInterests">
     {{interest.name}}

@@ -46,10 +46,13 @@ def getUserByInterest(request, pk):
         return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
     limit = request.GET.get('limit', 0)
     limit = int(limit)
-    interest = Interest.objects.get(pk=pk)
-    if limit > 0:
-        members = interest.members.all()[:limit]
-    else:
-        members = interest.members.all()
-    return Response(data=UserDetailSerializer(members, many=True).data, status=status.HTTP_200_OK)
+    interest = Interest.objects.filter(pk=pk)
+    if interest.exists():
+        interest = interest[0]
+        if limit > 0:
+            members = interest.members.all()[:limit]
+        else:
+            members = interest.members.all()
+        return Response(data=UserDetailSerializer(members, many=True).data, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_404_NOT_FOUND)
 

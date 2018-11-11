@@ -49,7 +49,12 @@ export class InterestService {
   getUserInterests(): Observable<Interest[]> {
     return this.http.get<Interest[]>('/interest/user').pipe(tap((result) => console.log(result)))
   }
-  getInterestByID(id: number){
-    return this.http.get<Interest>('/interest/' + id + '/')
+  getInterestByID(id: number, create?: boolean){
+    let params
+    if(create)
+      params = new HttpParams().set('create', 'true');
+    return this.http.get<Interest>('/interest/' + id + '/',{
+      params
+    })
   }
 }

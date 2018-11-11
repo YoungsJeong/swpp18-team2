@@ -25,4 +25,8 @@ class InterestSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super(InterestSerializer, self).to_representation(instance)
+        data.update({
+            'members': instance.members.count(),
+            'createUser': instance.createUser.nickName
+        })
         return data

@@ -12,12 +12,13 @@ import { InterestPeopleListComponent } from './interest-people-list/interest-peo
 import { InterestPeopleComponent } from './interest-people/interest-people.component';
 import { InterestPeopleDetailComponent } from './interest-people-detail/interest-people-detail.component';
 import { InterestInfoComponent } from './interest-info/interest-info.component';
+import { InterestPeopleHomeComponent } from './interest-people-home/interest-people-home.component';
 
 @NgModule({
   imports: [
     SharedModule, InterestRoutingModule, FeedModule],
   declarations: [InterestFormComponent, InterestCreateComponent, InterestHomeComponent, InterestFeedComponent,
-    InterestComponent, InterestDetailComponent, InterestPeopleListComponent, InterestPeopleComponent,  InterestPeopleDetailComponent, InterestInfoComponent],
+    InterestComponent, InterestDetailComponent, InterestPeopleListComponent, InterestPeopleComponent,  InterestPeopleDetailComponent, InterestInfoComponent, InterestPeopleHomeComponent],
   entryComponents:[InterestPeopleDetailComponent],
   exports: [InterestPeopleDetailComponent]
 })

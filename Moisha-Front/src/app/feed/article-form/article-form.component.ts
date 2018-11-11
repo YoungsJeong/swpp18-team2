@@ -28,6 +28,7 @@ export class ArticleFormComponent implements OnInit {
   articleTagIDs: number[] = [];
   pending: boolean;
   error: any;
+  errorMessage;
   constructor(
     private fb: FormBuilder,
     private interestService: InterestService,
@@ -40,13 +41,13 @@ export class ArticleFormComponent implements OnInit {
   ngOnInit() {
     if(this.interestID !== 0) {
       this.interestIDs.push(this.interestID)
-      this.interestService.getInterestByID(this.interestID).subscribe((result) => {
+      this.interestService.getInterestByID(this.interestID, true).subscribe((result) => {
           this.selectedInterests.push(result)
       }, (error) => {
         if (error.status === 404)
-          alert('존재하지 않는 관심사입니다.')
+          this.errorMessage = '존재하지 않는 관심사입니다.'
         else if (error.status === 400)
-          alert('구독한 관심사에만 글을 작성할 수 있습니다.')
+          this.errorMessage = '구독한 관심사에만 작성할 수 있습니다.'
       })
     }
     this.createForm();
