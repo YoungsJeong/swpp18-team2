@@ -9,11 +9,13 @@ import { FilterComponent } from './filter/filter.component';
 import { ArticleDetailComponent } from './article-detail/article-detail.component';
 import { CommentComponent } from './comment/comment.component';
 import { WriteReplyComponent } from './write-reply/write-reply.component';
+import { ArticleCreateComponent } from './article-create/article-create.component';
+import { ArticleFormComponent } from './article-form/article-form.component';
 
 @NgModule({
   imports: [SharedModule, FeedRoutingModule],
-  declarations: [ ArticleComponent, FeedListComponent, FeedComponent, HomeComponent, FilterComponent, ArticleDetailComponent, CommentComponent, WriteReplyComponent],
+  declarations: [ ArticleComponent, FeedListComponent, FeedComponent, HomeComponent, FilterComponent, ArticleDetailComponent, CommentComponent, WriteReplyComponent, ArticleCreateComponent, ArticleFormComponent],
   entryComponents:[ArticleDetailComponent],
-  exports: [FilterComponent, ArticleComponent, ArticleDetailComponent, CommentComponent, FeedListComponent, WriteReplyComponent]
+  exports: [FilterComponent, ArticleComponent, ArticleDetailComponent, CommentComponent, FeedListComponent, WriteReplyComponent, ArticleCreateComponent]
 })
 export class FeedModule { }

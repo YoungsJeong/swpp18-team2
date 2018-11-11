@@ -1,0 +1,36 @@
+.interest-detail{
+  height: 100%;
+  color: #ffffff;
+}
+.picture{
+  margin-top: 10px;
+  border-bottom: 2px solid #444444;
+}
+.image{
+  border-radius: 10px;
+}
+.created{
+  font-size:30px;
+  border-bottom: 2px solid #333333;
+}
+.manager{
+  font-size: 30px;
+}
+.members{
+  font-size:30px;
+  border-bottom: 2px solid #333333;
+}
+.detail{
+  font-size: 32px;
+  margin-left: 30%;
+}
+.detail-text{
+  background-color: #b0bec5;
+  color: #ffffff;
+  min-height: 100px;
+  font-size: 18px;
+}
+.info{
+  border-radius: 10px;
+  min-height: 450px;
+}

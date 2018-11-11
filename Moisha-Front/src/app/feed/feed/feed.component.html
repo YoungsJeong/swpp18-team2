@@ -1,7 +1,10 @@
-<div class="container col-4">
-  <app-filter [tags]="articleTags"></app-filter>
+<div class="container col-4 control-pad">
+  <button class="btn btn-success" routerLink="create">새 글 쓰기</button>
+</div>
+  <div class="article-list col-4">
+    <h6 class="feed-header">새로운 피드</h6>
   <app-feed-list
     [articles]="articles"
   ></app-feed-list>
-</div>
+  </div>
 

@@ -1,0 +1,7 @@
+<div class="view" *ngIf="users?.length > 0">
+  <div class="container" *ngFor="let user of users">
+    <app-interest-people
+      [user] = "user">
+    </app-interest-people>
+  </div>
+</div>

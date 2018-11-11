@@ -15,18 +15,32 @@ def getArticlesByUser(request):
     user = request.user
     if user.is_anonymous:
         return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
-    articles = Article.objects.filter(interest__in = user.interests.all()).all()
+    limit = request.GET.get('limit', 0)
+    limit = int(limit)
+    if limit > 0:
+        articles = Article.objects.filter(interest__in=user.interests.all()).order_by('-createdDate')[:limit]
+    else:
+        articles = Article.objects.filter(interest__in = user.interests.all()).order_by('-createdDate').all()
     return Response(data=ArticleSerializer(articles, many = True).data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
 def createArticle(request):
+    user = request.user
+    if user.is_anonymous:
+        return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
     data = request.data
-    serializer = ArticleSerializer(data=data)
-    if serializer.is_valid():
-        article = serializer.save()
-        return Response(serializer.data)
-    return Response(data=serializer.errors)
+    interests = list(data['interest'])
+    for interest in interests:
+        articleData = data
+        articleData['interest'] = interest
+        serializer = ArticleSerializer(data=articleData)
+        if serializer.is_valid():
+            article = serializer.save()
+            article.tags.add(*data['articleTags'])
+        else:
+            return Response(data=serializer.errors)
+    return Response(status=200)
 
 
 @api_view(['GET'])
@@ -40,8 +54,13 @@ def getCommentsByArticle(request, pk):
 
 @api_view(['GET'])
 def getArticlesByInterest(request,pk):
+    limit = request.GET.get('limit', 0)
+    limit = int(limit)
     user = request.user
     if user.is_anonymous:
         return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
-    articles = Interest.objects.get(pk=pk).articles
+    if limit > 0:
+        articles = Article.objects.filter(interest=pk).order_by('-createdDate')[:limit]
+    else:
+        articles = Article.objects.filter(interest=pk).order_by('-createdDate').all()
     return Response(data=ArticleSerializer(articles, many = True).data, status=status.HTTP_200_OK)

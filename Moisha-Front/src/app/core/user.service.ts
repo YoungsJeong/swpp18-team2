@@ -18,4 +18,13 @@ export class UserService {
       params
     });
   }
+  getUserByInterest(id: number, limit?: number) {
+    let params;
+    if(limit)
+      params = new HttpParams().set('limit', limit.toString());
+    return this.http.get<any[]>('/user/interest/' + id + '/', {
+    params
+    });
+    }
+
 }

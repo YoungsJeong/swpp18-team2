@@ -1,15 +1,15 @@
 <div class="detail">
   <div class="modal-header">
-    <h4 class="modal-title">피드 자세히 보기</h4>
+    <h4 class="modal-title" style="text-align: center">피드 자세히 보기</h4>
     <button type="button" class="close" aria-label="Close" (click)="dismiss()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <table class="table-striped table-hover table-bordered">
+  <table class="table table-hover table-bordered">
     <tbody>
     <tr>
       <th class="head">author</th>
-      <td class="content"><p>{{article.author}}</p></td>
+      <td class="author"><span class="text-secondary">{{article.author}}</span></td>
     </tr>
     <tr>
       <th clas="head">tags</th>
@@ -20,7 +20,7 @@
     </tr>
     <tr>
       <th class="head">content</th>
-      <td class="content"><p>{{article.content}}</p></td>
+      <td class="content"><p>{{article.content}}</td>
     </tr>
     </tbody>
   </table>

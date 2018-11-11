@@ -40,9 +40,6 @@ class InterestTagIndex(indexes.SearchIndex, indexes.Indexable):
     def prepare_name(self, obj):
         return InterestTag.objects.get(id=obj.id).name
 
-    def prepare_color(self, obj):
-        return InterestTag.objects.get(id=obj.id).color
-
     def get_model(self):
         return InterestTag
 
