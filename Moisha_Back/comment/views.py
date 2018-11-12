@@ -26,7 +26,6 @@ def editComment(request, pk):
         return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
     data = request.data
     comment = Comment.objects.get(id=pk)
-    print(comment.comment)
     if comment.comment is not None:
         parent = comment.comment
     else:

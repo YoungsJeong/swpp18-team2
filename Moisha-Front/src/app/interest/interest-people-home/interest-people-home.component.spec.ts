@@ -6,28 +6,36 @@ import {AuthService} from '../../core/auth.service';
 import {InterestService} from '../../core/interest.service';
 import {RouterTestingModule} from '@angular/router/testing';
 import {UserService} from '../../core/user.service';
-import {of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
+const mockUser = [{id: '1', name: 'test'}]
+
+class MockAuthService extends AuthService {
+  user
+  getUser() {
+    return of(mockUser)
+  }
+}
 
 @Component({selector: 'app-interest-people-list', template: ''})
 class MockInterestPeopleListComponent {
   @Input() users
 }
-const mockUser = [{id: '1', name: 'test'}]
 describe('InterestPeopleHomeComponent', () => {
   let component: InterestPeopleHomeComponent;
   let fixture: ComponentFixture<InterestPeopleHomeComponent>;
-  let authService: jasmine.SpyObj<AuthService>;
+  let authService: AuthService
   let userService: jasmine.SpyObj<UserService>;
 
   beforeEach(async(() => {
     const authSpy = jasmine.createSpyObj('AuthService', ['getUser'])
     const userSpy = jasmine.createSpyObj('UserService',['getUserByInterest'])
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [ InterestPeopleHomeComponent, MockInterestPeopleListComponent ],
-      providers: [{provide: AuthService, useValue: authSpy},
+      imports: [RouterTestingModule, HttpClientTestingModule],
+      declarations: [ InterestPeopleHomeComponent, MockInterestPeopleListComponent],
+      providers: [{provide: AuthService, useClass: MockAuthService},
         {provide: UserService, useValue: userSpy},
         {
           provide: ActivatedRoute,
@@ -48,12 +56,16 @@ describe('InterestPeopleHomeComponent', () => {
     component = fixture.componentInstance;
     component.interestID = 1
     authService = TestBed.get(AuthService)
-    authService.getUser.and.returnValue(of(mockUser))
     userService = TestBed.get(UserService)
     userService.getUserByInterest.and.returnValue(of(mockUser))
     fixture.detectChanges();
   });
   it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+  it('test for branches', () => {
+    authService.user = mockUser
+    component.ngOnInit()
     expect(component).toBeTruthy();
   });
 });

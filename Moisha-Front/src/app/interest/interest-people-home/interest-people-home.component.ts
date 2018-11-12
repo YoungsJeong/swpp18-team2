@@ -16,12 +16,9 @@ export class InterestPeopleHomeComponent implements OnInit {
   users = [];
   interestID: number;
   ngOnInit() {
-    alert('here')
     if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
       this.auth.getUser().subscribe(console.log);
-    alert('here')
     this.interestID = +this.route.snapshot.paramMap.get('id')
-    alert('here')
     this.getUsers()
   }
   getUsers() {

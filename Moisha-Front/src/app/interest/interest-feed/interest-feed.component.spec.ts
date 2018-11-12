@@ -26,7 +26,10 @@ const mockType: ArticleType = {id: 1, name: 'testType'}
 const mockArticle: Article[] = [
   {id: 1, title: 'testTitle', content: 'testContent', author: '1', type: mockType, tags: mockTag}
 ]
-
+const mockArticles: Article[] = [
+  {id: 1, title: 'testTitle', content: 'testContent', author: '1', type: mockType, tags: mockTag},
+  {id: 2, title: 'testTitle', content: 'testContent', author: '1', type: mockType, tags: mockTag}
+]
 describe('InterestFeedComponent', () => {
   let component: InterestFeedComponent;
   let fixture: ComponentFixture<InterestFeedComponent>;
@@ -64,6 +67,9 @@ describe('InterestFeedComponent', () => {
   });
 
   it('should create', () => {
+    expect(component).toBeTruthy();
+    feedService.getArticleByInterest.and.returnValue(of(mockArticles))
+    component.ngOnInit()
     expect(component).toBeTruthy();
   });
 });

@@ -9,15 +9,15 @@ import {Router} from '@angular/router';
 })
 export class InterestHomeComponent implements OnInit {
 
-  constructor(public auth: AuthService, private route: Router) { }
+  constructor(public auth: AuthService, private router: Router) { }
 
   ngOnInit() {
     if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
       this.auth.getUser().subscribe(console.log);
   }
-  searchInterest(keyword: string) {
+  searchInterest(keyword?: string) {
     if (!keyword) keyword = ''
-    this.route.navigate(['search', {keyword: keyword}])
+    this.router.navigate(['search', {keyword: keyword}])
   }
 
 }

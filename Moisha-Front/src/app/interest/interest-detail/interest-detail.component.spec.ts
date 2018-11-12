@@ -8,6 +8,7 @@ import {AuthService} from '../../core/auth.service';
 import {Interest, InterestService, InterestTag} from '../../core/interest.service';
 import {UserService} from '../../core/user.service';
 import {of} from 'rxjs';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 @Component({selector: 'app-feed-list', template: ''})
 class MockFeedListComponent {
@@ -22,6 +23,12 @@ class MockInterestPeopelListComponent {
   @Input() users
 }
 const mockUser = [{id: '1', name: 'test'}]
+class MockAuthService extends AuthService {
+  user
+  getUser() {
+    return of(mockUser)
+  }
+}
 const mockColor: TagColor = {
   id: 1, name: 'color', rgb: '#ffffff'
 }
@@ -38,10 +45,14 @@ const mockType: ArticleType = {id: 1, name: 'testType'}
 const mockArticle: Article[] = [
   {id: 1, title: 'testTitle', content: 'testContent', author: '1', type: mockType, tags: mockTag}
 ]
+const mockArticles: Article[] = [
+  {id: 1, title: 'testTitle', content: 'testContent', author: '1', type: mockType, tags: mockTag},
+  {id: 2, title: 'testTitle', content: 'testContent', author: '1', type: mockType, tags: mockTag}
+]
 describe('InterestDetailComponent', () => {
   let component: InterestDetailComponent;
   let fixture: ComponentFixture<InterestDetailComponent>;
-  let authService: jasmine.SpyObj<AuthService>;
+  let authService: AuthService
   let feedService: jasmine.SpyObj<FeedService>;
   let interestService: jasmine.SpyObj<InterestService>;
   let userService: jasmine.SpyObj<UserService>;
@@ -53,10 +64,10 @@ describe('InterestDetailComponent', () => {
     const userSpy = jasmine.createSpyObj('UserService',['getUserByInterest'])
 
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, HttpClientTestingModule],
       declarations: [ InterestDetailComponent, MockFeedListComponent, MockInterestInfoComponent, MockInterestPeopelListComponent ],
       providers:
-        [{provide: AuthService, useValue: authSpy},
+        [{provide: AuthService, useClass: MockAuthService},
         {provide: InterestService, useValue: interestSpy},
         {provide: FeedService, useValue: feedSpy},
         {provide: UserService, useValue: userSpy}]
@@ -72,7 +83,6 @@ describe('InterestDetailComponent', () => {
     authService = TestBed.get(AuthService)
     interestService = TestBed.get(InterestService)
     component.interestID = 1
-    authService.getUser.and.returnValue(of(mockUser[0]))
     feedService.getArticleByInterest.and.returnValue(of(mockArticle))
     interestService.getInterestByID.and.returnValue(of(mockInterest[0]))
     userService.getUserByInterest.and.returnValue(of(mockUser))
@@ -81,5 +91,13 @@ describe('InterestDetailComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    authService.user = mockUser
+
+    component.ngOnInit()
+    expect(component).toBeTruthy();
+    feedService.getArticleByInterest.and.returnValue(of(mockArticles))
+    component.ngOnInit()
+    expect(component).toBeTruthy();
+
   });
 });

@@ -28,7 +28,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        exclude = ['groups', 'interests', 'user_permissions']
 
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)

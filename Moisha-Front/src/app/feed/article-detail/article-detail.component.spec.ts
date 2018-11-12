@@ -10,6 +10,8 @@ import {of} from 'rxjs';
 import {Author, Comment, Reply, ReplyService} from '../../core/reply.service';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Article, ArticleTag, ArticleType, TagColor} from '../../core/feed.service';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
 
 @Component({selector: 'app-write-reply', template: ''})
@@ -27,11 +29,22 @@ class MockCommentComponent {
   @Output() edit = new EventEmitter()
 }
 
+const mockUser: Author = { id: 1, nickName: 'test'}
+class MockAuthService extends AuthService {
+  user
+  getUser() {
+    return of(mockUser)
+  }
+}
 const mockAuthor: Author = { id: 1, nickName: 'testAuthor'}
 const mockReply: Reply[] = [
   {id: 1, content: 'testContent', author: mockAuthor, createdDate: 'now'}
 ]
-const mockComment: Comment[] = [
+const mockComment = [
+  {id: 1, replies: mockReply, content: 'testContent', createdDate: 'now', author: mockAuthor,
+    article: 'testArticle'}
+]
+const mockComment2 = [
   {id: 1, replies: mockReply, content: 'testContent', createdDate: 'now', author: mockAuthor,
     article: 'testArticle', comment: 1}
 ]
@@ -47,17 +60,16 @@ const mockArticle: Article[] = [
 describe('ArticleDetailComponent', () => {
   let component: ArticleDetailComponent;
   let fixture: ComponentFixture<ArticleDetailComponent>;
-  let authService: jasmine.SpyObj<AuthService>;
   let replyService: jasmine.SpyObj<ReplyService>;
+  let authService: AuthService
   beforeEach(async(() => {
-    const authSpy = jasmine.createSpyObj('AuthService', ['getUser'])
     const replySpy = jasmine.createSpyObj('ReplyService',['getCommentsToArticle', 'createComment',
     'editComment', 'deleteComment'])
 
     TestBed.configureTestingModule({
-      imports: [SharedModule, NgbModule.forRoot()],
+      imports: [SharedModule, NgbModule.forRoot(), HttpClientTestingModule, RouterTestingModule],
       providers: [NgbModal, NgbActiveModal, NgbModalStack, ScrollBar,
-        {provide: AuthService, useValue: authSpy},
+        {provide: AuthService, useClass: MockAuthService},
         {provide: ReplyService, useValue: replySpy}],
       declarations: [ ArticleDetailComponent, MockWriteReplyComponent, MockCommentComponent ]
     })
@@ -69,13 +81,75 @@ describe('ArticleDetailComponent', () => {
     component = fixture.componentInstance;
     component.article = mockArticle[0]
     authService = TestBed.get(AuthService)
-    authService.getUser.and.returnValue(of({id: 1, name: 'test'}))
+    authService.user = mockUser
     replyService = TestBed.get(ReplyService)
+    replyService.createComment.and.returnValue(of(mockComment[0]))
     replyService.getCommentsToArticle.and.returnValue(of(mockComment))
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component.comments.length).toEqual(1);
+    replyService.getCommentsToArticle.and.returnValue(of(mockComment2))
+    component.ngOnInit()
+    expect(component.comments.length).toEqual(0);
+    component.dismiss()
+  });
+  it('should be able to write reply', () => {
+    const getCommentSpy = spyOn(component, 'getComments');
+    const payload = {
+      content: 'test',
+      article: 1,
+      comment: '',
+      author: ''
+    }
+    component.writeReply(payload)
+    expect(getCommentSpy).toHaveBeenCalled()
+  });
+  it('should be able to edit reply', () => {
+    const payload = {
+      content: 'test',
+      article: 1,
+      comment: '',
+      author: ''
+    }
+    spyOn(window, 'prompt').and.returnValue('test');
+    component.editReply(payload)
+    expect(replyService.editComment).not.toHaveBeenCalled()
+  });
+  it('should be able to edit reply changed', () => {
+    const payload = {
+      content: 'test',
+      article: 1,
+      comment: '',
+      author: ''
+    }
+    spyOn(window, 'prompt').and.returnValue('changed');
+    component.editReply(payload)
+    expect(replyService.editComment).toHaveBeenCalled()
+  });
+  it('should be able to delete reply confirm', () => {
+    replyService.deleteComment.and.returnValue(of(mockComment[0]))
+    const payload = {
+      content: 'test',
+      article: 1,
+      comment: '',
+      author: ''
+    }
+    spyOn(window, 'confirm').and.returnValue(true);
+    component.deleteReply(payload)
+    expect(replyService.deleteComment).toHaveBeenCalled()
+  });
+  it('should be able to delete reply not confirm', () => {
+    replyService.deleteComment.and.returnValue(of(mockComment[0]))
+    const payload = {
+      content: 'test',
+      article: 1,
+      comment: '',
+      author: ''
+    }
+    spyOn(window, 'confirm').and.returnValue(false);
+    component.deleteReply(payload)
+    expect(replyService.deleteComment).not.toHaveBeenCalled()
   });
 });

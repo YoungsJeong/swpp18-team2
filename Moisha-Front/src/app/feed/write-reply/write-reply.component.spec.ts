@@ -41,4 +41,32 @@ describe('WriteReplyComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should emit write payload with comment', () => {
+    component.formContent.setValue('test')
+    const payload = {
+      content: 'test',
+      article: 1,
+      comment: 1,
+      author: ''
+    }
+    component.write.subscribe((result) => {
+      expect(result).toEqual(payload)
+    })
+    component.writeReply()
+  });
+  it('should emit write payload without comment', () => {
+    component.formContent.setValue('test')
+    component.comment = null
+    const payload = {
+      content: 'test',
+      article: 1,
+      comment: '',
+      author: ''
+    }
+    component.write.subscribe((result) => {
+      expect(result).toEqual(payload)
+    })
+    component.writeReply()
+  });
 });

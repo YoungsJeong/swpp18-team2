@@ -20,7 +20,7 @@ export class ArticleValidator {
     if (!value || value === '') {
       return null;
     }
-    return  value.length <= 80? null : { invalidtitle: true };
+    return  value.length <= 80? null : { invalidTitle: true };
   }
   static validateContent(control: FormControl): ValidationErrors {
     const { value } = control;

@@ -41,4 +41,40 @@ describe('CommentComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('test clicked', () => {
+    component.isClicked = false
+    component.commentClicked()
+    expect(component.isClicked).toBeTruthy()
+  });
+  it('should emit write payload', () => {
+    const payload = {
+      content: 'test',
+      article: 1,
+      comment: 1,
+      author: ''
+    }
+    component.write.subscribe((result) => {
+      expect(result).toEqual(payload)
+    })
+    component.writeReply(payload)
+  });
+  xit('should emit edit payload', () => {
+    const stopPropagationSpy  = spyOn(event, 'stopPropagation');
+    const payload = {
+      content: 'test',
+      article: 1,
+      comment: 1,
+      author: ''
+    }
+    component.edit.subscribe((result) => {
+      expect(result).toEqual(payload)
+    })
+    component.editReply(payload)
+  });
+  xit('should emit delete payload', () => {
+    component.delete.subscribe((result) => {
+      expect(result).toEqual(mockComment)
+    })
+    component.deleteReply(mockComment)
+  });
 });

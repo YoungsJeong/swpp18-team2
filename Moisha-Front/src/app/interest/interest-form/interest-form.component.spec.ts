@@ -16,6 +16,7 @@ const mockColor: TagColor = {
 const mockInterestTags: InterestTag[] = [
   { id: 1, name: 'tag1',  color: mockColor}
 ]
+const mockInterestTag: InterestTag = {id: 2, name: 'tag2', color: mockColor}
 
 describe('InterestFormComponent', () => {
   let component: InterestFormComponent;
@@ -44,5 +45,62 @@ describe('InterestFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  it('test validator', () => {
+    let exceedString = '01234567890123456789'
+    component.formName.setValue(exceedString)
+    expect(component.formName.valid).toBeTruthy()
+    exceedString += '0'
+    component.formName.setValue(exceedString)
+    expect(component.formName.errors.invalidName).toBeTruthy()
+
+    exceedString = ''
+    for(let i =0; i < 20; i++)
+      exceedString += '0123456789'
+    component.formDetail.setValue(exceedString)
+    expect(component.formDetail.valid).toBeTruthy()
+    exceedString += '0'
+    component.formDetail.setValue(exceedString)
+    expect(component.formDetail.errors.invalidDetail).toBeTruthy()
+
+    component.formTag.setValue({id: 1, name: 'test'})
+    expect(component.formTag.valid).toBeTruthy()
+    component.formTag.setValue({name: 'test'})
+    expect(component.formTag.errors.invalidTag).toBeTruthy()
+
+    component.formPhotoURL.setValue('www.google.com')
+    expect(component.formPhotoURL.valid).toBeTruthy()
+    component.formPhotoURL.setValue('test')
+    expect(component.formPhotoURL.errors.invalidURL).toBeTruthy()
+  });
+
+  it('should able to add/remove tag', () => {
+    component.selectedTags = mockInterestTags
+    component.remove(mockInterestTags[0])
+    expect(component.selectedTags.length).toEqual(0)
+
+    /*component.selectedTags = mockInterestTags
+    event = {item: mockInterestTags[0]}
+    component.selected(event)
+    expect(component.selectedTags.length).toEqual(1)
+    event = {item: mockInterestTag}
+    component.selected(event)
+    expect(component.selectedTags.length).toEqual(2)*/
+  });
+  it('should emit payload', () => {
+    component.formName.setValue('test')
+    component.formDetail.setValue('')
+    component.formPhotoURL.setValue('')
+    const payload = {
+      createUser: null,
+      name: 'test',
+      interestTags: [],
+      detail: '',
+      photoURL: ''
+    }
+    component.confirm.subscribe((result) => {
+      expect(result).toEqual(payload)
+    })
+    component.confirmInterest()
   });
 });

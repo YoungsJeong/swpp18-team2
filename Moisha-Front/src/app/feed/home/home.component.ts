@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public auth: AuthService, private route: Router) { }
+  constructor(public auth: AuthService, private router: Router) { }
 
   ngOnInit() {
     if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
@@ -17,6 +17,6 @@ export class HomeComponent implements OnInit {
   }
   searchInterest(keyword: string) {
     if (!keyword) keyword = ''
-    this.route.navigate(['search', {keyword: keyword}])
+    this.router.navigate(['search', {keyword: keyword}])
   }
 }

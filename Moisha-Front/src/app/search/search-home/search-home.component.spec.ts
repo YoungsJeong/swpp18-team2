@@ -72,7 +72,6 @@ describe('SearchHomeComponent', () => {
   });
 
   it('should create', () => {
-    const navigateSpy = spyOn((<any>component).router, 'navigate');
     expect(component).toBeTruthy();
   });
 });

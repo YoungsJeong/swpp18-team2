@@ -8,6 +8,20 @@
   border-radius: 3px;
   vertical-align: middle;
 }
+.title{
+  padding-left: 0;
+  padding-right: 0;
+  max-height: 30px;
+  overflow: hidden;
+}
+.card-header{
+  max-height: 70px;
+  overflow: hidden;
+}
+.card-body{
+  max-height: 70px;
+  overflow: hidden;
+}
 .major{
   font-size: 20px;
   color: #555;
