@@ -11,6 +11,9 @@ from comment.serializers import CommentSerializer, CommentCreateSerializer
 
 @api_view(['POST'])
 def createComment(request):
+    user = request.user
+    if user.is_anonymous:
+        return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
     data = request.data
     serializer = CommentCreateSerializer(data=data)
     if serializer.is_valid():
