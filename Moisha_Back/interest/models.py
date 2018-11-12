@@ -6,6 +6,7 @@ from article.tag import TagColor
 class InterestTag(models.Model):
     name = models.CharField(max_length=20)
     color = models.ForeignKey(TagColor, on_delete=models.SET_DEFAULT, default = 2)
+
     def __str__(self):
         return self.name
 

@@ -35,7 +35,7 @@ def searchArticleTag(request):
     if q is '':
         return Response(data=[], status=status.HTTP_200_OK)
     sqs = SearchQuerySet().models(ArticleTag).filter(name__contains=q)
-    if len(sqs) == 0:
+    if len(sqs) == 0:\
         sqs = SearchQuerySet().models(ArticleTag).autocomplete(autocomplete_search=q)
     serializer_list = []
     for sqs_element in sqs:
@@ -74,28 +74,16 @@ def searchInterest(request):
     return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
-@api_view(['GET'])
-def searchInterestTag(request):
-    q = request.GET.get('q', '')
-    if q is '':
-        return Response(data=[], status=status.HTTP_200_OK)
-    sqs = SearchQuerySet().models(InterestTag).filter(name__contains=q)
-    if len(sqs) == 0:
-        sqs = SearchQuerySet().models(InterestTag).autocomplete(autocomplete_search=q)
-    serializer_list = []
-    for sqs_element in sqs:
-        interestTag = InterestTag.objects.get(id=sqs_element.object.id)
-        serializer_list.append(interestTag)
-    serializer = InterestTagSearchSerializer(serializer_list, many=True)
-    return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
 def searchInterestByUser(request):
+    user = request.user
+    if user.is_anonymous:
+        return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
     q = request.GET.get('q', '')
     if q is '':
         return Response(data=[], status=status.HTTP_200_OK)
-    user = request.user
     sqsUser = SearchQuerySet().models(Interest).filter(id__in=user.interests.all().values_list('id',flat=True))
     sqs = sqsUser.filter(name__contains=q)
     if len(sqs) == 0:
