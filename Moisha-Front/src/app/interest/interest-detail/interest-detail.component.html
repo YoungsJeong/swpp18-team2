@@ -6,6 +6,7 @@
     </div>
     <div class="container col-4 info-container">
       <div class="header"><div class="form-inline badge-title">About &nbsp; {{interest?.name}}
+        <button class="btn btn-success" (click)="subscribe()">{{buttonMessage}}</button>
         <span *ngFor="let tag of interest?.tags;" class="badge badge-tag" [ngStyle] = "{'background-color': tag.color.rgb}" >{{tag.name}}
         </span>
       </div>

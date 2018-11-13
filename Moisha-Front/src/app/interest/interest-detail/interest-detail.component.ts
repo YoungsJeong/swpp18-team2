@@ -19,21 +19,61 @@ export class InterestDetailComponent implements OnInit {
   articleTags = null;
   interest: Interest
   interestID: number;
+  isMember= false
+  buttonMessage: string
   ngOnInit() {
-    if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
-      this.auth.getUser().subscribe(console.log);
-    this.route.paramMap.subscribe((params) => {
-      this.interestID = +params.get('id')
-    })
+    this.interestID = +this.route.snapshot.paramMap.get('id')
+    this.setJoinButton()
     this.getInterest()
     this.getArticles()
     this.getUsers()
+  }
+  setJoinButton() {
+    if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
+      this.auth.getUser().subscribe((result) => {
+        for(const interest of result.interests){
+          if(interest.id === this.interestID){
+            this.isMember = true
+            this.buttonMessage = '가입중'
+            return
+          }
+        }
+        this.isMember = false
+        this.buttonMessage = '가입하기'
+      })
+    else {
+      for(const interest of this.auth.user.interests) {
+        if(interest.id === this.interestID){
+          this.isMember = true
+          this.buttonMessage = '가입중'
+          return
+        }
+        this.isMember = false
+        this.buttonMessage = '가입하기'
+      }
+    }
   }
   getInterest() {
     this.interestService.getInterestByID(this.interestID).subscribe((result) => {
       this.interest = result
       console.log(result)
     })
+  }
+  subscribe() {
+    if(this.isMember){
+      if(confirm('관심사에서 탈퇴할까요?')){
+        this.userService.addInterestToUser(this.interestID, false).subscribe((result) => {
+          this.auth.setUser(result)
+          this.ngOnInit()
+        })
+      }
+    }
+    else {
+      this.userService.addInterestToUser(this.interestID, true).subscribe( (result) => {
+        this.auth.setUser(result)
+        this.ngOnInit()
+      })
+    }
   }
   getArticles() {
     this.articles = []

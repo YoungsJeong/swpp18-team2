@@ -26,5 +26,11 @@ export class UserService {
     params
     });
     }
+    addInterestToUser(id: number, shouldAdd: boolean){
+      let params
+      if(shouldAdd) params = {action: 'add'}
+      else params = {action: 'delete'}
+      return this.http.put('/user/interest/' + id + '/update/', params)
+    }
 
 }

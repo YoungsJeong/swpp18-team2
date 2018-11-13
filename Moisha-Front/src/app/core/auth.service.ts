@@ -70,12 +70,14 @@ export class AuthService {
     localStorage.removeItem(TOKEN_KEY);
     this.router.navigate(['intro']);
   }
-
+  setUser(user) {
+    this.user = user;
+    console.log('user: ', user);
+  }
   getUser() {
     return this.http.get('/user/info').pipe(
       tap((user: any) => {
-        this.user = user;
-        console.log('user: ', user);
+        this.setUser(user)
       })
     );
   }

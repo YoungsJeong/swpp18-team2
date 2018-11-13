@@ -6,4 +6,5 @@ urlpatterns = [
     path('login/', views.logIn),
     path('info/', views.getUserInfo),
     path('interest/<int:pk>/', views.getUserByInterest),
+    path('interest/<int:pk>/update/', views.updateInterestToUser),
 ]
