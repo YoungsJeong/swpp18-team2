@@ -40,14 +40,19 @@ class ArticleTestCase(TestCase):
         self.client.login(username='test@test.com', password='test')
         response=self.client.get('/article/')
         self.assertEqual(response.status_code,200)
+        response=self.client.get('/article/',{'limit': 1})
+        self.assertEqual(response.status_code,200)
 
     def testCreateArticle(self):
-        data = json.dumps({'author':1, 'interest':[1], 'articleTags':[1], 'title':'title', 'content':'content'})
-        response = self.client.post('/article/create/', data, content_type='application/json')
+        validData = json.dumps({'author':1, 'interest':[1], 'articleTags':[1], 'title':'title', 'content':'content'})
+        invalidData = json.dumps({'author':1, 'interest':[1], 'articleTags':[1], 'content':'content'})
+        response = self.client.post('/article/create/', validData, content_type='application/json')
         self.assertEqual(response.status_code, 400)
         self.client.login(username='test@test.com', password='test')
-        response = self.client.post('/article/create/', data, content_type='application/json')
+        response = self.client.post('/article/create/', validData, content_type='application/json')
         self.assertEqual(response.status_code, 200)
+        response = self.client.post('/article/create/', invalidData, content_type='application/json')
+        self.assertEqual(response.status_code, 400)
 
     def testGetCommentByArticle(self):
         response = self.client.get('/article/1/comment/')
@@ -61,6 +66,8 @@ class ArticleTestCase(TestCase):
         self.assertEqual(response.status_code, 400)
         self.client.login(username='test@test.com', password='test')
         response = self.client.get('/article/interest/1/')
+        self.assertEqual(response.status_code, 200)
+        response = self.client.get('/article/interest/1/', {'limit': 1})
         self.assertEqual(response.status_code, 200)
 
 

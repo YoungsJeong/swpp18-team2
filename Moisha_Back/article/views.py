@@ -39,7 +39,7 @@ def createArticle(request):
             article = serializer.save()
             article.tags.add(*data['articleTags'])
         else:
-            return Response(data=serializer.errors)
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response(status=200)
 
 
