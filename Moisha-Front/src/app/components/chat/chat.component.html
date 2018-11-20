@@ -1,3 +1,21 @@
 <p>
-  chat works!
+  chat works!!
 </p>
+<div class="chat-container">
+
+  <span *ngFor="let message of messages">
+    <h4>
+      <b>{{message.from.name}}</b>
+    </h4>
+    <p>
+      <span> {{message.content}} </span>
+    </p>
+    <p *ngIf="message.type === this.type.JOIN" class="chat-notification">
+      <span> <b>{{message.from.name}}</b> joined to the conversation. </span>
+    </p>
+  </span>
+  <div class="chat-footer-container">
+    <input #inputMessage maxlength="140" placeholder="Type your message" 
+    (keyup.enter)="sendMessage(inputMessage.value); inputMessage.value = null">
+    </div>
+</div>

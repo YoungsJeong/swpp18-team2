@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from '../auth.guard';
+import {ChatComponent} from '../app/components/chat/chat.component'
 
 const routes: Routes = [
 
@@ -29,6 +30,12 @@ const routes: Routes = [
     loadChildren: '../app/interest/interest.module#InterestModule',
     canLoad: [AuthGuard]
   },
+  {
+    /* temporary routing for chat */
+    path: 'chat',
+    component: ChatComponent,
+    canLoad: [AuthGuard]
+  }
   /*
   {
     path: '**',
