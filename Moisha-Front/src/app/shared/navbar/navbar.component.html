@@ -11,11 +11,13 @@
       <li class="nav-item">
         <a class="nav-link home" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">홈</a>
       </li>
+      <li>
+        <form class="form-inline" (ngSubmit)="searchInterest()" >
+          <input class="form-control" name="searchKeyword" [(ngModel)]="keyword" placeholder="Search" aria-label="Search">
+          <button class="btn btn-success" type="submit">Search</button>
+        </form>
+      </li>
     </ul>
-    <form class="form-inline" (ngSubmit)="searchInterest()" >
-      <input class="form-control" name="searchKeyword" [(ngModel)]="keyword" placeholder="Search" aria-label="Search">
-      <button class="btn btn-success" type="submit">Search</button>
-    </form>
   </div>
   <button class="btn name-button" (click)="goToProfile()">
     <b class= "user-name">{{ name }}님</b>

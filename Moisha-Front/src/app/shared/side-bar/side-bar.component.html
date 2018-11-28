@@ -3,7 +3,7 @@
   <ul class="interests list-group">
     <a *ngFor="let interest of interests" class="list-group-item"
        href="interest/{{interest.id}}">
-      <span class="badge">{{interest.name}}</span>
+      <span class="badge">{{interest.name|slice:0:14}}</span>
     </a>
   </ul>
 </div>
