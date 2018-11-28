@@ -19,7 +19,8 @@ def searchDepartment(request):
     if q is '':
         return Response(data=[], status=status.HTTP_200_OK)
     sqs = SearchQuerySet().models(Department).filter(name__contains=q)
-    if len(sqs) == 0:
+    if sqs.count() ==0:
+    #if len(sqs) == 0:
         sqs = SearchQuerySet().models(Department).autocomplete(autocomplete_search=q)
     serializer_list = []
     for sqs_element in sqs:
@@ -35,7 +36,8 @@ def searchArticleTag(request):
     if q is '':
         return Response(data=[], status=status.HTTP_200_OK)
     sqs = SearchQuerySet().models(ArticleTag).filter(name__contains=q)
-    if len(sqs) == 0:\
+    if sqs.count() ==0:
+    #if len(sqs) == 0:
         sqs = SearchQuerySet().models(ArticleTag).autocomplete(autocomplete_search=q)
     serializer_list = []
     for sqs_element in sqs:
@@ -50,7 +52,8 @@ def searchInterestTag(request):
     if q is '':
         return Response(data=[], status=status.HTTP_200_OK)
     sqs = SearchQuerySet().models(InterestTag).filter(name__contains=q)
-    if len(sqs) == 0:
+    if sqs.count() ==0:
+    #if len(sqs) == 0:
         sqs = SearchQuerySet().models(InterestTag).autocomplete(autocomplete_search=q)
     serializer_list = []
     for sqs_element in sqs:
@@ -88,7 +91,8 @@ def searchInterestByUser(request):
         return Response(data=[], status=status.HTTP_200_OK)
     sqsUser = SearchQuerySet().models(Interest).filter(id__in=user.interests.all().values_list('id',flat=True))
     sqs = sqsUser.filter(name__contains=q)
-    if len(sqs) == 0:
+    if sqs.count() ==0:
+    #if len(sqs) == 0:
         sqs = sqsUser.autocomplete(autocomplete_search=q)
     serializer_list = []
     for sqs_element in sqs:
