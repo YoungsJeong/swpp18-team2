@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {DepartmentSearchResponse} from './user.service';
 import {tap} from 'rxjs/operators';
-import {InterestTag} from './interest.service';
+import {InterestTag, Interest} from './interest.service';
 import {Observable} from 'rxjs';
 
 export interface TagColor {
@@ -24,6 +24,7 @@ export interface Article {
   title: string,
   content: string,
   author: string,
+  interest?: Interest,
   type: ArticleType,
   tags: ArticleTag[]
 }

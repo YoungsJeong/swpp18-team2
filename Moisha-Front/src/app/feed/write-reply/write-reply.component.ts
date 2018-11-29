@@ -12,6 +12,7 @@ export class WriteReplyComponent implements OnInit {
   @Input() articleID: number
   @Output() write = new EventEmitter();
   replyForm: FormGroup;
+  error: boolean;
   constructor() { }
 
   ngOnInit() {
