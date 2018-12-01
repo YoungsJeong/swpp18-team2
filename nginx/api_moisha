@@ -22,7 +22,9 @@ upstream django_backend {
     server localhost:8000;
 }
 server {
+    # all the api calls will come through this subroutine
 	server_name api.moisha.ml;
+
     location /search {
         proxy_pass http://localhost:9200/;
     }
@@ -32,6 +34,7 @@ server {
     }
 
 	location / {
+        #TODO make this use uwsgi_pass
         proxy_pass http://localhost:8000/;
         #uwsgi_pass django_backend;
         #include /home/ubuntu/uwsgi_params;
