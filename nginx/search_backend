@@ -18,22 +18,17 @@
 
 # Default server configuration
 #
-upstream django_backend {
-    server localhost:8001;
+upstream elasticsearch {
+    server localhost:9200; 
 }
+    
 server {
-	listen 8000;
+	listen 9100;
 
 	server_name _;
 
-    location /static {
-        alias /home/ubuntu/swpp18-team2/Moisha_Back/static/; 
-    }
-
 	location / {
-        proxy_pass http://localhost:8001/;
-        #uwsgi_pass django_backend;
-        #include /home/ubuntu/uwsgi_params;
+        proxy_pass http://localhost:9200;
 	}
 }
 

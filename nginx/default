@@ -18,6 +18,12 @@
 
 # Default server configuration
 #
+upstream django {
+    server localhost:8000;
+}
+upstream search {
+    server localhost:9200;
+}
 
 server {
 	listen 80 default_server;
@@ -39,18 +45,28 @@ server {
 	#
 	# include snippets/snakeoil.conf;
 
-	# root /var/www/html;
-    root /home/ubuntu/swpp18-team2/Moisha-Front/dist/Moisha-Front;
+	root /home/ubuntu/swpp18-team2/Moisha-Front/dist/Moisha-Front;
+    # root /home/ubuntu/swpp18-team2/Moisha-Front/dist/Moisha-Front;
 
 	# Add index.php to the list if you are using PHP
-	index index.html;
+	index index.html index.htm;
 
 	server_name moisha.ml;
+
+    location /api {
+        uwsgi_pass django;
+        include /home/ubuntu/uwsgi_params;
+    }
+    location /static {
+
+    }
 
 	location / {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
-		try_files $uri $uri/ =404;
+		try_files $uri $uri/ /index.html =404;
+        # for testing with ng serve
+        # proxy_pass http://localhost:4200;
 	}
 
 	# pass PHP scripts to FastCGI server
