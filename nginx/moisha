@@ -18,12 +18,7 @@
 
 # Default server configuration
 #
-upstream django {
-    server localhost:8000;
-}
-upstream search {
-    server localhost:9200;
-}
+
 
 server {
 	listen 80 default_server;
@@ -46,24 +41,11 @@ server {
 	# include snippets/snakeoil.conf;
 
 	root /home/ubuntu/swpp18-team2/Moisha-Front/dist/Moisha-Front;
-    # root /home/ubuntu/swpp18-team2/Moisha-Front/dist/Moisha-Front;
 
 	# Add index.php to the list if you are using PHP
 	index index.html index.htm;
 
-	server_name moisha.ml;
-    location /api/search {
-        proxy_pass http://localhost:9200;
-    }
-
-    location /api {
-        #uwsgi_pass django;
-        #include /home/ubuntu/uwsgi_params;
-        proxy_pass http://localhost:8000;
-    }
-    location /static {
-
-    }
+	server_name _;
 
 	location / {
 		# First attempt to serve request as file, then

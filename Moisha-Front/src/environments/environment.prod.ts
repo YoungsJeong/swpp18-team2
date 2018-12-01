@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiURL: 'http://mo.isha.kro.kr/api',
+  apiURL: 'http://api.moisha.ml',
   envName: 'prod'
 };

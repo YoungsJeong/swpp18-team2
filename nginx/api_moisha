@@ -18,17 +18,23 @@
 
 # Default server configuration
 #
-upstream elasticsearch {
-    server localhost:9200; 
+upstream django_backend {
+    server localhost:8000;
 }
-    
 server {
-	listen 9100;
+	server_name api.moisha.ml;
+    location /search {
+        proxy_pass http://localhost:9200/;
+    }
 
-	server_name _;
+    location /static {
+        alias /home/ubuntu/swpp18-team2/Moisha_Back/static/; 
+    }
 
 	location / {
-        proxy_pass http://localhost:9200;
+        proxy_pass http://localhost:8000/;
+        #uwsgi_pass django_backend;
+        #include /home/ubuntu/uwsgi_params;
 	}
 }
 
