@@ -52,10 +52,14 @@ server {
 	index index.html index.htm;
 
 	server_name moisha.ml;
+    location /api/search {
+        proxy_pass http://localhost:9200;
+    }
 
     location /api {
-        uwsgi_pass django;
-        include /home/ubuntu/uwsgi_params;
+        #uwsgi_pass django;
+        #include /home/ubuntu/uwsgi_params;
+        proxy_pass http://localhost:8000;
     }
     location /static {
 
