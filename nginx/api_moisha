@@ -25,10 +25,6 @@ server {
     # all the api calls will come through this subroutine
 	server_name api.moisha.ml;
 
-    location /search {
-        proxy_pass http://localhost:9200/;
-    }
-
     location /static {
         alias /home/ubuntu/swpp18-team2/Moisha_Back/static/; 
     }
