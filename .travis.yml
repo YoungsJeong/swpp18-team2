@@ -6,7 +6,7 @@ matrix:
         node_js:
           - "8"
         before_install:
-          - cd Moisha_Front
+          - cd Moisha-Front
         install:
           - npm install -g @angular/cli
           - npm install
@@ -15,8 +15,10 @@ matrix:
 
       - language: python
         python: 3.6
+        before_install:
+          - cd Moisha_Back
         install:
-          - pip install -r Moisha_Back/requirements.txt
+          - pip install -r requirements.txt
         script:
-          - coverage run Moisha_Back/manage.py test
+          - python manage.py test
 
