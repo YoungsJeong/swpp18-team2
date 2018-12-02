@@ -25,7 +25,7 @@ SECRET_KEY = '58dzq(^nu7s8hv90-a)zfhdiiaua4!csn(s*ldx5@j@)bvfu)1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['api.moisha.ml', 'localhost']
 
 
 # Application definition

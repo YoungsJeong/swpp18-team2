@@ -19,7 +19,7 @@
 # Default server configuration
 #
 upstream django_backend {
-    server localhost:8000;
+    server unix:///tmp/moisha.sock;
 }
 server {
     # all the api calls will come through this subroutine
@@ -31,9 +31,9 @@ server {
 
 	location / {
         #TODO make this use uwsgi_pass
-        proxy_pass http://localhost:8000/;
-        #uwsgi_pass django_backend;
-        #include /home/ubuntu/uwsgi_params;
+        #proxy_pass http://localhost:8000/;
+        uwsgi_pass django_backend;
+        include /home/ubuntu/uwsgi_params;
 	}
 }
 
