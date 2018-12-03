@@ -25,7 +25,9 @@ SECRET_KEY = '58dzq(^nu7s8hv90-a)zfhdiiaua4!csn(s*ldx5@j@)bvfu)1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['api.moisha.ml', 'http://ec2-13-125-100-78.ap-northeast-2.compute.amazonaws.com/', 'localhost']
+ALLOWED_HOSTS = ['localhost',
+                 '.ap-northeast-2.compute.amazonaws.com',
+                 '.moisha.tk',]
 
 
 # Application definition
@@ -82,6 +84,8 @@ WSGI_APPLICATION = 'Moisha_Back.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+
+# Password validation
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -91,11 +95,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'as154712',
     }
-}
-
-
-# Password validation
-# https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
+}# https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -129,10 +129,9 @@ USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.1/howto/static-files/
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = os.path.dirname(BASE_DIR)
+
 
 # static files
 STATIC_URL = '/static/'
@@ -140,14 +139,13 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
-STATIC_ROOT = os.path.join(ROOT_DIR, 'static')
-
+STATIC_ROOT = os.path.join(ROOT_DIR, '.static_root')
 AUTH_USER_MODEL = 'user.User'
 CORS_ORIGIN_ALLOW_ALL = True
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        #'rest_framework.authentication.SessionAuthentication',
     ),
 }
 HAYSTACK_CONNECTIONS = {

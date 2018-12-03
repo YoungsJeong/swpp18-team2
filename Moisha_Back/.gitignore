@@ -6,6 +6,8 @@ db.sqlite3
 *.so
 .idea/
 # Distribution / packaging
+static/
+htmlcov/
 bin/
 build/
 develop-eggs/
