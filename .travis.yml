@@ -25,6 +25,10 @@ matrix:
           - cd Moisha_Back
         install:
           - pip install -r requirements.txt
+        after_install:
+            python manage.py makemigrations
+            python manage.py migrate
+            python manage.py rebuild_index
         script:
           - python manage.py test
 
