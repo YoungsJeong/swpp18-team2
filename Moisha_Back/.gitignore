@@ -8,6 +8,8 @@ db.sqlite3
 # Distribution / packaging
 bin/
 build/
+static/
+htmlcov/
 develop-eggs/
 dist/
 eggs/

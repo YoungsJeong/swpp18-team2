@@ -65,9 +65,7 @@ def searchInterestTag(request):
 @api_view(['GET'])
 def searchInterest(request):
     q = request.GET.get('q', 0)
-    print('here')
     if q == '' or q is None or q == ' ':
-        print('here')
         sqs = SearchQuerySet().models(Interest).all()
     else:
         sqs = SearchQuerySet().models(Interest).filter(name__contains=q)

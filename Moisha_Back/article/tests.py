@@ -35,39 +35,39 @@ class ArticleTestCase(TestCase):
         article.save()
 
     def testGetArticleByUser(self):
-        response=self.client.get('/article/')
+        response=self.client.get('/api/article/')
         self.assertEqual(response.status_code, 400)
         self.client.login(username='test@test.com', password='test')
-        response=self.client.get('/article/')
+        response=self.client.get('/api/article/')
         self.assertEqual(response.status_code,200)
-        response=self.client.get('/article/',{'limit': 1})
+        response=self.client.get('/api/article/',{'limit': 1})
         self.assertEqual(response.status_code,200)
 
     def testCreateArticle(self):
         validData = json.dumps({'author':1, 'interest':[1], 'articleTags':[1], 'title':'title', 'content':'content'})
         invalidData = json.dumps({'author':1, 'interest':[1], 'articleTags':[1], 'content':'content'})
-        response = self.client.post('/article/create/', validData, content_type='application/json')
+        response = self.client.post('/api/article/create/', validData, content_type='application/json')
         self.assertEqual(response.status_code, 400)
         self.client.login(username='test@test.com', password='test')
-        response = self.client.post('/article/create/', validData, content_type='application/json')
+        response = self.client.post('/api/article/create/', validData, content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        response = self.client.post('/article/create/', invalidData, content_type='application/json')
+        response = self.client.post('/api/article/create/', invalidData, content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
     def testGetCommentByArticle(self):
-        response = self.client.get('/article/1/comment/')
+        response = self.client.get('/api/article/1/comment/')
         self.assertEqual(response.status_code, 400)
         self.client.login(username='test@test.com', password='test')
-        response = self.client.get('/article/1/comment/')
+        response = self.client.get('/api/article/1/comment/')
         self.assertEqual(response.status_code, 200)
 
     def testGetArticlesByInterest(self):
-        response = self.client.get('/article/interest/1/')
+        response = self.client.get('/api/article/interest/1/')
         self.assertEqual(response.status_code, 400)
         self.client.login(username='test@test.com', password='test')
-        response = self.client.get('/article/interest/1/')
+        response = self.client.get('/api/article/interest/1/')
         self.assertEqual(response.status_code, 200)
-        response = self.client.get('/article/interest/1/', {'limit': 1})
+        response = self.client.get('/api/article/interest/1/', {'limit': 1})
         self.assertEqual(response.status_code, 200)
 
 

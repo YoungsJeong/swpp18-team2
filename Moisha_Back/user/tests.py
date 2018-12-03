@@ -31,38 +31,38 @@ class UserTestCase(TestCase):
         user.save()
 
     def testLogIn(self):
-        response = self.client.post('/user/login/', self.notUser, follow=True)
+        response = self.client.post('/api/user/login/', self.notUser, follow=True)
         self.assertEquals(response.status_code, 400)
-        response = self.client.post('/user/login/', self.user, follow=True)
+        response = self.client.post('/api/user/login/', self.user, follow=True)
         data = json.loads(response.content.decode('utf-8'))
         self.assertEquals(data['user_name'], 'test')
         self.assertEquals(response.status_code, 200)
 
     def testSignUp(self):
         client = Client()
-        response = self.client.post('/user/signup/', data=self.user, follow=True)
+        response = self.client.post('/api/user/signup/', data=self.user, follow=True)
         self.assertEquals(response.status_code, 400)
-        response = self.client.post('/user/signup/', data=self.signup)
+        response = self.client.post('/api/user/signup/', data=self.signup)
         data = json.loads(response.content.decode('utf-8'))
         self.assertEquals(data['user_name'], 'testSignup')
         self.assertEquals(response.status_code, 201)
 
     def testGetUserInfo(self):
-        response = self.client.get('/user/info/')
+        response = self.client.get('/api/user/info/')
         self.assertEqual(response.status_code, 400)
         self.client.login(username='test@test.com', password= 'test')
-        response = self.client.get('/user/info/')
+        response = self.client.get('/api/user/info/')
         data = json.loads(response.content.decode('utf-8'))
         self.assertEqual(data['email'],'test@test.com')
         self.assertEqual(response.status_code, 200)
 
     def testGetUserByInterest(self):
-        response = self.client.get('/user/interest/1/')
+        response = self.client.get('/api/user/interest/1/')
         self.assertEqual(response.status_code, 400)
         self.client.login(username='test@test.com', password='test')
-        response = self.client.get('/user/interest/1/')
+        response = self.client.get('/api/user/interest/1/')
         self.assertEqual(response.status_code, 200)
-        response = self.client.get('/user/interest/1/', {'limit': 1})
+        response = self.client.get('/api/user/interest/1/', {'limit': 1})
         self.assertEqual(response.status_code, 200)
-        response = self.client.get('/user/interest/2/')
+        response = self.client.get('/api/user/interest/2/')
         self.assertEqual(response.status_code, 404)

@@ -38,40 +38,40 @@ class InterestTestCase(TestCase):
         self.assertEqual(interestTag.__str__(), 'tag')
 
     def testCreatInterest(self):
-        response = self.client.post('/interest/create/', json.dumps({'createUser': '1','name':'test','interestTags':'[5]'
+        response = self.client.post('/api/interest/create/', json.dumps({'createUser': '1','name':'test','interestTags':'[5]'
                                                         ,'detail':'asd','photoURL':''}),
                                content_type='application/json')
         self.assertEqual(response.status_code, 400)
         self.client.login(username='test@test.com', password='test')
-        response = self.client.post('/interest/create/', json.dumps({'createUser': 1, 'name': 'test1', 'interestTags': [5]
+        response = self.client.post('/api/interest/create/', json.dumps({'createUser': 1, 'name': 'test1', 'interestTags': [5]
                                                            , 'detail': 'asd', 'photoURL': ''}),
                                 content_type='application/json')
         self.assertIn('test1',response.content.decode())
-        response = self.client.post('/interest/create/', json.dumps({'createUser': 1, 'interestTags': [5]
+        response = self.client.post('/api/interest/create/', json.dumps({'createUser': 1, 'interestTags': [5]
                                                            , 'detail': 'asd', 'photoURL': ''}),
                                 content_type='application/json')
         self.assertEqual(response.status_code, 400)
-        response = self.client.post('/interest/create/', json.dumps({'createUser': 1, 'name': 'test2', 'interestTags': [5]
+        response = self.client.post('/api/interest/create/', json.dumps({'createUser': 1, 'name': 'test2', 'interestTags': [5]
                                                            , 'detail': 'asd', 'photoURL': 'http://image.chosun.com/sitedata/image/201804/25/2018042502074_0.jpg'}),
                                content_type='application/json')
         self.assertIn('test2', response.content.decode())
 
     def testGetInterestByUser(self):
 
-        response = self.client.get('/interest/user/')
+        response = self.client.get('/api/interest/user/')
         self.assertEqual(response.status_code, 400)
         self.client.login(username='test@test.com', password='test')
-        response = self.client.get('/interest/user/')
+        response = self.client.get('/api/interest/user/')
         self.assertIn('interest',response.content.decode())
 
     def testGetInteresetById(self):
 
-        response =self.client.get('/interest/1/')
+        response =self.client.get('/api/interest/1/')
         self.assertEqual(response.status_code, 400)
         self.client.login(username='test@test.com', password='test')
-        response = self.client.get('/interest/1/')
+        response = self.client.get('/api/interest/1/')
         self.assertEqual(response.status_code, 200)
-        response = self.client.get('/interest/2/', {'create': 'true'})
+        response = self.client.get('/api/interest/2/', {'create': 'true'})
         self.assertEqual(response.status_code, 400)
-        response = self.client.get('/interest/3/')
+        response = self.client.get('/api/interest/3/')
         self.assertEqual(response.status_code, 404)
