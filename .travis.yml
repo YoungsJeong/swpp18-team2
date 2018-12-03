@@ -1,24 +1,30 @@
-sudo: required
+#sudo: required
+#services:
+#    elasticsearch
+#before_script:
+#    - sleep 10
+#before_install:
+#    curl -O https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.4.1/elasticsearch-2.3.0.deb &&
+#    sudo dpkg -i --force-confnew elasticsearch-2.4.1.deb && sudo service elasticsearch restart
+#matrix:
+#    include:
+#      - language: node_js
+#        node_js:
+#          - "8"
+#        before_install:
+#          - cd Moisha-Front
+#        install:
+#          - npm install -g @angular/cli
+#          - npm install
+#        script:
+#          - npm test
 
-matrix:
-    include:
-      - language: node_js
-        node_js:
-          - "8"
-        before_install:
-          - cd Moisha-Front
-        install:
-          - npm install -g @angular/cli
-          - npm install
-        script:
-          - npm test
-
-      - language: python
-        python: 3.6
-        before_install:
-          - cd Moisha_Back
-        install:
-          - pip install -r requirements.txt
-        script:
-          - python manage.py test
+#      - language: python
+#        python: 3.6
+#        before_install:
+#          - cd Moisha_Back
+#        install:
+#          - pip install -r requirements.txt
+#        script:
+#          - python manage.py test
 
