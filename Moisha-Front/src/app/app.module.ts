@@ -32,7 +32,7 @@ import { tokenGetter } from './core/auth.service';
       config: {
         tokenGetter,
         authScheme: 'Token ',
-        whitelistedDomains: ['localhost:8000']
+        whitelistedDomains: ['localhost:8000','http://ec2-13-125-100-78.ap-northeast-2.compute.amazonaws.com/' ]
       }
     })
   ],

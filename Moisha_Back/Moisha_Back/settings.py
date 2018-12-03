@@ -25,7 +25,7 @@ SECRET_KEY = '58dzq(^nu7s8hv90-a)zfhdiiaua4!csn(s*ldx5@j@)bvfu)1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['api.moisha.ml', 'localhost']
+ALLOWED_HOSTS = ['api.moisha.ml', 'http://ec2-13-125-100-78.ap-northeast-2.compute.amazonaws.com/', 'localhost']
 
 
 # Application definition
@@ -84,8 +84,12 @@ WSGI_APPLICATION = 'Moisha_Back.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': 'moisha.cdo24monyjoa.ap-northeast-2.rds.amazonaws.com',
+        'PORT': '5432',
+        'NAME': 'deploy',
+        'USER': 'root',
+        'PASSWORD': 'as154712',
     }
 }
 
@@ -125,9 +129,19 @@ USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.1/howto/static-files/
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT_DIR = os.path.dirname(BASE_DIR)
 
+# static files
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    STATIC_DIR,
+]
+STATIC_ROOT = os.path.join(ROOT_DIR, 'static')
+
 AUTH_USER_MODEL = 'user.User'
 CORS_ORIGIN_ALLOW_ALL = True
 REST_FRAMEWORK = {

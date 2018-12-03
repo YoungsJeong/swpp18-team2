@@ -35,6 +35,7 @@ def signUp(request):
 @api_view(['GET'])
 def getUserInfo(request):
     user = request.user
+    print(request.readlines())
     if user.is_anonymous:
         return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
     return Response(data=UserDetailSerializer(user).data, status=status.HTTP_200_OK)
