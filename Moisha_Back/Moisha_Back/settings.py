@@ -84,6 +84,13 @@ WSGI_APPLICATION = 'Moisha_Back.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+'''
+DATABASES = {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'HOST': 'moisha.cdo24monyjoa.ap-northeast-2.rds.amazonaws.com',
         'PORT': '5432',
@@ -92,7 +99,7 @@ DATABASES = {
         'PASSWORD': 'as154712',
     }
 }
-
+'''
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -140,7 +147,7 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
-STATIC_ROOT = os.path.join(ROOT_DIR, 'static')
+STATIC_ROOT = os.path.join(ROOT_DIR, '.static_root')
 
 AUTH_USER_MODEL = 'user.User'
 CORS_ORIGIN_ALLOW_ALL = True
