@@ -53,6 +53,7 @@ def getCommentsByArticle(request, pk):
     article = Article.objects.filter(pk=pk)
     if article.count() == 0:
         return Response('Article does not exist', status=status.HTTP_400_BAD_REQUEST)
+    article = article[0]
     comments = article.comments.order_by('createdDate').all()
     return Response(data=CommentSerializer(comments, many = True).data, status=status.HTTP_200_OK)
 
