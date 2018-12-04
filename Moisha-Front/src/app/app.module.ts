@@ -12,6 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { JwtModule } from '@auth0/angular-jwt';
 import {AppRoutingModule} from './app-routing.module';
 import { tokenGetter } from './core/auth.service';
+import {SharedModule} from './shared/shared.module';
 
 @NgModule({
   declarations: [

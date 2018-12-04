@@ -1,6 +1,7 @@
 <div class="container col-4 control-pad">
   <button class="btn btn-success" routerLink="create">새 글 쓰기</button>
 </div>
+<div class="row">
   <div class="article-list col-4">
     <h6 class="feed-header">새로운 피드</h6>
   <app-feed-list
@@ -8,4 +9,11 @@
     (scroll)="fetchMoreFeed()"
   ></app-feed-list>
   </div>
-
+  <div class="interest-list col4">
+    <h6 class="interest-header">이런 관심사는 어떠세요?</h6>
+    <app-interest-suggest
+    [interests]="interests"
+    (scroll)="fetchMoreInterest()">
+    </app-interest-suggest>
+    </div>
+</div>

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'haystack',
+    'background_task',
     'user',
     'comment',
     'article',

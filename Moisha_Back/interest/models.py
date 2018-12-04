@@ -1,4 +1,6 @@
 from datetime import datetime
+
+from django.core.exceptions import ValidationError
 from django.db import models
 from article.tag import TagColor
 
@@ -20,5 +22,13 @@ class Interest(models.Model):
 
     def __str__(self):
         return self.name
+#Always id of first interest is greater than the second: To Avoid Duplicate
 
 
+class InterestJaccard(models.Model):
+    first = models.ForeignKey(Interest, on_delete = models.CASCADE,db_index = True, related_name="score")
+    second = models.ForeignKey(Interest, on_delete = models.CASCADE)
+    score = models.FloatField(default=0.0, db_index = True)
+
+    class Meta:
+        unique_together = ('first', 'second')

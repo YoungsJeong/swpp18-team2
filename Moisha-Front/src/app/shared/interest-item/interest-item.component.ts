@@ -2,11 +2,11 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Interest} from '../../core/interest.service';
 
 @Component({
-  selector: 'app-search-item',
-  templateUrl: './search-item.component.html',
-  styleUrls: ['./search-item.component.css']
+  selector: 'app-interest-item',
+  templateUrl: './interest-item.component.html',
+  styleUrls: ['./interest-item.component.css']
 })
-export class SearchItemComponent implements OnInit {
+export class InterestItemComponent implements OnInit {
   @Input() interest: Interest
   constructor() { }
 

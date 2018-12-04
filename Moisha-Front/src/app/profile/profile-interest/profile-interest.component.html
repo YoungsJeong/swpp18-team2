@@ -1,8 +1,8 @@
 <div class="view" *ngIf="interests?.length > 0 else noResults">
   <div *ngFor="let interest of interests">
-    <app-search-item
+    <app-interest-item
       [interest] = "interest">
-    </app-search-item>
+    </app-interest-item>
   </div>
 </div>
 

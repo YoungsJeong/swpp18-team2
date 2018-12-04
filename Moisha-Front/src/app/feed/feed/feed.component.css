@@ -3,9 +3,28 @@
   border: 2px solid #333333;
   border-radius: 20px;
 }
+.interest-list{
+  margin-left: 75%;
+  border: 2px solid #333333;
+  border-radius: 20px;
+  overflow-y: scroll;
+  max-height: 1000px;
+  position: fixed;
+}
+.interest-list::-webkit-scrollbar{
+  display: none;
+}
 .feed-header{
   font-size: 27px;
   text-align: center;
+}
+.interest-header{
+  font-size: 27px;
+  text-align: center;
+  border-bottom: 2px solid black;
+}
+.suggest{
+  margin-top:10%;
 }
 .control-pad{
   border: 2px solid #333333;
