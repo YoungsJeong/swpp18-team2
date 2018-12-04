@@ -16,7 +16,11 @@ export class InterestFeedComponent implements OnInit {
   ngOnInit() {
     this.getArticles()
   }
-
+  fetchMoreFeed() {
+    this.feedService.getArticleByInterest(this.interestID, this.articles.length, 10).subscribe( result => {
+      this.articles = this.articles.concat(result)
+    })
+  }
   getArticles() {
     this.articles = []
     this.articleTags = null;
@@ -24,6 +28,7 @@ export class InterestFeedComponent implements OnInit {
     this.feedService.getArticleByInterest(this.interestID).subscribe(
       (articles) => {
         this.articles = articles
+        /*
         const articleTagMap: Map<number, ArticleTag> = new Map<number, ArticleTag>()
         for (const article of articles) {
           for (const tag of article.tags) {
@@ -32,7 +37,7 @@ export class InterestFeedComponent implements OnInit {
             }
           }
         }
-        this.articleTags = articleTagMap.values()
+        this.articleTags = articleTagMap.values()*/
       }
     )
   }

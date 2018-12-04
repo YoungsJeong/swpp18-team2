@@ -29,6 +29,11 @@ const routes: Routes = [
     loadChildren: '../app/interest/interest.module#InterestModule',
     canLoad: [AuthGuard]
   },
+  {
+    path: 'profile',
+    loadChildren: '../app/profile/profile.module#ProfileModule',
+    canLoad: [AuthGuard]
+  },
   /*
   {
     path: '**',

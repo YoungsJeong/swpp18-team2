@@ -78,9 +78,10 @@ export class InterestDetailComponent implements OnInit {
   getArticles() {
     this.articles = []
     this.articleTags = null;
-    this.feedService.getArticleByInterest(this.interestID, 3).subscribe(
+    this.feedService.getArticleByInterest(this.interestID, null, 3).subscribe(
       (articles) => {
         this.articles = articles
+        /*
         const articleTagMap: Map<number, ArticleTag> = new Map<number, ArticleTag>()
         for (const article of articles) {
           for (const tag of article.tags) {
@@ -89,12 +90,12 @@ export class InterestDetailComponent implements OnInit {
             }
           }
         }
-        this.articleTags = articleTagMap.values()
+        this.articleTags = articleTagMap.values()*/
       }
     )
   }
   getUsers() {
-    this.userService.getUserByInterest(this.interestID, 3).subscribe((result) => {
+    this.userService.getUserByInterest(this.interestID, null, 3).subscribe((result) => {
       this.users = result
       console.log(result)
     })

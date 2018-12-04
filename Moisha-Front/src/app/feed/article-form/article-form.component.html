@@ -37,7 +37,7 @@
            placeholder="태그? ex) 공지, 잡담, QNA ..."
            formControlName="articleTag"
            [ngbTypeahead]="articleTagSearch"
-           [focusFirst] = "false"
+           [focusFirst] = "true"
            (selectItem) = "articleTagSelected($event)"
            [resultTemplate]="articleTagResult"
            [resultFormatter]="articleTagFormatter"

@@ -1,11 +1,14 @@
 <div class="view" *ngIf="articles?.length > 0 else noResults">
+  <div class="feedScroller"
+       infinite-scroll
+       (scrolled)="onScrollDown()">
     <div class="container" *ngFor="let article of articles">
       <app-article
         [article] = "article">
       </app-article>
     </div>
   </div>
-
+</div>
 <ng-template #noResults >
   <div id="noResults">
     <span class="badge badge-danger badge-no-feed">피드가 없습니다!</span>

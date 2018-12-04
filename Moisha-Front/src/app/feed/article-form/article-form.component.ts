@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Interest, InterestService, InterestTag} from '../../core/interest.service';
 import {AuthService} from '../../core/auth.service';
-import {NgbTypeaheadConfig} from '@ng-bootstrap/ng-bootstrap';
-import {Observable} from 'rxjs';
+import {NgbTypeahead, NgbTypeaheadConfig} from '@ng-bootstrap/ng-bootstrap';
+import {Observable, Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, switchMap} from 'rxjs/operators';
 import {InterestValidator} from '../../interest/interest-form/interest-validator';
 import {ArticleTag, FeedService} from '../../core/feed.service';
@@ -53,7 +53,7 @@ export class ArticleFormComponent implements OnInit {
     this.createForm();
     this.interestSearch = (text$: Observable<string>) =>
       text$.pipe(
-        filter((text: string) => text && text.length > 1),
+        filter((text: string) => text && text.length >= 0),
         debounceTime(10),
         distinctUntilChanged(),
         switchMap((text: string) => this.interestService.searchInterestByUser(text))
@@ -61,7 +61,7 @@ export class ArticleFormComponent implements OnInit {
     this.interestFormatter = ({ name }) => name;
     this.articleTagSearch = (text$: Observable<string>) =>
       text$.pipe(
-        filter((text: string) => text && text.length > 1),
+        filter((text: string) => text && text.length >= 0),
         debounceTime(10),
         distinctUntilChanged(),
         switchMap((text: string) => this.feedService.searchTag(text))

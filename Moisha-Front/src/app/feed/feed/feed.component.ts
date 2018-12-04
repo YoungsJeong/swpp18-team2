@@ -12,21 +12,26 @@ export class FeedComponent implements OnInit {
   articleTags
   //articleTags: Map<number, ArticleTag> = new Map<number, ArticleTag>()
   constructor(private feedService: FeedService) { }
-
+  fetchMoreFeed() {
+    this.feedService.getArticleByUser(this.articles.length, 10).subscribe( result => {
+      this.articles = this.articles.concat(result)
+    })
+  }
   ngOnInit() {
-    this.feedService.getArticleByUser(10).subscribe(
+    this.feedService.getArticleByUser(0, 10).subscribe(
       (articles) => {
         this.articles = articles
-        const articleTagMap: Map<number, ArticleTag> = new Map<number, ArticleTag>()
-        for (const article of articles) {
-          for (const tag of article.tags) {
-            if(!articleTagMap.has(tag.id)) {
-              articleTagMap.set(tag.id, tag)
-            }
+        /*
+      const articleTagMap: Map<number, ArticleTag> = new Map<number, ArticleTag>()
+      for (const article of articles) {
+        for (const tag of article.tags) {
+          if(!articleTagMap.has(tag.id)) {
+            articleTagMap.set(tag.id, tag)
           }
         }
-        this.articleTags = articleTagMap.values()
+
       }
-    )
+      this.articleTags = articleTagMap.values()*/
+      })
   }
 }

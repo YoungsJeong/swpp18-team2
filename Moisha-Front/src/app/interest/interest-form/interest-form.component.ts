@@ -35,7 +35,7 @@ export class InterestFormComponent implements OnInit {
     this.createForm();
     this.tagSearch = (text$: Observable<string>) =>
       text$.pipe(
-        filter((text: string) => text && text.length > 1),
+        filter((text: string) => text && text.length >= 0),
         debounceTime(10),
         distinctUntilChanged(),
         switchMap((text: string) => this.interestService.searchTag(text))

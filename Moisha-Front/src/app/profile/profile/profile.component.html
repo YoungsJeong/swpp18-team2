@@ -1,0 +1,20 @@
+<app-navbar [name]="auth?.user?.name" (search) = "searchInterest($event)"></app-navbar>
+<app-side-bar></app-side-bar>
+<section class="profile-app">
+  <div class="row">
+    <div class="col-sm-9">
+      <ngb-tabset>
+        <ngb-tab title="회원정보">
+          <ng-template ngbTabContent>
+            <app-profile-userinfo [user]="auth?.user"></app-profile-userinfo>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="관심사">
+          <ng-template ngbTabContent>
+            <app-profile-interest [interests]="interests"></app-profile-interest>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </div>
+</section>

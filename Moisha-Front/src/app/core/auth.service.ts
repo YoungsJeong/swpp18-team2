@@ -31,7 +31,6 @@ export class AuthService {
     private router: Router,
   ) {}
   user;
-  graduate;
   redirectUrl: string;
 
   get token() {

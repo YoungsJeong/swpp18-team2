@@ -1,7 +1,11 @@
 <div class="view" *ngIf="users?.length > 0">
+  <div class="userScroller"
+       infinite-scroll
+       (scrolled)="onScrollDown()">
   <div class="container" *ngFor="let user of users">
     <app-interest-people
       [user] = "user">
     </app-interest-people>
+  </div>
   </div>
 </div>

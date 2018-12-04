@@ -5,6 +5,7 @@
     <h6 class="feed-header">새로운 피드</h6>
   <app-feed-list
     [articles]="articles"
+    (scroll)="fetchMoreFeed()"
   ></app-feed-list>
   </div>
 

@@ -88,18 +88,17 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-'''
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'HOST': 'moisha.cdo24monyjoa.ap-northeast-2.rds.amazonaws.com',
-        'PORT': '5432',
-        'NAME': 'deploy',
-        'USER': 'root',
-        'PASSWORD': 'as154712',
-    }
-}
-'''
+
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'HOST': 'moisha.cdo24monyjoa.ap-northeast-2.rds.amazonaws.com',
+#        'PORT': '5432',
+#        'NAME': 'deploy',
+#        'USER': 'root',
+#        'PASSWORD': 'as154712',
+#    }
+#}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

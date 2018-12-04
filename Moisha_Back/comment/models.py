@@ -13,3 +13,4 @@ class Comment(models.Model):
     comment = models.ForeignKey('self', on_delete=models.CASCADE, related_name='replies', blank=True, null=True)
     content = models.TextField(max_length=1400)
     createdDate = models.DateTimeField(default=datetime.now)
+    deleted = models.BooleanField(default=False)

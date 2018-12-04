@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Article} from '../../core/feed.service';
 
 @Component({
@@ -8,9 +8,12 @@ import {Article} from '../../core/feed.service';
 })
 export class FeedListComponent implements OnInit {
   @Input() articles: Article[]
+  @Output() scroll =  new EventEmitter()
   constructor() { }
 
   ngOnInit() {
   }
-
+  onScrollDown(){
+    this.scroll.emit()
+  }
 }

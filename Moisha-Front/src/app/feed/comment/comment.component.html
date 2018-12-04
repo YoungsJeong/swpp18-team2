@@ -4,7 +4,7 @@
   </div>
   <div class="card-body comment-content">
     {{comment.content}}
-    <div *ngIf ="user.id == comment.author.id" class="buttons">
+    <div *ngIf ="user.id == comment.author.id && !comment.deleted" class="buttons">
       <button (click)="editReply(comment)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
       <button (click)="deleteReply(comment)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
     </div>
@@ -22,7 +22,7 @@
   </div>
   <div class="card-body reply-content">
     {{reply.content}}
-    <div *ngIf ="user.id == reply.author.id" class="buttons">
+    <div *ngIf ="user.id == reply.author.id && !comment.deleted" class="buttons">
     <button (click)="editReply(reply)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
     <button (click)="deleteReply(reply)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
     </div>

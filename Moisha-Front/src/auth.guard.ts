@@ -35,6 +35,18 @@ export class AuthGuard implements CanLoad {
       }
       this.auth.redirectUrl = url;
       this.router.navigate(['intro']);
+    } else if (new RegExp('^profile').test(url)) {
+      if (url === 'profile') {
+        if (isLoggedIn) {
+          return true;
+        }
+      } else if (url === 'profile/detail'){
+        if (isLoggedIn) {
+          return true;
+        }
+      }
+      this.auth.redirectUrl = url;
+      this.router.navigate(['intro']);
     } else {
       console.error('unhandled url: ', url);
       return true;

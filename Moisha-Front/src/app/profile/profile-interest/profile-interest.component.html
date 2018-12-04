@@ -1,0 +1,13 @@
+<div class="view" *ngIf="interests?.length > 0 else noResults">
+  <div *ngFor="let interest of interests">
+    <app-search-item
+      [interest] = "interest">
+    </app-search-item>
+  </div>
+</div>
+
+<ng-template #noResults >
+  <div id="noResults">
+    <h1>가입중인 관심사가 없습니다!</h1>
+  </div>
+</ng-template>

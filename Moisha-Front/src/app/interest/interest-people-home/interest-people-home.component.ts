@@ -21,8 +21,13 @@ export class InterestPeopleHomeComponent implements OnInit {
     this.interestID = +this.route.snapshot.paramMap.get('id')
     this.getUsers()
   }
+  fetchMorePeople() {
+    this.userService.getUserByInterest(this.interestID, this.users.length, 10).subscribe( result => {
+      this.users = this.users.concat(result)
+    })
+  }
   getUsers() {
-    this.userService.getUserByInterest(this.interestID, 3).subscribe((result) => {
+    this.userService.getUserByInterest(this.interestID, 0, 10).subscribe((result) => {
       this.users = result
       console.log(result)
     })

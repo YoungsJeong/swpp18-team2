@@ -12,6 +12,7 @@ import {
 import {NavbarComponent} from './navbar/navbar.component';
 import {RouterModule} from '@angular/router';
 import {SideBarComponent} from './side-bar/side-bar.component';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import {SideBarComponent} from './side-bar/side-bar.component';
     NgbModule,
     NgbTypeaheadModule,
     NgbDropdownModule,
-    NgbModalModule
+    NgbModalModule,
+    InfiniteScrollModule
   ],
   declarations: [LoadingComponent, NavbarComponent, SideBarComponent],
   exports: [
@@ -35,7 +37,8 @@ import {SideBarComponent} from './side-bar/side-bar.component';
     NgbDropdownModule,
     NgbModalModule,
     NavbarComponent,
-    SideBarComponent
+    SideBarComponent,
+    InfiniteScrollModule
   ]
 })
 export class SharedModule {}

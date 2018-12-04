@@ -42,6 +42,7 @@ def editComment(request, pk):
                 comment.delete()
             else:
                 comment.content = '삭제된 댓글 입니다.'
+                comment.deleted = True
                 comment.save()
         return Response(status = status.HTTP_200_OK)
     return Response('Only writer can edit/delete comments', status=status.HTTP_400_BAD_REQUEST)

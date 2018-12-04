@@ -40,15 +40,17 @@ export class FeedService {
     }).pipe(tap((result) => console.log(result)));
   }
   constructor(private http: HttpClient) { }
-  getArticleByUser(limit?: number) {
-    let params;
+  getArticleByUser(page?: number, limit?: number) {
+    let params = new HttpParams()
+    if(page)
+      params = params.append('page', page.toString());
     if(limit)
-      params = new HttpParams().set('limit', limit.toString());
+      params = params.append('limit', limit.toString());
     return this.http.get<Article[]>('/article/', {
       params
     });
   }
-  getArticleByInterest(id: number, limit?: number) {
+  getArticleByInterest(id: number,page?:number, limit?: number) {
      let params;
       if(limit)
         params = new HttpParams().set('limit', limit.toString());

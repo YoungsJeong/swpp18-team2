@@ -2,5 +2,6 @@
   <button class="btn btn-success" routerLink="create">새 글 쓰기</button>
   <app-feed-list
     [articles]="articles"
+    (scroll)="fetchMoreFeed()"
   ></app-feed-list>
 </div>

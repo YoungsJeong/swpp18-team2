@@ -35,9 +35,9 @@ def searchArticleTag(request):
     q = request.GET.get('q', '')
     if q is '':
         return Response(data=[], status=status.HTTP_200_OK)
-    sqs = SearchQuerySet().models(ArticleTag).filter(name__contains=q)
-    if sqs.count() ==0:
-    #if len(sqs) == 0:
+    else:
+        sqs = SearchQuerySet().models(ArticleTag).filter(name__contains=q)
+    if sqs.count() == 0:
         sqs = SearchQuerySet().models(ArticleTag).autocomplete(autocomplete_search=q)
     serializer_list = []
     for sqs_element in sqs:
