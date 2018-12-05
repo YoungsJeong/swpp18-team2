@@ -22,6 +22,8 @@ export class InterestCreateComponent implements OnInit {
     payload.createUser = this.auth.user.id
     this.interestService.createInterest(payload).subscribe((interest) =>{
       console.log('created :' + interest)
+      this.auth.user.interests.push(interest)
+      this.router.navigate(['interest/' + interest.id])
     })
   }
 }

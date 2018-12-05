@@ -8,6 +8,7 @@ import {Interest, InterestService} from '../../core/interest.service';
 })
 export class InterestListComponent implements OnInit {
   @Input() interests: Interest[]
+  @Input() show:number
   @Output() scroll =  new EventEmitter()
   constructor() { }
 

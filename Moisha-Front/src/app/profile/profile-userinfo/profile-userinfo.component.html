@@ -1,43 +1,79 @@
 <div class="container">
   <h5><mark>회원정보</mark></h5>
-  <form>
+  <form class="form-user-info" [formGroup]="infoForm" (submit)="submitInfo()">
     <div class="form-group row">
       <label for="inputEmail" class="col-sm-2 col-form-label">이메일(id)</label>
       <div class="col-sm-5">
-        <input type="email" class="form-control" id="inputEmail" [value]="user?.email">
+        <input type="email" class="form-control" id="inputEmail" formControlName="email"
+               [value]="user?.email" [class.is-valid]="formEmail?.valid && !duplicateEmail"
+               [class.is-invalid]="(formEmail?.dirty && formEmail?.invalid) || duplicateEmail">
       </div>
-      <button class="btn btn-danger">중복 확인</button>
+      <button type="checkDuplicate" class="btn btn-danger" (click)="checkEmail()">중복 확인</button>
+      <span class="alert alert-danger" *ngIf="formEmail?.dirty && formEmail?.errors?.email">
+        이메일 형식에 맞춰주세요
+      </span>
+      <span class="alert alert-danger" *ngIf="formEmail?.dirty && formEmail?.errors?.required">
+        이메일을 입력해주세요
+      </span>
+      <span class="alert alert-danger" *ngIf="duplicateEmail">
+        중복 확인이 필요합니다.
+      </span>
     </div>
     <div class="form-group row">
       <label for="inputPassword" class="col-sm-2 col-form-label">비밀번호</label>
       <div class="col-sm-5">
-        <input type="password" class="form-control" id="inputPassword" [value]="">
+        <input type="password" class="form-control" id="inputPassword" [value]="" formControlName="password"
+               [class.is-valid]="formPassword?.valid && !infoForm?.errors?.passwordMismatch"
+               [class.is-invalid]="formPassword?.dirty && (formPassword?.invalid || infoForm?.errors?.passwordMismatch)">
+      </div>
+      <div class="alert alert-danger" *ngIf="formPassword?.dirty && formPassword?.errors?.required">
+        패스워드를 입력해주세요
+      </div>
+      <div class="alert alert-danger" *ngIf="formPassword?.dirty && formPassword?.errors?.invalidPassword">
+        패스워드는 8자 이상이며 알파벳 소문자, 대문자, 숫자를 포함해야 합니다
       </div>
     </div>
     <div class="form-group row">
       <label for="inputPassword" class="col-sm-2 col-form-label">비밀번호 확인</label>
       <div class="col-sm-5">
-        <input type="password" class="form-control" id="inputPasswordConfirm" [value]="">
+        <input type="password" class="form-control" id="inputPasswordConfirm" [value]=""
+               formControlName="confirmPassword" [class.is-valid]="formConfirmPassword?.valid && !infoForm?.errors?.passwordMismatch"
+               [class.is-invalid]="formConfirmPassword?.dirty && (formConfirmPassword?.invalid && infoForm?.errors?.passwordMismatch)">
+      </div>
+      <div class="alert alert-danger" *ngIf="infoForm?.errors?.passwordMismatch">
+        패스워드가 일치하지 않습니다
       </div>
     </div>
     <div class="form-group row">
       <label for="inputName" class="col-sm-2 col-form-label">이름</label>
       <div class="col-sm-5">
-        <input type="text" class="form-control" id="inputName" [value]="user?.name">
+        <input type="text" class="form-control" id="inputName" readonly="true" [value]="user?.name">
       </div>
     </div>
     <div class="form-group row">
       <label for="inputName" class="col-sm-2 col-form-label">닉네임</label>
       <div class="col-sm-5">
-        <input type="text" class="form-control" id="inputNickName" [value]="user?.nickName">
+        <input type="text" class="form-control" id="inputNickName" [value]="user?.nickName"
+               [class.is-valid]="formStudentId?.valid && !duplicateNickName"
+               [class.is-invalid]="(formStudentId?.dirty && formStudentId?.invalid) || duplicateNickName">
       </div>
-      <button class="btn btn-danger">중복 확인</button>
+      <button class="btn btn-danger" (click)="checkNickName()">중복 확인</button>
+      <span class="alert alert-danger" *ngIf="duplicateNickName">
+        중복 확인이 필요합니다.
+      </span>
     </div>
     <div class="form-group row">
       <label for="inputID" class="col-sm-2 col-form-label">학번</label>
       <div class="col-sm-5">
-        <input type="text" class="form-control" id="inputID" readonly="true" [value]="user?.studentId">
+        <input type="text" class="form-control" id="inputID" [value]="user?.studentId"
+        formControlName="studentId"
+        [class.is-valid]="formStudentId?.valid && !duplicateStudentId"
+        [class.is-invalid]="(formStudentId?.dirty && formStudentId?.invalid) || duplicateStudentId">
       </div>
+      <button class="btn btn-danger" (click)="checkStudentId()">중복 확인</button>
+      <span class="alert alert-danger" *ngIf="duplicateStudentId">
+        중복 확인이 필요합니다.
+      </span>
     </div>
     <div class="form-group row">
       <label for="inputMajor1" class="col-sm-2 col-form-label">주전공</label>
@@ -47,10 +83,12 @@
     </div>
     <br><br>
     <div class="form-group row">
-      <div class="col-sm-10">
-        <button type="submit" class="btn btn-primary">변경</button>
-      </div>
+      <button [disabled]="infoForm?.invalid" type="submit" class="btn btn-primary">
+        <ng-container *ngIf="!pending else loading ">변경</ng-container>
+      </button>
     </div>
   </form>
 </div>
-<br><br><br>
+<ng-template #loading>
+  <app-loading></app-loading>
+</ng-template>

@@ -31,6 +31,35 @@ def signUp(request):
         return Response(data={'token': token.key, 'user_name': user.name}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['PUT'])
+def modifyUserInfo(request):
+    user = request.user
+    if user.is_anonymous:
+        return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
+    data = request.data
+    user.name = data['name']
+    user.nickName = data['nickName']
+    user.email = data['email']
+    user.save()
+    return Response(status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def checkDuplicate(request):
+    email = request.GET.get('email', '')
+    if email != '':
+        user = User.objects.filter(email=email)
+        return Response(data={'isDuplicate': user.count() >0}, status=status.HTTP_200_OK)
+    nickName = request.GET.get('nickName', '')
+    if nickName != '':
+        user = User.objects.filter(nickName=nickName)
+        return Response(data={'isDuplicate': user.count() >0}, status=status.HTTP_200_OK)
+    studentId = request.GET.get('studentId', 0)
+    studentId = int(studentId)
+    if studentId != 0:
+        user = User.objects.filter(studentId=studentId)
+        return Response(data={'isDuplicate': user.count() > 0}, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['GET'])
 def getUserInfo(request):
     user = request.user

@@ -8,7 +8,7 @@ import { ProfileInterestComponent } from './profile-interest/profile-interest.co
 import {SearchModule} from '../search/search.module';
 
 @NgModule({
-  imports: [SharedModule, ProfileRoutingModule, SearchModule],
+  imports: [SharedModule, ProfileRoutingModule],
   declarations: [ProfileUserinfoComponent, ProfileComponent, ProfileInterestComponent]
 })
 export class ProfileModule { }

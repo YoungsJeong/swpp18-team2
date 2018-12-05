@@ -51,10 +51,12 @@ export class FeedService {
     });
   }
   getArticleByInterest(id: number,page?:number, limit?: number) {
-     let params;
-      if(limit)
-        params = new HttpParams().set('limit', limit.toString());
-      return this.http.get<Article[]>('/article/interest/' + id + '/', {
+    let params = new HttpParams()
+    if(page)
+      params = params.append('page', page.toString());
+    if(limit)
+      params = params.append('limit', limit.toString());
+    return this.http.get<Article[]>('/article/interest/' + id + '/', {
       params
     });
   }
