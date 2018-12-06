@@ -8,7 +8,7 @@ import {Component, Input} from '@angular/core';
 class MockInterestPeopleComponent {
   @Input() user
 }
-const mockUser = [{id: '1', name: 'test'}]
+const mockUser = {id: '1', name: 'test'}
 
 describe('InterestPeopleListComponent', () => {
   let component: InterestPeopleListComponent;

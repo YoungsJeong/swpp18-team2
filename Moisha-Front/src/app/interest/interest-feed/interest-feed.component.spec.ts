@@ -6,6 +6,8 @@ import {Article, ArticleTag, ArticleType, FeedService, TagColor} from '../../cor
 import {RouterTestingModule} from '@angular/router/testing';
 import {of} from 'rxjs';
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
+import {Interest, InterestTag} from '../../core/interest.service';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 
 @Component({selector: 'app-filter', template: ''})
@@ -17,10 +19,14 @@ class MockFilterComponent {
 class MockFeedListComponent {
   @Input() articles: Article[]
 }
+@Component({selector: 'app-interest-list', template: ''})
+class MockInterestListComponent {
+  @Input() interests: Interest[]
+}
 
 const mockColor: TagColor = {id: 1, name: 'color', rgb: '#ffffff'}
 const mockTag: ArticleTag[] = [
-  {id: 1, name: 'testTag', color: mockColor},
+  {id: 1, name: 'testTag', color: mockColor}
 ]
 const mockType: ArticleType = {id: 1, name: 'testType'}
 const mockArticle: Article[] = [
@@ -39,7 +45,7 @@ describe('InterestFeedComponent', () => {
     const feedSpy = jasmine.createSpyObj('FeedService', ['getArticleByInterest'])
 
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, HttpClientTestingModule],
       providers: [{provide: FeedService, useValue: feedSpy},
         {
           provide: ActivatedRoute,
@@ -52,7 +58,7 @@ describe('InterestFeedComponent', () => {
           }
         }
       ],
-      declarations: [ InterestFeedComponent, MockFilterComponent, MockFeedListComponent  ]
+      declarations: [ InterestFeedComponent, MockFilterComponent, MockFeedListComponent, MockInterestListComponent  ]
     })
     .compileComponents();
   }));

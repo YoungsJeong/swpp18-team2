@@ -37,9 +37,13 @@ def modifyUserInfo(request):
     if user.is_anonymous:
         return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
     data = request.data
-    user.name = data['name']
-    user.nickName = data['nickName']
-    user.email = data['email']
+    valid = user.check_password(data['password'])
+    if not valid:
+        return Response('Invalid Password', status=status.HTTP_400_BAD_REQUEST)
+    if user.nickName != data['nickName']:
+        user.nickName = data['nickName']
+    if user.email != data['email']:
+        user.email = data['email']
     user.save()
     return Response(status=status.HTTP_200_OK)
 

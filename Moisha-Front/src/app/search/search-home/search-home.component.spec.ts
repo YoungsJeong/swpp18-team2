@@ -18,8 +18,8 @@ class MockNavbarComponent {
 @Component({selector: 'app-side-bar', template: ''})
 class MockSidebarComponent {
 }
-@Component({selector: 'app-search-list', template: ''})
-class MockSearchListComponent {
+@Component({selector: 'app-interest-list', template: ''})
+class MockInterestListComponent {
   @Input() interests: Interest[]
 }
 const mockColor: TagColor = {
@@ -44,7 +44,7 @@ describe('SearchHomeComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [ SearchHomeComponent, MockNavbarComponent, MockSidebarComponent, MockSearchListComponent ],
+      declarations: [ SearchHomeComponent, MockNavbarComponent, MockSidebarComponent, MockInterestListComponent],
       providers: [{provide: AuthService, useValue: authSpy},
         {provide: InterestService, useValue: interestSpy},
         {

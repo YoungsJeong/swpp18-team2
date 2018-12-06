@@ -58,6 +58,24 @@ def getInterestRecommendation(request):
         if recommendItem.second not in interests:
             interests.add(recommendItem.second)
     return Response(data=InterestSerializer(interests, many=True).data, status=status.HTTP_200_OK)
+@api_view(['GET'])
+def getInterestRecommendationByInterest(request, pk):
+    user = request.user
+    if user.is_anonymous:
+        return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
+    interests = user.interests.all()
+    interest = Interest.objects.filter(pk=pk)
+    if interest.count == 0:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    interest = interest[0]
+    recommend = InterestJaccard.objects.filter(first=interest).exclude(second__in=interests).order_by('-score').all()
+    print(recommend)
+    interests = set([])
+    for recommendItem in recommend:
+        if recommendItem.second not in interests:
+            interests.add(recommendItem.second)
+    return Response(data=InterestSerializer(interests, many=True).data, status=status.HTTP_200_OK)
+
 @api_view(['POST'])
 def createInterest(request):
     user = request.user

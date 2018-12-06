@@ -8,6 +8,7 @@ import {Interest, InterestService} from '../../core/interest.service';
   templateUrl: './search-home.component.html',
   styleUrls: ['./search-home.component.css']
 })
+
 export class SearchHomeComponent implements OnInit {
   searchResult: Interest[]
   constructor(public auth: AuthService, private router: Router, private route: ActivatedRoute, private interestService: InterestService) { }

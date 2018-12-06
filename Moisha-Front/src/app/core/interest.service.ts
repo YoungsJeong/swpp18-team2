@@ -49,6 +49,9 @@ export class InterestService {
   getUserInterests(): Observable<Interest[]> {
     return this.http.get<Interest[]>('/interest/user').pipe(tap((result) => console.log(result)))
   }
+  getInterestRecommendationById(interestId: number): Observable<Interest[]> {
+    return this.http.get<Interest[]>('/interest/recommend/' + interestId + '/').pipe(tap((result) => console.log(result)))
+  }
   getInterestRecommendation(): Observable<Interest[]> {
     return this.http.get<Interest[]>('/interest/recommend/').pipe(tap((result) => console.log(result)))
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../../core/auth.service';
 import {Router} from '@angular/router';
-import {InterestService} from '../../core/interest.service';
+import {Interest, InterestService} from '../../core/interest.service';
 
 @Component({
   selector: 'app-interest-create',
@@ -20,7 +20,7 @@ export class InterestCreateComponent implements OnInit {
   }
   createInterest(payload) {
     payload.createUser = this.auth.user.id
-    this.interestService.createInterest(payload).subscribe((interest) =>{
+    this.interestService.createInterest(payload).subscribe((interest: Interest) => {
       console.log('created :' + interest)
       this.auth.user.interests.push(interest)
       this.router.navigate(['interest/' + interest.id])

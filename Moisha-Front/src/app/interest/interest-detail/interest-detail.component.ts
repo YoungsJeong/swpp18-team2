@@ -19,10 +19,11 @@ export class InterestDetailComponent implements OnInit {
   articleTags = null;
   interest: Interest
   interestID: number;
-  isMember= false
+  isMember = false
   buttonMessage: string
   ngOnInit() {
     this.interestID = +this.route.snapshot.paramMap.get('id')
+    alert(this.interestID)
     this.setJoinButton()
     this.getInterest()
     this.getArticles()
@@ -78,7 +79,7 @@ export class InterestDetailComponent implements OnInit {
   getArticles() {
     this.articles = []
     this.articleTags = null;
-    this.feedService.getArticleByInterest(this.interestID, null, 3).subscribe(
+    this.feedService.getArticleByInterest(this.interestID, undefined, 3).subscribe(
       (articles) => {
         this.articles = articles
         /*
@@ -95,7 +96,7 @@ export class InterestDetailComponent implements OnInit {
     )
   }
   getUsers() {
-    this.userService.getUserByInterest(this.interestID, null, 3).subscribe((result) => {
+    this.userService.getUserByInterest(this.interestID, undefined, 3).subscribe((result) => {
       this.users = result
       console.log(result)
     })

@@ -1,3 +1,4 @@
+<script src="../../core/auth.service.ts"></script>
 <div class="container">
   <h5><mark>회원정보</mark></h5>
   <form class="form-user-info" [formGroup]="infoForm" (submit)="submitInfo()">
@@ -5,8 +6,9 @@
       <label for="inputEmail" class="col-sm-2 col-form-label">이메일(id)</label>
       <div class="col-sm-5">
         <input type="email" class="form-control" id="inputEmail" formControlName="email"
-               [value]="user?.email" [class.is-valid]="formEmail?.valid && !duplicateEmail"
-               [class.is-invalid]="(formEmail?.dirty && formEmail?.invalid) || duplicateEmail">
+               [value]="user?.email" [class.is-valid]="(lastCheckedEmail === formEmail.value)&&!duplicateEmail|| formEmail.value === user.email"
+               [class.is-invalid]="formEmail.value !== user.email && ((lastCheckedEmail !== formEmail.value) ||
+               lastCheckedEmail=== formEmail.value&&duplicateEmail)">
       </div>
       <button type="checkDuplicate" class="btn btn-danger" (click)="checkEmail()">중복 확인</button>
       <span class="alert alert-danger" *ngIf="formEmail?.dirty && formEmail?.errors?.email">
@@ -15,8 +17,11 @@
       <span class="alert alert-danger" *ngIf="formEmail?.dirty && formEmail?.errors?.required">
         이메일을 입력해주세요
       </span>
-      <span class="alert alert-danger" *ngIf="duplicateEmail">
+      <span class="alert alert-danger" *ngIf="formEmail.value !== user.email && (formEmail.value !== lastCheckedEmail)">
         중복 확인이 필요합니다.
+      </span>
+      <span class="alert alert-danger" *ngIf="formEmail.value !== user.email && ((formEmail.value === lastCheckedEmail) && duplicateEmail)">
+        이미 이메일이 존재합니다.
       </span>
     </div>
     <div class="form-group row">
@@ -47,41 +52,43 @@
     <div class="form-group row">
       <label for="inputName" class="col-sm-2 col-form-label">이름</label>
       <div class="col-sm-5">
-        <input type="text" class="form-control" id="inputName" readonly="true" [value]="user?.name">
+        <input type="text" class="form-control" id="inputName" readonly="true" [value]="user?.name" [class.is-valid]="true">
       </div>
     </div>
     <div class="form-group row">
       <label for="inputName" class="col-sm-2 col-form-label">닉네임</label>
       <div class="col-sm-5">
-        <input type="text" class="form-control" id="inputNickName" [value]="user?.nickName"
-               [class.is-valid]="formStudentId?.valid && !duplicateNickName"
-               [class.is-invalid]="(formStudentId?.dirty && formStudentId?.invalid) || duplicateNickName">
+        <input type="text" class="form-control" id="inputNickName" [value]="user?.nickName" formControlName="nickName"
+               [class.is-valid]="(lastCheckedNickName === formNickName.value)&&!duplicateNickName || formNickName.value === user.nickName"
+               [class.is-invalid]="formNickName.value !== user.nickName && ((lastCheckedNickName !== formNickName.value) ||
+               lastCheckedNickName === formNickName.value&&duplicateNickName)">
       </div>
       <button class="btn btn-danger" (click)="checkNickName()">중복 확인</button>
-      <span class="alert alert-danger" *ngIf="duplicateNickName">
+     <span class="alert alert-danger" *ngIf="formNickName.value !== user.nickName && (formNickName.value !== lastCheckedNickName)">
         중복 확인이 필요합니다.
+      </span>
+      <span class="alert alert-danger" *ngIf="formNickName.value !== user.nickName && ((formNickName.value === lastCheckedNickName) && duplicateNickName)">
+        이미 닉네임이 존재합니다.
       </span>
     </div>
     <div class="form-group row">
       <label for="inputID" class="col-sm-2 col-form-label">학번</label>
       <div class="col-sm-5">
         <input type="text" class="form-control" id="inputID" [value]="user?.studentId"
-        formControlName="studentId"
-        [class.is-valid]="formStudentId?.valid && !duplicateStudentId"
-        [class.is-invalid]="(formStudentId?.dirty && formStudentId?.invalid) || duplicateStudentId">
+        readonly="true"
+        [class.is-valid]="true">
       </div>
-      <button class="btn btn-danger" (click)="checkStudentId()">중복 확인</button>
-      <span class="alert alert-danger" *ngIf="duplicateStudentId">
-        중복 확인이 필요합니다.
-      </span>
     </div>
     <div class="form-group row">
       <label for="inputMajor1" class="col-sm-2 col-form-label">주전공</label>
       <div class="col-sm-5">
-        <input type="text" class="form-control" id="inputMajor1" readonly="true" [value]="user?.major.name">
+        <input type="text" class="form-control" id="inputMajor1" readonly="true" [value]="user?.major.name" [class.is-valid]="true">
       </div>
     </div>
     <br><br>
+    <div *ngIf="error" class="alert alert-danger">
+      잘못된 비밀번호 입니다.
+    </div>
     <div class="form-group row">
       <button [disabled]="infoForm?.invalid" type="submit" class="btn btn-primary">
         <ng-container *ngIf="!pending else loading ">변경</ng-container>

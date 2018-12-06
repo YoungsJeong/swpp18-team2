@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {AuthService} from '../../core/auth.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserInfoValidator} from './user-info-valitor';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-profile-userinfo',
@@ -12,15 +13,17 @@ export class ProfileUserinfoComponent implements OnInit {
   @Input() user
   infoForm: FormGroup;
   constructor(public auth: AuthService,
-  private fb: FormBuilder) { }
-  duplicateEmail = false
-  duplicateNickName = false
-  duplicateStudentId = false
-  error: false
+  private fb: FormBuilder, private router: Router) { }
+  duplicateEmail = true
+  duplicateNickName = true
+  lastCheckedNickName: string
+  lastCheckedEmail: string
+  error: any
+  pending = false
   ngOnInit() {
     this.createForm();
-    if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
-      this.auth.getUser().subscribe(console.log);
+    this.lastCheckedEmail = this.user.email
+    this.lastCheckedNickName = this.user.nickName
   }
   createForm() {
     this.infoForm = this.fb.group(
@@ -29,15 +32,7 @@ export class ProfileUserinfoComponent implements OnInit {
           '',
           Validators.compose([Validators.email, Validators.required])
         ],
-        name: ['', Validators.required],
         nickName: ['', Validators.required],
-        studentId: [
-          '',
-          Validators.compose([
-            Validators.required,
-            UserInfoValidator.validateStudentId
-          ])
-        ],
         password: [
           '',
           Validators.compose([
@@ -52,6 +47,8 @@ export class ProfileUserinfoComponent implements OnInit {
         updateOn: 'change'
       }
     );
+    this.formEmail.setValue(this.user.email)
+    this.formNickName.setValue(this.user.nickName)
   }
   get formNickName() {
     return this.infoForm.get('nickName')
@@ -65,23 +62,49 @@ export class ProfileUserinfoComponent implements OnInit {
   get formConfirmPassword() {
     return this.infoForm.get('confirmPassword')
   }
-  get formStudentId() {
-    return this.infoForm.get('studentId')
-  }
   submitInfo() {
+    this.pending = true
+    this.error = false
+    const payload = {
+      nickName: this.formNickName.value,
+      email: this.formEmail.value,
+      password: this.formPassword.value
+    }
+    this.auth.modifyInfo(payload).subscribe({
+      complete: () => {
+        this.pending = false
+        this.auth.getUser().subscribe()
+        this.router.navigate(['/'])
+      },
+      error: () => {
+        this.pending = false
+        this.error = true
+      }
+    });
+  }
 
-  }
-  checkStudentId() {
-    event.preventDefault()
-    this.duplicateStudentId = !this.duplicateStudentId
-  }
   checkNickName(){
     event.preventDefault()
-    this.duplicateNickName = !this.duplicateNickName
+    const nickName = this.formNickName.value
+    if(nickName !== this.user.nickName) {
+      this.auth.checkDuplicate(nickName).subscribe(
+        (result) => {
+          this.duplicateNickName = result.isDuplicate
+          this.lastCheckedNickName = nickName
+        }
+      )
+    }
   }
   checkEmail() {
     event.preventDefault()
-    this.duplicateEmail = !this.duplicateEmail
-    alert(this.infoForm.invalid)
+    const email = this.formEmail.value
+    if(email !== this.user.email) {
+      this.auth.checkDuplicate(undefined, email).subscribe(
+        (result) => {
+          this.duplicateEmail = result.isDuplicate
+          this.lastCheckedEmail = email
+        }
+      )
+    }
   }
 }

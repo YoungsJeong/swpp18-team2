@@ -1,7 +1,7 @@
 <div class="interestScroller"
      infinite-scroll
-     (scrolled)="onScrollDown()">
-  <div class="container" *ngFor="let interest of interests | slice:0:show+1">
+     (scrolled)="showMoreInterests()">
+  <div class="container" *ngFor="let interest of interests | slice:0:numberToShow+1">
     <app-interest-item
       [interest] = "interest">
     </app-interest-item>

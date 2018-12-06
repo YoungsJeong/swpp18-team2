@@ -42,11 +42,11 @@ const mockReply: Reply[] = [
 ]
 const mockComment = [
   {id: 1, replies: mockReply, content: 'testContent', createdDate: 'now', author: mockAuthor,
-    article: 'testArticle'}
+    article: 'testArticle', deleted: false}
 ]
 const mockComment2 = [
   {id: 1, replies: mockReply, content: 'testContent', createdDate: 'now', author: mockAuthor,
-    article: 'testArticle', comment: 1}
+    article: 'testArticle', comment: 1, deleted: false}
 ]
 const mockColor: TagColor = {id: 1, name: 'color', rgb: '#ffffff'}
 const mockTag: ArticleTag[] = [

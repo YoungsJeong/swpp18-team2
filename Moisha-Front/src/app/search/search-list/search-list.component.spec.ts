@@ -16,9 +16,10 @@ const mockInterest: Interest[] = [
   {id: 1, name: 'interest1', createUser: 'user1', createdDate: 'now', photoURL: 'test', tags: mockInterestTags}
 ]
 
-@Component({selector: 'app-search-item', template: ''})
-class MockSearchLItemComponent {
+@Component({selector: 'app-interest-item', template: ''})
+class MockInterestItemComponent {
   @Input() interest: Interest
+  constructor() { }
 }
 
 describe('SearchListComponent', () => {
@@ -27,7 +28,7 @@ describe('SearchListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SearchListComponent, MockSearchLItemComponent ]
+      declarations: [ SearchListComponent, MockInterestItemComponent]
     })
     .compileComponents();
   }));

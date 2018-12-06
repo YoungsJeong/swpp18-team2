@@ -10,7 +10,7 @@ import {Observable, of} from 'rxjs';
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 
-const mockUser = [{id: '1', name: 'test'}]
+const mockUser = {id: '1', name: 'test'}
 
 class MockAuthService extends AuthService {
   user

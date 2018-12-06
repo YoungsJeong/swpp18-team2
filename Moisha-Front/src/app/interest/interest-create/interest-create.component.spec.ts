@@ -14,7 +14,6 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 class MockInterestFormComponent {
   @Output() confirm = new EventEmitter();
 }
-const mockUser = [{id: '1', name: 'test'}]
 class MockAuthService extends AuthService {
   user
   getUser() {
@@ -30,7 +29,7 @@ const mockInterestTags: InterestTag[] = [
 const mockInterest: Interest[] = [
   {id: 1, name: 'interest1', createUser: 'user1', createdDate: 'now', photoURL: 'test', tags: mockInterestTags}
 ]
-
+const mockUser = {id: '1', name: 'test', interests: mockInterest}
 describe('InterestCreateComponent', () => {
   let component: InterestCreateComponent;
   let fixture: ComponentFixture<InterestCreateComponent>;

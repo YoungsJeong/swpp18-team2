@@ -18,7 +18,8 @@ import { InterestPeopleHomeComponent } from './interest-people-home/interest-peo
   imports: [
     SharedModule, InterestRoutingModule, FeedModule],
   declarations: [InterestFormComponent, InterestCreateComponent, InterestHomeComponent, InterestFeedComponent,
-    InterestComponent, InterestDetailComponent, InterestPeopleListComponent, InterestPeopleComponent,  InterestPeopleDetailComponent, InterestInfoComponent, InterestPeopleHomeComponent],
+    InterestComponent, InterestDetailComponent, InterestPeopleListComponent, InterestPeopleComponent,
+    InterestPeopleDetailComponent, InterestInfoComponent, InterestPeopleHomeComponent],
   entryComponents:[InterestPeopleDetailComponent],
   exports: [InterestPeopleDetailComponent]
 })

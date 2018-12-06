@@ -7,6 +7,7 @@ import {Interest, InterestTag} from '../../core/interest.service';
 import {NgbActiveModal, NgbModal, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgbModalStack} from '@ng-bootstrap/ng-bootstrap/modal/modal-stack';
 import {ScrollBar} from '@ng-bootstrap/ng-bootstrap/util/scrollbar';
+import {RouterTestingModule} from '@angular/router/testing';
 
 
 
@@ -28,7 +29,7 @@ describe('InterestPeopleDetailComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule, NgbModule.forRoot()],
+      imports: [SharedModule, NgbModule.forRoot(), RouterTestingModule],
       providers: [NgbModal, NgbActiveModal, NgbModalStack, ScrollBar],
       declarations: [ InterestPeopleDetailComponent ]
     })

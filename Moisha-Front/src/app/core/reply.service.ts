@@ -41,6 +41,6 @@ export class ReplyService {
     return this.http.delete('/comment/' + id + '/')
   }
   editComment(editPayload) {
-    return this.http.put('/comment/' + editPayload.id + '/', editPayload).subscribe((result) => console.log('editted'))
+    return this.http.put('/comment/' + editPayload.id + '/', editPayload).pipe(tap(() => console.log('editted')))
   }
 }

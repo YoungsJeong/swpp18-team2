@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { catchError, tap, delay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -20,6 +20,9 @@ export interface SignUpPayload {
 export interface AuthResponse {
   name: string;
   token: string;
+}
+export interface checkResponse {
+  isDuplicate: boolean;
 }
 @Injectable({
   providedIn: 'root'
@@ -80,5 +83,14 @@ export class AuthService {
       })
     );
   }
-
+  modifyInfo(payload){
+    return this.http.put('/user/modify/', payload)
+  }
+  checkDuplicate(nickName?: string, email?: string, studentId?: string){
+    let params = new HttpParams()
+    if(nickName) params = params.append('nickName', nickName)
+    else if(email) params = params.append('email', email)
+    else if(studentId) params = params.append('studentId', studentId)
+    return this.http.get<checkResponse>('/user/check/', {params})
+  }
 }

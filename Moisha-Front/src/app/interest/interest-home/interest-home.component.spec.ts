@@ -16,14 +16,17 @@ class MockNavbarComponent {
 @Component({selector: 'app-side-bar', template: ''})
 class MockSidebarComponent {
 }
-const mockUser = [{id: '1', name: 'test'}]
+const mockUser = {id: '1', name: 'test'}
 class MockAuthService extends AuthService {
   user
   getUser() {
     return of(mockUser)
   }
 }
-
+@Component({selector: 'app-profile-userinfo', template: ''})
+class MockProfileUserinfoComponent {
+  @Input() user
+}
 describe('InterestHomeComponent', () => {
   let component: InterestHomeComponent;
   let fixture: ComponentFixture<InterestHomeComponent>;

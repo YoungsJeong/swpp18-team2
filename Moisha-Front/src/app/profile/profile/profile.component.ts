@@ -10,10 +10,15 @@ import {Interest, InterestService} from '../../core/interest.service';
 })
 export class ProfileComponent implements OnInit {
   interests: Interest[]
+  shouldLoad: Promise<boolean>;
   constructor(public auth: AuthService, private router: Router, private interestService: InterestService) { }
   ngOnInit() {
     if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
-      this.auth.getUser().subscribe(console.log);
+      this.auth.getUser().subscribe((result) => {
+        this.shouldLoad = Promise.resolve(true);
+        console.log(result)
+      });
+    else this.shouldLoad = Promise.resolve(true);
     this.interestService.getUserInterests().subscribe( interests =>
     this.interests = interests)
   }

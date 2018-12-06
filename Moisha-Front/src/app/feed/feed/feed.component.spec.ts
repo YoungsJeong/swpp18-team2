@@ -4,6 +4,9 @@ import { FeedComponent } from './feed.component';
 import {Component, Input} from '@angular/core';
 import {Article, ArticleTag, ArticleType, FeedService, TagColor} from '../../core/feed.service';
 import {of} from 'rxjs';
+import {RouterTestingModule} from '@angular/router/testing';
+import {Interest} from '../../core/interest.service';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 
 const mockColor: TagColor = {id: 1, name: 'color', rgb: '#ffffff'}
@@ -24,6 +27,10 @@ class MockFilterComponent {
 class MockFeedListComponent {
   @Input() articles: Article[]
 }
+@Component({selector: 'app-interest-list', template: ''})
+class MockInterestListComponent {
+  @Input() interests: Interest[]
+}
 
 describe('FeedComponent', () => {
   let component: FeedComponent;
@@ -35,8 +42,9 @@ describe('FeedComponent', () => {
       ['getArticleByUser']);
 
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule, HttpClientTestingModule],
       providers: [{provide: FeedService, useValue: feedSpy}],
-      declarations: [ FeedComponent, MockFilterComponent, MockFeedListComponent ]
+      declarations: [ FeedComponent, MockFilterComponent, MockFeedListComponent, MockInterestListComponent ]
     }).compileComponents()
   }));
 

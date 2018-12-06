@@ -20,7 +20,7 @@ describe('CommentComponent', () => {
   ]
   const mockComment: Comment[] = [
     {id: 1, replies: mockReply, content: 'testContent', createdDate: 'now', author: mockAuthor,
-      article: 'testArticle', comment: 1}
+      article: 'testArticle', comment: 1, deleted: false}
   ]
   beforeEach(async(() => {
     TestBed.configureTestingModule({

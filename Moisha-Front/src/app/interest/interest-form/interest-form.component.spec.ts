@@ -9,7 +9,7 @@ import {TagColor} from '../../core/feed.service';
 import {of} from 'rxjs';
 
 
-const mockUser = [{id: '1', name: 'test'}]
+const mockUser = {id: '1', name: 'test'}
 const mockColor: TagColor = {
   id: 1, name: 'color', rgb: '#ffffff'
 }

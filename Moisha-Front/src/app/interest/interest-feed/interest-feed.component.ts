@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Article, ArticleTag, FeedService} from '../../core/feed.service';
 import {ActivatedRoute, ActivatedRouteSnapshot} from '@angular/router';
+import {InterestService} from '../../core/interest.service';
 
 @Component({
   selector: 'app-interest-feed',
@@ -11,10 +12,21 @@ export class InterestFeedComponent implements OnInit {
   articles: Article[] = [];
   articleTags = null;
   interestID: number;
-  constructor(private feedService: FeedService, private route: ActivatedRoute) { }
+  interest
+  interests
+  shouldLoad: Promise<boolean>
+  constructor(private feedService: FeedService, private route: ActivatedRoute, private interestService: InterestService) { }
 
   ngOnInit() {
+    this.interestID = +this.route.snapshot.paramMap.get('id')
     this.getArticles()
+    this.interestService.getInterestByID(this.interestID).subscribe( (result) => {
+      this.interest = result
+    })
+    this.interestService.getInterestRecommendationById(this.interestID).subscribe((result) => {
+      this.interests = result
+      this.shouldLoad = Promise.resolve(true);
+    })
   }
   fetchMoreFeed() {
     this.feedService.getArticleByInterest(this.interestID, this.articles.length, 10).subscribe( result => {
@@ -24,7 +36,6 @@ export class InterestFeedComponent implements OnInit {
   getArticles() {
     this.articles = []
     this.articleTags = null;
-    this.interestID = +this.route.snapshot.paramMap.get('id')
     this.feedService.getArticleByInterest(this.interestID).subscribe(
       (articles) => {
         this.articles = articles

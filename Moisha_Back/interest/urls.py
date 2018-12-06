@@ -13,5 +13,6 @@ urlpatterns = [
     path('create/', views.createInterest),
     path('user/', views.getInterestsByUser),
     path('recommend/', views.getInterestRecommendation),
+    path('recommend/<int:pk>/', views.getInterestRecommendationByInterest),
     path('batch/', views.batch),
 ]

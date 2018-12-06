@@ -16,7 +16,7 @@ class MockNavbarComponent {
 @Component({selector: 'app-side-bar', template: ''})
 class MockSidebarComponent {
 }
-const mockUser = [{id: '1', name: 'test'}]
+const mockUser = {id: '1', name: 'test'}
 class MockAuthService extends AuthService {
   user
   getUser() {

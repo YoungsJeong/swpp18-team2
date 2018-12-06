@@ -30,6 +30,7 @@ import { InterestItemComponent } from './interest-item/interest-item.component';
   ],
   declarations: [LoadingComponent, NavbarComponent, SideBarComponent, InterestListComponent, InterestItemComponent],
   exports: [
+    RouterModule,
     CommonModule,
     LoadingComponent,
     ReactiveFormsModule,
