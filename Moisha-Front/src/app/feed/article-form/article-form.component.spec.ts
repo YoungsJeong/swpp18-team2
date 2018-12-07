@@ -60,7 +60,6 @@ describe('ArticleFormComponent', () => {
     interestService.getInterestByID.and.returnValue(ErrorObservable.create({status: 400}))
     component.ngOnInit()
     expect(component.errorMessage).toEqual('구독한 관심사에만 작성할 수 있습니다.')
-    interestService.getInterestByID.and.returnValue(ErrorObservable.create({status: 401}))
   })
   it('test validator', () => {
     fixture.detectChanges();

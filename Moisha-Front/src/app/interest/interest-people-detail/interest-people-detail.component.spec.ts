@@ -45,5 +45,6 @@ describe('InterestPeopleDetailComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    component.dismiss()
   });
 });

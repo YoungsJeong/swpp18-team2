@@ -45,14 +45,16 @@ const mockArticles: Article[] = [
   {id: 2, title: 'testTitle', content: 'testContent', author: '1', type: mockType, tags: mockTag}
 ]
 const mockUser = {id: '1', name: 'test', interests: mockInterest}
+const mockUserNoInterest = {id: '1', name: 'test', interests: [{id: 100}]}
 const mockUsers = [{id: '1', name: 'test', interests: mockInterest}]
 class MockAuthService extends AuthService {
   user
+  userReturn
   getUser() {
-    return of(mockUser)
+    return of(this.userReturn)
   }
   setUser(user) {
-    this.user = user
+    this.userReturn = user
   }
 }
 describe('InterestDetailComponent', () => {
@@ -101,17 +103,41 @@ describe('InterestDetailComponent', () => {
     interestService.getInterestByID.and.returnValue(of(mockInterest[0]))
     userService.getUserByInterest.and.returnValue(of(mockUsers))
     userService.addInterestToUser.and.returnValue(of(mockUser))
+    authService.setUser(mockUser)
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    /*
     authService.user = mockUser
     component.ngOnInit()
     expect(component).toBeTruthy();
     feedService.getArticleByInterest.and.returnValue(of(mockArticles))
     component.ngOnInit()
-    expect(component).toBeTruthy();*/
+    expect(component).toBeTruthy();
+    authService.user = mockUserNoInterest
+    component.ngOnInit()
+    expect(component).toBeTruthy();
+    authService.user = null
+    authService.setUser(mockUserNoInterest)
+    component.ngOnInit()
+    expect(component).toBeTruthy();
+    component.isMember = true
+    spyOn(window, 'confirm').and.returnValue(false);
+    component.subscribe()
+    expect(component).toBeTruthy();
+  });
+  it('should be able to subscribe to a interest', () => {
+    component.isMember = true
+    spyOn(authService, 'setUser')
+    spyOn(window, 'confirm').and.returnValue(true);
+    component.subscribe()
+    expect(userService.addInterestToUser).toHaveBeenCalledWith(1, false)
+    expect(authService.setUser).toHaveBeenCalledWith(mockUser)
+    component.isMember = false
+    component.subscribe()
+    expect(userService.addInterestToUser).toHaveBeenCalledWith(1, true)
+    expect(authService.setUser).toHaveBeenCalledWith(mockUser)
+
   });
 });

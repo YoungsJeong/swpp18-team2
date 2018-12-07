@@ -1,11 +1,13 @@
 import {TestBed, inject, async} from '@angular/core/testing';
 
-import {AuthResponse, AuthService} from './auth.service';
+import {AuthResponse, AuthService, CheckResponse} from './auth.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {Observable, of} from 'rxjs';
 import {Mock} from 'protractor/built/driverProviders';
 import {Router} from '@angular/router';
+import {InterestService} from './interest.service';
+import {HttpParameterCodec, HttpParams} from '@angular/common/http';
 export interface SignUpPayload {
   email: string
   name: string
@@ -14,7 +16,7 @@ export interface SignUpPayload {
   major: string
   password: string
 }
-const MockUser = {id: 1, email: 'test@test.com', password: 'Qwe12345'}
+const mockUser = {id: 1, email: 'test@test.com', password: 'Qwe12345'}
 describe('AuthService', () => {
   let store;
   let mockLocalStorage;
@@ -40,6 +42,7 @@ describe('AuthService', () => {
         store = {};
       }
     }
+    httpClient = TestBed.get(HttpTestingController)
   });
   it('should be created', inject([AuthService], (service: AuthService) => {
     expect(service).toBeTruthy();
@@ -112,4 +115,75 @@ describe('AuthService', () => {
     });
     httpClient.verify();
   })));
+  it('should be able to modify user Info', async(inject([AuthService], (service: AuthService) => {
+    const payload = {
+      nickName: 'test',
+      email: 'test@test.com',
+      passWord: 'test'
+    }
+    service.modifyInfo(payload).subscribe((result) => {
+      expect(result).toEqual(mockUser)
+    })
+    const req = httpClient.expectOne(req =>
+      req.url.includes(`/user/modify/`));
+    expect(req.request.method).toBe('PUT')
+    req.flush(mockUser);
+    httpClient.verify();
+  })));
+  it('should be able to checkDuplicate with nicakname', async(inject([AuthService], (service: AuthService) => {
+    const mockResponse: CheckResponse = {
+      isDuplicate: true
+    }
+    service.checkDuplicate('test').subscribe((result) => {
+      expect(result).toEqual(mockResponse)
+    })
+    const req = httpClient.expectOne(req =>
+      req.params.get('nickName') === 'test' &&
+      req.url.includes('/user/check/'));
+    expect(req.request.method).toBe('GET')
+    req.flush(mockResponse);
+    httpClient.verify();
+  })));
+  it('should be able to checkDuplicate with email', async(inject([AuthService], (service: AuthService) => {
+    const mockResponse: CheckResponse = {
+      isDuplicate: true
+    }
+    service.checkDuplicate(undefined, 'test').subscribe((result) => {
+      expect(result).toEqual(mockResponse)
+    })
+    const req = httpClient.expectOne(req =>
+      req.params.get('email') === 'test' &&
+      req.url.includes('/user/check/'));
+    expect(req.request.method).toBe('GET')
+    req.flush(mockResponse);
+    httpClient.verify();
+  })));
+  it('should be able to checkDuplicate with studentid', async(inject([AuthService], (service: AuthService) => {
+    const mockResponse: CheckResponse = {
+      isDuplicate: true
+    }
+    service.checkDuplicate(undefined, undefined, 'test').subscribe((result) => {
+      expect(result).toEqual(mockResponse)
+    })
+    const req = httpClient.expectOne(req =>
+      req.params.get('studentId') === 'test' &&
+      req.url.includes('/user/check/'));
+    expect(req.request.method).toBe('GET')
+    req.flush(mockResponse);
+    httpClient.verify();
+  })));
+  it('should be able to checkDuplicate with no params', async(inject([AuthService], (service: AuthService) => {
+    const mockResponse: CheckResponse = {
+      isDuplicate: true
+    }
+    service.checkDuplicate(undefined, undefined, undefined).subscribe((result) => {
+      expect(result).toEqual(mockResponse)
+    })
+    const req = httpClient.expectOne(req =>
+      req.url.includes('/user/check/'));
+    expect(req.request.method).toBe('GET')
+    req.flush(mockResponse);
+    httpClient.verify();
+  })));
 });
+

@@ -28,6 +28,17 @@ describe('NavbarComponent', () => {
   });
 
   it('should create', () => {
+    component.searchInterest()
     expect(component).toBeTruthy();
+  });
+  it('should be able to go to profile page', () => {
+    const navigateSpy = spyOn((<any>component).router, 'navigate');
+    component.goToProfile()
+    expect(navigateSpy).toHaveBeenCalledWith(['profile']);
+  });
+  it('should be able to go to home page', () => {
+    const navigateSpy = spyOn((<any>component).router, 'navigate');
+    component.goToHome()
+    expect(navigateSpy).toHaveBeenCalledWith(['/']);
   });
 });

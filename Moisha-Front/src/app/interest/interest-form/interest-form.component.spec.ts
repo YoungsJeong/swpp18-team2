@@ -78,14 +78,14 @@ describe('InterestFormComponent', () => {
     component.selectedTags = mockInterestTags
     component.remove(mockInterestTags[0])
     expect(component.selectedTags.length).toEqual(0)
-
-    /*component.selectedTags = mockInterestTags
+    let event;
+    component.selectedTags = mockInterestTags
     event = {item: mockInterestTags[0]}
     component.selected(event)
     expect(component.selectedTags.length).toEqual(1)
     event = {item: mockInterestTag}
     component.selected(event)
-    expect(component.selectedTags.length).toEqual(2)*/
+    expect(component.selectedTags.length).toEqual(2)
   });
   it('should emit payload', () => {
     component.formName.setValue('test')

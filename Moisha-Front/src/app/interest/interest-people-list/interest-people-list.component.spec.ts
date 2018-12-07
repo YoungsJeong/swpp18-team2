@@ -29,6 +29,7 @@ describe('InterestPeopleListComponent', () => {
   });
 
   it('should create', () => {
+    component.onScrollDown()
     expect(component).toBeTruthy();
   });
 });

@@ -8,6 +8,7 @@ import {from, Observable, of} from 'rxjs';
 import {Interest, InterestService, InterestTag} from '../../core/interest.service';
 import {TagColor} from '../../core/feed.service';
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 
 @Component({selector: 'app-navbar', template: ''})
@@ -22,6 +23,13 @@ class MockSidebarComponent {
 class MockInterestListComponent {
   @Input() interests: Interest[]
 }
+class MockAuthService extends AuthService {
+  user
+  getUser() {
+    return of(mockUser)
+  }
+}
+const mockUser = {id: 1, email: 'test@test.com', password: 'Qwe12345'}
 const mockColor: TagColor = {
   id: 1, name: 'color', rgb: '#ffffff'
 }
@@ -34,18 +42,17 @@ const mockInterest: Interest[] = [
 describe('SearchHomeComponent', () => {
   let component: SearchHomeComponent;
   let fixture: ComponentFixture<SearchHomeComponent>;
-  let authService: jasmine.SpyObj<AuthService>;
+  let authService: AuthService
   let interestService: jasmine.SpyObj<InterestService>;
 
 
   beforeEach(async(() => {
-    const authSpy = jasmine.createSpyObj('AuthService', ['getUser'])
     const interestSpy = jasmine.createSpyObj('InterestService', ['searchInterest'])
 
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, HttpClientTestingModule],
       declarations: [ SearchHomeComponent, MockNavbarComponent, MockSidebarComponent, MockInterestListComponent],
-      providers: [{provide: AuthService, useValue: authSpy},
+      providers: [{provide: AuthService, useClass: MockAuthService},
         {provide: InterestService, useValue: interestSpy},
         {
           provide: ActivatedRoute,
@@ -65,7 +72,6 @@ describe('SearchHomeComponent', () => {
     fixture = TestBed.createComponent(SearchHomeComponent);
     component = fixture.componentInstance;
     authService = TestBed.get(AuthService)
-    authService.getUser.and.returnValue(of({id: 1, name: 'test'}))
     interestService = TestBed.get(InterestService)
     interestService.searchInterest.and.returnValue(of(mockInterest))
     fixture.detectChanges();
@@ -73,5 +79,14 @@ describe('SearchHomeComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    authService.user = mockUser
+    component.ngOnInit()
+    expect(component).toBeTruthy();
+  });
+  it('should be able to search interest with/without keyword', () => {
+    component.searchInterest('keyword')
+    expect(component.searchResult).toEqual(mockInterest)
+    component.searchInterest('')
+    expect(component.searchResult).toEqual(mockInterest)
   });
 });

@@ -4,6 +4,10 @@ import {Interest, InterestService, InterestTag} from './interest.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FeedService, TagColor} from './feed.service';
+import {HTTP_INTERCEPTORS, HttpClient, HttpInterceptor} from '@angular/common/http';
+import {ApiUrlInterceptor} from './api-url-interceptor';
+import {TOKEN_KEY} from './auth.service';
+import {environment} from '../../environments/environment';
 
 const mockColor: TagColor = {
   id: 1, name: 'color', rgb: '#ffffff'
@@ -14,14 +18,37 @@ const mockInterestTags: InterestTag[] = [
 const mockInterest: Interest[] = [
   {id: 1, name: 'interest1', createUser: 'user1', createdDate: 'now', photoURL: 'test', tags: mockInterestTags}
 ]
+
 describe('InterestService', () => {
   let httpClient;
+  let store;
+  let mockLocalStorage;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, RouterTestingModule],
-      providers: [InterestService]
+      providers: [InterestService,
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: ApiUrlInterceptor,
+          multi: true
+        }]
     });
     httpClient = TestBed.get(HttpTestingController)
+    store = {}
+    mockLocalStorage = {
+      getItem: (key: string): string => {
+        return key in store ? store[key] : null;
+      },
+      setItem: (key: string, value: string) => {
+        store[key] = `${value}`;
+      },
+      removeItem: (key: string) => {
+        delete store[key];
+      },
+      clear: () => {
+        store = {};
+      }
+    }
   });
 
   it('should be created', inject([InterestService], (service: InterestService) => {
@@ -76,6 +103,24 @@ describe('InterestService', () => {
     req.flush(mockInterest);
     httpClient.verify();
   })));
+  it('should be able to get recommended interests by it', async(inject([InterestService], (service: InterestService) => {
+    service.getInterestRecommendationById(1).subscribe((result) => {
+      expect(result).toEqual(mockInterest)
+    })
+    const req = httpClient.expectOne(req => req.url.includes(`/interest/recommend/1/`));
+    expect(req.request.method).toBe('GET')
+    req.flush(mockInterest);
+    httpClient.verify();
+  })));
+  it('should be able to get recommended interests by all', async(inject([InterestService], (service: InterestService) => {
+    service.getInterestRecommendation().subscribe((result) => {
+      expect(result).toEqual(mockInterest)
+    })
+    const req = httpClient.expectOne(req => req.url.includes(`/interest/recommend/`));
+    expect(req.request.method).toBe('GET')
+    req.flush(mockInterest);
+    httpClient.verify();
+  })));
   it('should be able to get interest by ID without create', async(inject([InterestService], (service: InterestService) => {
     service.getInterestByID(3).subscribe((result) => {
       expect(result).toEqual(mockInterest[0])
@@ -94,5 +139,34 @@ describe('InterestService', () => {
     req.flush(mockInterest[0]);
     httpClient.verify();
   })));
-
+  it('testing interceptor with authorization token', inject([HttpClient, HttpTestingController], (http: HttpClient, httpMock: HttpTestingController) => {
+    spyOn(localStorage, 'getItem').and.callFake(mockLocalStorage.getItem)
+    spyOn(localStorage, 'setItem').and.callFake(mockLocalStorage.setItem)
+    spyOn(localStorage, 'removeItem').and.callFake(mockLocalStorage.removeItem)
+    localStorage.setItem(TOKEN_KEY, 'test')
+    http.get('/test').subscribe(
+      response => {
+        expect(response).toBeTruthy();
+      }
+    );
+    const req = httpMock.expectOne(r =>
+      r.url === environment.apiURL + '/test' &&
+      r.headers.has('Authorization') &&
+      r.headers.get('Authorization') === `token test`);
+    expect(req.request.method).toEqual('GET');
+    req.flush({ hello: 'world' });
+    httpMock.verify();
+  }));
+  it('testing interceptor without authorization token', inject([HttpClient, HttpTestingController], (http: HttpClient, httpMock: HttpTestingController) => {
+    http.get('/search/department/q=test').subscribe(
+      response => {
+        expect(response).toBeTruthy();
+      }
+    );
+    const req = httpMock.expectOne(r =>
+      r.url === environment.apiURL + '/search/department/q=test');
+    expect(req.request.method).toEqual('GET');
+    req.flush({ hello: 'world' });
+    httpMock.verify();
+  }));
 });

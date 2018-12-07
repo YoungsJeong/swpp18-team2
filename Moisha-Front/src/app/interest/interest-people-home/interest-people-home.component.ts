@@ -23,7 +23,11 @@ export class InterestPeopleHomeComponent implements OnInit {
   }
   fetchMorePeople() {
     this.userService.getUserByInterest(this.interestID, this.users.length, 10).subscribe( result => {
-      this.users = this.users.concat(result)
+      for(let i = 0; i < result.length; i++) {
+        if(!this.users.find(x => x.id === result[i].id)){
+          this.users.push(result[i])
+        }
+      }
     })
   }
   getUsers() {

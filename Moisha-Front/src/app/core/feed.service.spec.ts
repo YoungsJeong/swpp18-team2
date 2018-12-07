@@ -39,7 +39,16 @@ describe('FeedService', () => {
     req.flush(mockTag);
     httpClient.verify();
   })));
-  it('should be able to get Article By User with limit', async(inject([FeedService], (service: FeedService) => {
+  it('should be able to get Article By User with page, limit', async(inject([FeedService], (service: FeedService) => {
+    service.getArticleByUser(3,3).subscribe((result) => {
+      expect(result).toEqual(mockArticle)
+    })
+    const req = httpClient.expectOne(req => req.url.includes(`/article/`));
+    expect(req.request.method).toBe('GET')
+    req.flush(mockArticle)
+    httpClient.verify()
+  })))
+  it('should be able to get Article By User with page', async(inject([FeedService], (service: FeedService) => {
     service.getArticleByUser(3).subscribe((result) => {
       expect(result).toEqual(mockArticle)
     })
@@ -48,7 +57,16 @@ describe('FeedService', () => {
     req.flush(mockArticle)
     httpClient.verify()
   })))
-  it('should be able to get Article By User without limit', async(inject([FeedService], (service: FeedService) => {
+  it('should be able to get Article By User with limit', async(inject([FeedService], (service: FeedService) => {
+    service.getArticleByUser(undefined, 3).subscribe((result) => {
+      expect(result).toEqual(mockArticle)
+    })
+    const req = httpClient.expectOne(req => req.url.includes(`/article/`));
+    expect(req.request.method).toBe('GET')
+    req.flush(mockArticle)
+    httpClient.verify()
+  })))
+  it('should be able to get Article By User without page, limit', async(inject([FeedService], (service: FeedService) => {
     service.getArticleByUser().subscribe((result) => {
       expect(result).toEqual(mockArticle)
     })
@@ -57,7 +75,16 @@ describe('FeedService', () => {
     req.flush(mockArticle)
     httpClient.verify()
   })));
-  it('should be able to get Article By Interest with limit', async(inject([FeedService], (service: FeedService) => {
+  it('should be able to get Article By Interest with page, limit', async(inject([FeedService], (service: FeedService) => {
+    service.getArticleByInterest(1, 1,1).subscribe((result) => {
+      expect(result).toEqual(mockArticle)
+    })
+    const req = httpClient.expectOne(req => req.url.includes(`/article/interest/`));
+    expect(req.request.method).toBe('GET')
+    req.flush(mockArticle)
+    httpClient.verify();
+  })));
+  it('should be able to get Article By Interest with page', async(inject([FeedService], (service: FeedService) => {
     service.getArticleByInterest(1, 1).subscribe((result) => {
       expect(result).toEqual(mockArticle)
     })
@@ -66,7 +93,16 @@ describe('FeedService', () => {
     req.flush(mockArticle)
     httpClient.verify();
   })));
-  it('should be able to get Article By Interest without limit', async(inject([FeedService], (service: FeedService) => {
+  it('should be able to get Article By Interest with  limit', async(inject([FeedService], (service: FeedService) => {
+    service.getArticleByInterest(1, undefined, 1).subscribe((result) => {
+      expect(result).toEqual(mockArticle)
+    })
+    const req = httpClient.expectOne(req => req.url.includes(`/article/interest/`));
+    expect(req.request.method).toBe('GET')
+    req.flush(mockArticle)
+    httpClient.verify();
+  })));
+  it('should be able to get Article By Interest without page, limit', async(inject([FeedService], (service: FeedService) => {
     service.getArticleByInterest(1).subscribe((result) => {
       expect(result).toEqual(mockArticle)
     })

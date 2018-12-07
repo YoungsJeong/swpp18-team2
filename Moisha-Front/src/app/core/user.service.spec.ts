@@ -41,6 +41,16 @@ describe('UserService', () => {
     })
   ));
   it('should be able to get user by interest with limit', async(inject([UserService], (service: UserService) => {
+      service.getUserByInterest(3, 3, 3).subscribe(
+        result => {
+          return expect(result).toEqual(mockUser);
+        })
+      const req = httpClient.expectOne(req => req.url.includes(`/user/interest/3/`));
+      expect(req.request.method).toEqual('GET');
+      req.flush(mockUser);
+    })
+  ));
+  it('should be able to get user by interest with page', async(inject([UserService], (service: UserService) => {
       service.getUserByInterest(3, 3).subscribe(
         result => {
           return expect(result).toEqual(mockUser);
@@ -50,13 +60,47 @@ describe('UserService', () => {
       req.flush(mockUser);
     })
   ));
-  it('should be able to get user by interest without limit', async(inject([UserService], (service: UserService) => {
+  it('should be able to get user by interest with page, limit', async(inject([UserService], (service: UserService) => {
+      service.getUserByInterest(3, undefined, 3).subscribe(
+        result => {
+          return expect(result).toEqual(mockUser);
+        })
+      const req = httpClient.expectOne(req => req.url.includes(`/user/interest/3/`));
+      expect(req.request.method).toEqual('GET');
+      req.flush(mockUser);
+    })
+  ));
+  it('should be able to get user by interest without page limit', async(inject([UserService], (service: UserService) => {
       service.getUserByInterest(3).subscribe(
         result => {
           return expect(result).toEqual(mockUser);
         })
       const req = httpClient.expectOne(req => req.url.includes(`/user/interest/3/`));
       expect(req.request.method).toEqual('GET');
+      req.flush(mockUser);
+    })
+  ));
+  it('should be able to add interest to a user', async(inject([UserService], (service: UserService) => {
+      service.addInterestToUser(3, true).subscribe(
+        result => {
+          return expect(result).toEqual(mockUser);
+        })
+      const req = httpClient.expectOne(req =>
+          req.url.includes(`/user/interest/3/update/`)
+        );
+      expect(req.request.method).toEqual('PUT');
+      req.flush(mockUser);
+    })
+  ));
+  it('should be able to remove interest from a user', async(inject([UserService], (service: UserService) => {
+      service.addInterestToUser(3, false).subscribe(
+        result => {
+          return expect(result).toEqual(mockUser);
+        })
+      const req = httpClient.expectOne(req =>
+        req.url.includes(`/user/interest/3/update/`)
+      );
+      expect(req.request.method).toEqual('PUT');
       req.flush(mockUser);
     })
   ));

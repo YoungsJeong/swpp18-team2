@@ -21,7 +21,7 @@ export interface AuthResponse {
   name: string;
   token: string;
 }
-export interface checkResponse {
+export interface CheckResponse {
   isDuplicate: boolean;
 }
 @Injectable({
@@ -86,11 +86,11 @@ export class AuthService {
   modifyInfo(payload){
     return this.http.put('/user/modify/', payload)
   }
-  checkDuplicate(nickName?: string, email?: string, studentId?: string){
+  checkDuplicate(nickName?: string, email?: string, studentId?: string) {
     let params = new HttpParams()
     if(nickName) params = params.append('nickName', nickName)
     else if(email) params = params.append('email', email)
     else if(studentId) params = params.append('studentId', studentId)
-    return this.http.get<checkResponse>('/user/check/', {params})
+    return this.http.get<CheckResponse>('/user/check/', {params})
   }
 }

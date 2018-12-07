@@ -89,6 +89,15 @@ describe('AuthGuard', () => {
     const result = guard.canLoad(MockRoute('interest'))
     expect(result).toBeTruthy()
   }));
+  it('test profile', inject([Router, AuthService],(router: Router, auth: AuthService) => {
+    const navigateSpy = spyOn(router, 'navigate');
+    auth.login('test', 'test')
+    guard.canLoad(MockRoute('profile'))
+    expect(navigateSpy).toHaveBeenCalledWith(['intro']);
+    auth.login('test@test.com', 'Qwe12345')
+    const result = guard.canLoad(MockRoute('profile'))
+    expect(result).toBeTruthy()
+  }));
   it('else route', inject([Router, AuthService],(router: Router, auth: AuthService) => {
     const navigateSpy = spyOn(router, 'navigate');
     const result = guard.canLoad(MockRoute('test'))

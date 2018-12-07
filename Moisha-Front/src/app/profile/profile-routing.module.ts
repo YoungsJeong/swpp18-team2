@@ -9,10 +9,6 @@ const routes: Routes = [
     path: '',
     component: ProfileComponent,
     children: [
-      {
-        path: 'detail',
-        component: ProfileUserinfoComponent
-      }
       ]
   }
 ];

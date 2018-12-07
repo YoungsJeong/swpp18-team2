@@ -29,8 +29,12 @@ export class InterestFeedComponent implements OnInit {
     })
   }
   fetchMoreFeed() {
-    this.feedService.getArticleByInterest(this.interestID, this.articles.length, 10).subscribe( result => {
-      this.articles = this.articles.concat(result)
+    this.feedService.getArticleByInterest(this.interestID, this.articles.length, 10).subscribe( (result: Article[]) => {
+      for(let i = 0; i < result.length; i++) {
+        if(!this.articles.find(x => x.id === result[i].id)){
+          this.articles.push(result[i])
+        }
+      }
     })
   }
   getArticles() {

@@ -11,7 +11,7 @@ import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 const mockUser = {id: '1', name: 'test'}
-
+const mockAnotherUser = {id: '2', name: 'test2'}
 class MockAuthService extends AuthService {
   user
   getUser() {
@@ -57,7 +57,7 @@ describe('InterestPeopleHomeComponent', () => {
     component.interestID = 1
     authService = TestBed.get(AuthService)
     userService = TestBed.get(UserService)
-    userService.getUserByInterest.and.returnValue(of(mockUser))
+    userService.getUserByInterest.and.returnValue(of([mockUser]))
     fixture.detectChanges();
   });
   it('should create', () => {
@@ -67,5 +67,10 @@ describe('InterestPeopleHomeComponent', () => {
     authService.user = mockUser
     component.ngOnInit()
     expect(component).toBeTruthy();
+  });
+  it('should be able to fetch more users', () => {
+    userService.getUserByInterest.and.returnValue(of([mockUser, mockAnotherUser]))
+    component.fetchMorePeople()
+    expect(component.users).toEqual([mockUser, mockAnotherUser])
   });
 });

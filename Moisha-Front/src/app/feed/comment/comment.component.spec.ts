@@ -4,6 +4,7 @@ import { CommentComponent } from './comment.component';
 import {Author, Comment, Reply} from '../../core/reply.service';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {SharedModule} from '../../shared/shared.module';
+import {Event} from '@angular/router';
 
 @Component({selector: 'app-write-reply', template: ''})
 class MockWriteReplyComponent {
@@ -59,7 +60,7 @@ describe('CommentComponent', () => {
     component.writeReply(payload)
   });
   xit('should emit edit payload', () => {
-    const stopPropagationSpy  = spyOn(event, 'stopPropagation');
+    const event = {StopPropagation: jasmine.createSpy()}
     const payload = {
       content: 'test',
       article: 1,
@@ -72,6 +73,8 @@ describe('CommentComponent', () => {
     component.editReply(payload)
   });
   xit('should emit delete payload', () => {
+    const event = new MouseEvent('click')
+    const stopPropagationSpy  = spyOn(event, 'stopPropagation');
     component.delete.subscribe((result) => {
       expect(result).toEqual(mockComment)
     })

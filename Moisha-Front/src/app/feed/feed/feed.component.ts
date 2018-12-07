@@ -15,7 +15,11 @@ export class FeedComponent implements OnInit {
   constructor(private feedService: FeedService, private interestService: InterestService) { }
   fetchMoreFeed() {
     this.feedService.getArticleByUser(this.articles.length, 10).subscribe( result => {
-      this.articles = this.articles.concat(result)
+      for(let i = 0; i < result.length; i++) {
+        if(!this.articles.find(x => x.id === result[i].id)){
+          this.articles.push(result[i])
+        }
+      }
     })
   }
 

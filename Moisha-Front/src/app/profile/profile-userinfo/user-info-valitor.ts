@@ -9,16 +9,6 @@ export class UserInfoValidator {
     }
     return pwd === pwdConfirm ? null : { passwordMismatch: true };
   }
-
-  static validateStudentId(control: FormControl): ValidationErrors {
-    const { value } = control;
-    if (!value || value === '') {
-      return null;
-    }
-    const regExp = new RegExp('^[0-9]{4}-[0-9]{5}$');
-    return regExp.test(value) ? null : { invalidStudentId: true };
-  }
-
   static validatePassword(control: FormControl): ValidationErrors {
     const { value } = control;
     if (!value || value === '') {
