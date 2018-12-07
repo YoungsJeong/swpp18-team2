@@ -1,8 +1,6 @@
 from operator import itemgetter
 
 from background_task import background
-from django.db.models import Q, F
-from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -14,9 +12,10 @@ from interest.serializers import InterestSerializer
 def jaccardScore(firstSet, secondSet):
     intersectionSet = firstSet.intersection(secondSet)
     return float(len(intersectionSet)) / (len(firstSet) + len(secondSet) - len(intersectionSet))
+
 def batch(request):
     batchRecommendationAll()
-    return Response(status=status.HTTP_200_OK)
+    return Response('finished', status=status.HTTP_200_OK)
 
 @background(schedule = 3)
 def batchRecommendationAll():
@@ -32,7 +31,6 @@ def batchRecommendationAll():
                     interestJaccard = interestJaccard[0]
                 interestJaccard.score = score
                 interestJaccard.save()
-    return Response(status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def getInterestByID(request, pk):
@@ -46,6 +44,7 @@ def getInterestByID(request, pk):
     if interest.exists():
         return Response(data=InterestSerializer(interest[0]).data, status=status.HTTP_200_OK)
     return Response('No Interest is Found.',status=status.HTTP_404_NOT_FOUND)
+
 @api_view(['GET'])
 def getInterestRecommendation(request):
     user = request.user
@@ -58,6 +57,8 @@ def getInterestRecommendation(request):
         if recommendItem.second not in interests:
             interests.add(recommendItem.second)
     return Response(data=InterestSerializer(interests, many=True).data, status=status.HTTP_200_OK)
+
+
 @api_view(['GET'])
 def getInterestRecommendationByInterest(request, pk):
     user = request.user
@@ -65,16 +66,16 @@ def getInterestRecommendationByInterest(request, pk):
         return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
     interests = user.interests.all()
     interest = Interest.objects.filter(pk=pk)
-    if interest.count == 0:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+    if interest.count() == 0:
+        return Response(status=status.HTTP_404_NOT_FOUND)
     interest = interest[0]
     recommend = InterestJaccard.objects.filter(first=interest).exclude(second__in=interests).order_by('-score').all()
-    print(recommend)
     interests = set([])
     for recommendItem in recommend:
         if recommendItem.second not in interests:
             interests.add(recommendItem.second)
     return Response(data=InterestSerializer(interests, many=True).data, status=status.HTTP_200_OK)
+
 
 @api_view(['POST'])
 def createInterest(request):

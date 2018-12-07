@@ -23,13 +23,32 @@ class InterestTestCase(TestCase):
                                                studentId=1548915, major=department, name='another', nickName='another')
         interest = Interest.objects.create(name='interest', createUser=user)
         anotherInterest = Interest.objects.create(name='interest1', createUser=anotherUser)
+        secondInterest = Interest.objects.create(name='interest2', createUser=anotherUser)
         interest.tags.add(interestTag)
         anotherInterest.tags.add(interestTag)
         user.interests.add(interest)
+        user.interests.add(secondInterest)
+        secondInterest.save()
         anotherInterest.save()
         anotherUser.save()
         interest.save()
         user.save()
+
+    def testInterestRecommendation(self):
+        response = self.client.get('/api/interest/recommend/')
+        self.assertEqual(response.status_code, 400)
+        self.client.login(username='test@test.com', password='test')
+        response = self.client.get('/api/interest/recommend/')
+        self.assertEqual(response.status_code, 200)
+
+    def testInterestRecommendationById(self):
+        response = self.client.get('/api/interest/recommend/1/')
+        self.assertEqual(response.status_code, 400)
+        self.client.login(username='test@test.com', password='test')
+        response = self.client.get('/api/interest/recommend/1/')
+        self.assertEqual(response.status_code, 200)
+        response = self.client.get('/api/interest/recommend/100/')
+        self.assertEqual(response.status_code, 404)
 
     def testToStr(self):
         interest = Interest.objects.get(pk = 1)
@@ -65,7 +84,6 @@ class InterestTestCase(TestCase):
         self.assertIn('interest',response.content.decode())
 
     def testGetInteresetById(self):
-
         response =self.client.get('/api/interest/1/')
         self.assertEqual(response.status_code, 400)
         self.client.login(username='test@test.com', password='test')
@@ -73,5 +91,5 @@ class InterestTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         response = self.client.get('/api/interest/2/', {'create': 'true'})
         self.assertEqual(response.status_code, 400)
-        response = self.client.get('/api/interest/3/')
+        response = self.client.get('/api/interest/4/')
         self.assertEqual(response.status_code, 404)

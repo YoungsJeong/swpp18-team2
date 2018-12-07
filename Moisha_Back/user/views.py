@@ -89,6 +89,7 @@ def getUserByInterest(request, pk):
             members = interest.members.all()
         return Response(data=UserDetailSerializer(members, many=True).data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_404_NOT_FOUND)
+
 @api_view(['PUT'])
 def updateInterestToUser(request, pk):
     user = request.user
@@ -98,13 +99,13 @@ def updateInterestToUser(request, pk):
     if action is '':
         return Response('Request Must Include Action', status = status.HTTP_400_BAD_REQUEST)
     interest = Interest.objects.filter(pk=pk)
-    if interest.exists():
+    if interest.count() != 0:
         interest = interest[0]
-        if action == 'add':
+        if action == 'add' and user.interests.filter(pk=pk).count() == 0:
             user.interests.add(interest)
             user.save()
             return Response(data=UserDetailSerializer(user).data, status=status.HTTP_200_OK)
-        elif action == 'delete' and user.interests.filter(pk=pk).exists():
+        elif action == 'delete' and user.interests.filter(pk=pk).count() != 0:
             user.interests.remove(interest)
             user.save()
             return Response(data=UserDetailSerializer(user).data, status=status.HTTP_200_OK)
