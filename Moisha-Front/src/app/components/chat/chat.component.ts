@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { Message, MsgType } from './chat-model'
 import { ChatService } from '../../core/chat.service'
 import { AuthService } from '../../core/auth.service'
-import { MatDialog, MatDialogRef, MatList, MatListItem } from '@angular/material';
+//import { MatDialog, MatDialogRef, MatList, MatListItem } from '@angular/material';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
