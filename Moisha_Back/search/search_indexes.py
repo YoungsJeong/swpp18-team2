@@ -72,3 +72,6 @@ class InterestIndex(indexes.SearchIndex, indexes.Indexable):
 
     def prepare_createdDate(self, obj):
         return Interest.objects.get(id=obj.id).createdDate
+
+    def prepare_tags(self, obj):
+        return [tag.id for tag in Interest.objects.get(id=obj.id).tags.all()]

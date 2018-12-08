@@ -34,7 +34,7 @@ const mockColor: TagColor = {
   id: 1, name: 'color', rgb: '#ffffff'
 }
 const mockInterestTags: InterestTag[] = [
-  { id: 1, name: 'tag1',  color: mockColor}
+  { id: 1, name: 'tag1',  color: mockColor, noShow: false}
 ]
 const mockInterest: Interest[] = [
   {id: 1, name: 'interest1', createUser: 'user1', createdDate: 'now', photoURL: 'test', tags: mockInterestTags}
@@ -47,7 +47,7 @@ describe('SearchHomeComponent', () => {
 
 
   beforeEach(async(() => {
-    const interestSpy = jasmine.createSpyObj('InterestService', ['searchInterest'])
+    const interestSpy = jasmine.createSpyObj('InterestService', ['getInterestTags', 'searchInterest', 'searchInterestByTag'])
 
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, HttpClientTestingModule],
@@ -73,7 +73,9 @@ describe('SearchHomeComponent', () => {
     component = fixture.componentInstance;
     authService = TestBed.get(AuthService)
     interestService = TestBed.get(InterestService)
+    interestService.getInterestTags.and.returnValue(of(mockInterestTags))
     interestService.searchInterest.and.returnValue(of(mockInterest))
+    interestService.searchInterestByTag.and.returnValue(of(mockInterest))
     fixture.detectChanges();
   });
 

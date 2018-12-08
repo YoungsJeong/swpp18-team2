@@ -9,9 +9,13 @@
 }
 .badge{
   color: #ffffff;
-  width: 10%;
-  height: 100%;
   float: right;
+  font-size: 18px;
+  margin: auto;
+  alignment: right;
+  padding: 4px 5px;
+  border-radius: 3px;
+  vertical-align: middle;
 }
 .img-responsive{
   width: 40px;

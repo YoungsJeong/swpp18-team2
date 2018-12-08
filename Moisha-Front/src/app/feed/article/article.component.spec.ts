@@ -13,13 +13,13 @@ import {ArticleDetailComponent} from '../article-detail/article-detail.component
 
 const mockColor: TagColor = {id: 1, name: 'color', rgb: '#ffffff'}
 const mockInterestTags: InterestTag[] = [
-  { id: 1, name: 'tag1',  color: mockColor}
+  { id: 1, name: 'tag1',  color: mockColor, noShow: false}
 ]
 const mockInterest: Interest[] = [
   {id: 1, name: 'interest1', createUser: 'user1', createdDate: 'now', photoURL: 'test', tags: mockInterestTags}
 ]
 const mockTag: ArticleTag[] = [
-  {id: 1, name: 'testTag', color: mockColor}
+  {id: 1, name: 'testTag', color: mockColor, noShow: false}
 ]
 const mockType: ArticleType = {id: 1, name: 'testType'}
 const mockArticle = [

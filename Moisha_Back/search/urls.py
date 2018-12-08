@@ -4,7 +4,8 @@ from search import views
 urlpatterns = [
     path('department/', views.searchDepartment),
     path('interest/', views.searchInterest),
+    path('interest/tag/', views.searchInterestByTag),
     path('interest/user/', views.searchInterestByUser),
-    path('interest/tag/',views.searchInterestTag),
-    path('article/tag/', views.searchArticleTag)
+    path('interesttag/',views.searchInterestTag),
+    path('articletag/', views.searchArticleTag)
 ]

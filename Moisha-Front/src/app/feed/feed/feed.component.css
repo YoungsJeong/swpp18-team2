@@ -11,10 +11,18 @@
   max-height: 600px;
   position: fixed;
 }
+.badge-filter{
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 18px;
+  margin: auto;
+  padding: 4px 5px;
+  border-radius: 3px;
+}
 .interest-list::-webkit-scrollbar{
   display: none;
 }
-.feed-header{
+.header{
   font-size: 27px;
   text-align: center;
 }

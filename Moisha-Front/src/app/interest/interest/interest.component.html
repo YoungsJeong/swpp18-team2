@@ -1,5 +1,23 @@
-<div class="container col-4">
-인터레스트 페이지
-<br>
-미구현
+<div class="container col-4 control-pad">
+  <div class="row">
+    <button class="btn btn-success" routerLink="create">새 관심사 만들기</button>
+  </div>
+  <br>
+  <span *ngFor="let tag of interestTags;"
+        class="badge badge-filter" (click) = "clickTag(tag)" [ngStyle] = "!tag.noShow? {'background-color': tag.color.rgb}: {'background-color':
+        '#555555'}">{{tag.name}}</span>
+</div>
+<div class="row">
+  <div class="interest-list col-4">
+    <h6 class="header feed-header">모든 관심사!</h6>
+    <app-interest-list *ngIf = "shouldLoad| async"
+                       [interests]="interests">
+    </app-interest-list>
+  </div>
+  <div class="interest-recommend-list col-3">
+    <h6 class="header interest-header">이런 관심사는 어떠세요?</h6>
+    <app-interest-list *ngIf = "shouldLoadRecommend | async"
+                       [interests]="interestsRecommend">
+    </app-interest-list>
+  </div>
 </div>

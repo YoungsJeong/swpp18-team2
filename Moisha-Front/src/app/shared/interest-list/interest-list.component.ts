@@ -12,10 +12,6 @@ export class InterestListComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.numberToShow = this.interests.length >= 5 ? 5 : this.interests.length;
-  }
-  showMoreInterests() {
-    this.numberToShow = this.interests.length >= this.numberToShow ? this.numberToShow + 5 : this.interests.length;
   }
 
 }

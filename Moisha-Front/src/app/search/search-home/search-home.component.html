@@ -2,5 +2,9 @@
 <app-side-bar></app-side-bar>
 <div class="searchResult col-4">
   <button class="btn btn-dark newButton" routerLink="/interest/create/">새로운 관심사 만들기</button>
-  <app-interest-list [interests]="searchResult"></app-interest-list>
+  <br>
+  <span *ngFor="let tag of interestTags;"
+        class="badge badge-filter" (click) = "clickTag(tag)" [ngStyle] = "!tag.noShow? {'background-color': tag.color.rgb}: {'background-color':
+        '#555555'}">{{tag.name}}</span>
+  <app-interest-list [interests]="searchResult" *ngIf = "shouldLoad | async"></app-interest-list>
 </div>

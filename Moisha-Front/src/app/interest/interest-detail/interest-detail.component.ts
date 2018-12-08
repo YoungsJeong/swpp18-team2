@@ -23,7 +23,6 @@ export class InterestDetailComponent implements OnInit {
   buttonMessage: string
   ngOnInit() {
     this.interestID = +this.route.snapshot.paramMap.get('id')
-    alert(this.interestID)
     this.setJoinButton()
     this.getInterest()
     this.getArticles()

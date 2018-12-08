@@ -10,7 +10,7 @@ import {of} from 'rxjs';
 
 const mockColor: TagColor = {id: 1, name: 'color', rgb: '#ffffff'}
 const mockInterestTags: InterestTag[] = [
-  { id: 1, name: 'tag1',  color: mockColor}
+  { id: 1, name: 'tag1',  color: mockColor, noShow: false}
 ]
 const mockInterest: Interest[] = [
   {id: 1, name: 'interest1', createUser: 'user1', createdDate: 'now', photoURL: 'test', tags: mockInterestTags},
@@ -51,18 +51,5 @@ describe('InterestListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(component.numberToShow).toEqual(5);
-    component.interests = mockInterest.slice(0, 1)
-    component.ngOnInit()
-    expect(component).toBeTruthy();
-    expect(component.numberToShow).toEqual(1);
-  });
-  it('should be able to fetch more interests', () => {
-    component.showMoreInterests()
-    expect(component.numberToShow).toEqual(10)
-    component.interests = mockInterest.slice(0, 9)
-    fixture.detectChanges();
-    component.showMoreInterests()
-    expect(component.numberToShow).toEqual(9)
   });
 });

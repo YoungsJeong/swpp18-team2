@@ -4,8 +4,8 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from article.models import Article
-from article.serializers import ArticleSerializer
+from article.models import Article, ArticleTag
+from article.serializers import ArticleSerializer, ArticleTagSerializer
 from comment.serializers import CommentSerializer
 from interest.models import Interest
 
@@ -25,6 +25,28 @@ def getArticlesByUser(request):
         articles = Article.objects.filter(interest__in = user.interests.all()).order_by('-createdDate').all()
     return Response(data=ArticleSerializer(articles, many = True).data, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+def getArticlesByUserByTag(request):
+    user = request.user
+    if user.is_anonymous:
+        return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
+    limit = request.GET.get('limit', 0)
+    limit = int(limit)
+    page = request.GET.get('page', 0)
+    page = int(page)
+    articleTags = request.GET.get('tags','')
+    if articleTags != '':
+        articleTags = articleTags.split(',')
+        articleTags = [int(id) for id in articleTags]
+    else:
+        articleTags = []
+    if len(articleTags) != 0:
+        if limit > 0:
+            articles = Article.objects.filter(interest__in=user.interests.all()).filter(tags__in=articleTags).order_by('-createdDate')[page:page + limit]
+        else:
+            articles = Article.objects.filter(interest__in = user.interests.all()).filter(tags__in=articleTags).order_by('-createdDate').all()
+        return Response(data=ArticleSerializer(articles, many = True).data, status=status.HTTP_200_OK)
+    return Response('NO Articles', status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['POST'])
 def createArticle(request):
@@ -44,6 +66,16 @@ def createArticle(request):
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response(status=200)
 
+
+@api_view(['GET'])
+def getArticleTags(request):
+    user = request.user
+    if user.is_anonymous:
+        return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
+    articleTags = ArticleTag.objects.all()
+    if articleTags.count() == 0:
+        return Response('No Tags Created', status=status.HTTP_404_NOT_FOUND)
+    return Response(data=ArticleTagSerializer(articleTags, many = True).data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def getCommentsByArticle(request, pk):
@@ -71,3 +103,26 @@ def getArticlesByInterest(request, pk):
     else:
         articles = Article.objects.filter(interest=pk).order_by('-createdDate').all()
     return Response(data=ArticleSerializer(articles, many = True).data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def getArticlesByInterestByTag(request, pk):
+    limit = request.GET.get('limit', 0)
+    limit = int(limit)
+    page = request.GET.get('page', 0)
+    page = int(page)
+    user = request.user
+    if user.is_anonymous:
+        return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
+    articleTags = request.GET.get('tags', '')
+    if articleTags != '':
+        articleTags = articleTags.split(',')
+        articleTags = [int(id) for id in articleTags]
+    else:
+        articleTags =[]
+    if len(articleTags) != 0:
+        if limit > 0:
+            articles = Article.objects.filter(interest=pk).filter(tags__in=articleTags).order_by('-createdDate')[page:page + limit]
+        else:
+            articles = Article.objects.filter(interest=pk).filter(tags__in=articleTags).order_by('-createdDate').all()
+        return Response(data=ArticleSerializer(articles, many = True).data, status=status.HTTP_200_OK)
+    return Response('NO Articles', status=status.HTTP_404_NOT_FOUND)

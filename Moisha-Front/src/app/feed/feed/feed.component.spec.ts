@@ -11,7 +11,7 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 const mockColor: TagColor = {id: 1, name: 'color', rgb: '#ffffff'}
 const mockTag: ArticleTag[] = [
-  {id: 1, name: 'testTag', color: mockColor},
+  {id: 1, name: 'testTag', color: mockColor, noShow: false},
 ]
 const mockType: ArticleType = {id: 1, name: 'testType'}
 const mockArticle: Article[] = [
@@ -33,7 +33,7 @@ class MockInterestListComponent {
   @Input() interests: Interest[]
 }
 const mockInterestTags: InterestTag[] = [
-  { id: 1, name: 'tag1',  color: mockColor}
+  { id: 1, name: 'tag1',  color: mockColor, noShow: false}
 ]
 const mockInterest: Interest[] = [
   {id: 1, name: 'interest1', createUser: 'user1', createdDate: 'now', photoURL: 'test', tags: mockInterestTags}
@@ -46,7 +46,7 @@ describe('FeedComponent', () => {
 
   beforeEach(async(() => {
     const feedSpy = jasmine.createSpyObj('FeedService',
-      ['getArticleByUser']);
+      ['getArticleByUser','getArticleByUserByTag', 'getArticleTags']);
     const interestSpy = jasmine.createSpyObj('InterestService',
       ['getInterestRecommendation']);
     TestBed.configureTestingModule({
@@ -61,6 +61,8 @@ describe('FeedComponent', () => {
     component = fixture.componentInstance;
     feedService = TestBed.get(FeedService);
     feedService.getArticleByUser.and.returnValue(of(mockArticle))
+    feedService.getArticleByUserByTag.and.returnValue(of(mockArticle))
+    feedService.getArticleTags.and.returnValue(of(mockTag))
     interestService = TestBed.get(InterestService)
     interestService.getInterestRecommendation.and.returnValue(of(mockInterest))
     fixture.detectChanges();

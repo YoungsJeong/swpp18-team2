@@ -1,5 +1,9 @@
 <div class="container col-4 control-pad">
   <button class="btn btn-success" routerLink="create">새 글 쓰기</button>
+  <br>
+  <span *ngFor="let tag of articleTags;"
+        class="badge badge-filter" (click) = "clickTag(tag)" [ngStyle] = "!tag.noShow? {'background-color': tag.color.rgb}: {'background-color':
+        '#555555'}">{{tag.name}}</span>
 </div>
 <div class="row">
   <div class="article-list col-4">
@@ -9,7 +13,7 @@
       (scroll)="fetchMoreFeed()"
     ></app-feed-list>
   </div>
-  <div class="interest-list col4">
+  <div class="interest-list col-3">
     <h6 class="interest-header">{{interest?.name}} 관련 관심사</h6>
     <app-interest-list *ngIf = "shouldLoad | async"
       [interests]="interests">

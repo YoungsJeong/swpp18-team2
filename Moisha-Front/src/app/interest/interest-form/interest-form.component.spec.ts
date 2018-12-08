@@ -14,9 +14,9 @@ const mockColor: TagColor = {
   id: 1, name: 'color', rgb: '#ffffff'
 }
 const mockInterestTags: InterestTag[] = [
-  { id: 1, name: 'tag1',  color: mockColor}
+  { id: 1, name: 'tag1',  color: mockColor, noShow: false}
 ]
-const mockInterestTag: InterestTag = {id: 2, name: 'tag2', color: mockColor}
+const mockInterestTag: InterestTag = {id: 2, name: 'tag2', color: mockColor, noShow: false}
 
 describe('InterestFormComponent', () => {
   let component: InterestFormComponent;

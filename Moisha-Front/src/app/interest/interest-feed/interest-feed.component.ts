@@ -10,7 +10,7 @@ import {InterestService} from '../../core/interest.service';
 })
 export class InterestFeedComponent implements OnInit {
   articles: Article[] = [];
-  articleTags = null;
+  articleTags: ArticleTag[];
   interestID: number;
   interest
   interests
@@ -18,6 +18,9 @@ export class InterestFeedComponent implements OnInit {
   constructor(private feedService: FeedService, private route: ActivatedRoute, private interestService: InterestService) { }
 
   ngOnInit() {
+    this.feedService.getArticleTags().subscribe( (result) => {
+      this.articleTags = result
+    })
     this.interestID = +this.route.snapshot.paramMap.get('id')
     this.getArticles()
     this.interestService.getInterestByID(this.interestID).subscribe( (result) => {
@@ -28,8 +31,22 @@ export class InterestFeedComponent implements OnInit {
       this.shouldLoad = Promise.resolve(true);
     })
   }
+  getTagId() {
+    const filtered = this.articleTags.filter((tag) => !tag.noShow)
+    const tagIds = []
+    for (const tag of filtered){
+      tagIds.push(tag.id)
+    }
+    return tagIds
+  }
+  clickTag(articleTag) {
+    articleTag.noShow = !articleTag.noShow
+    this.feedService.getArticleByInterestByTag(this.interestID, this.getTagId(), 0, 10).subscribe(
+      data => this.articles = data,
+      error => this.articles = [])
+  }
   fetchMoreFeed() {
-    this.feedService.getArticleByInterest(this.interestID, this.articles.length, 10).subscribe( (result: Article[]) => {
+    this.feedService.getArticleByInterestByTag(this.interestID, this.getTagId(), this.articles.length, 10).subscribe( (result: Article[]) => {
       for(let i = 0; i < result.length; i++) {
         if(!this.articles.find(x => x.id === result[i].id)){
           this.articles.push(result[i])
@@ -39,20 +56,9 @@ export class InterestFeedComponent implements OnInit {
   }
   getArticles() {
     this.articles = []
-    this.articleTags = null;
     this.feedService.getArticleByInterest(this.interestID).subscribe(
       (articles) => {
         this.articles = articles
-        /*
-        const articleTagMap: Map<number, ArticleTag> = new Map<number, ArticleTag>()
-        for (const article of articles) {
-          for (const tag of article.tags) {
-            if(!articleTagMap.has(tag.id)) {
-              articleTagMap.set(tag.id, tag)
-            }
-          }
-        }
-        this.articleTags = articleTagMap.values()*/
       }
     )
   }

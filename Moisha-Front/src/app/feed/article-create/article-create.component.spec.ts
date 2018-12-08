@@ -23,7 +23,7 @@ class MockAuthService extends AuthService {
 }
 const mockColor: TagColor = {id: 1, name: 'color', rgb: '#ffffff'}
 const mockTag: ArticleTag[] = [
-  {id: 1, name: 'testTag', color: mockColor},
+  {id: 1, name: 'testTag', color: mockColor, noShow: false},
 ]
 const mockType: ArticleType = {id: 1, name: 'testType'}
 const mockArticle: Article[] = [

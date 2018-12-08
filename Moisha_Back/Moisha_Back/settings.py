@@ -48,6 +48,10 @@ INSTALLED_APPS = [
     'interest',
     'search',
 ]
+MIDDLEWARE_CLASSES = (
+    'Moisha_Back.middleware.HaystackBatchFlushMiddleware',
+)
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',

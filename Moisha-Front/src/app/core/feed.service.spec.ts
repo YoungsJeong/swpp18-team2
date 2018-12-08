@@ -11,7 +11,7 @@ import {HttpParams} from '@angular/common/http';
 
 const mockColor: TagColor = {id: 1, name: 'color', rgb: '#ffffff'}
 const mockTag: ArticleTag[] = [
-  {id: 1, name: 'testTag', color: mockColor}
+  {id: 1, name: 'testTag', color: mockColor, noShow: false}
 ]
 const mockType: ArticleType = {id: 1, name: 'testType'}
 const mockArticle: Article[] = [
@@ -34,7 +34,7 @@ describe('FeedService', () => {
     service.searchTag('test').subscribe((result) => {
       expect(result).toEqual(mockTag)
     })
-    const req = httpClient.expectOne(req => req.url.includes(`/search/article/tag`));
+    const req = httpClient.expectOne(req => req.url.includes(`/search/articletag`));
     expect(req.request.method).toBe('GET')
     req.flush(mockTag);
     httpClient.verify();

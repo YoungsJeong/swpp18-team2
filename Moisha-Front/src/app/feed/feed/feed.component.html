@@ -1,16 +1,22 @@
 <div class="container col-4 control-pad">
+  <div class="row">
   <button class="btn btn-success" routerLink="create">새 글 쓰기</button>
+  </div>
+  <br>
+  <span *ngFor="let tag of articleTags;"
+        class="badge badge-filter" (click) = "clickTag(tag)" [ngStyle] = "!tag.noShow? {'background-color': tag.color.rgb}: {'background-color':
+        '#555555'}">{{tag.name}}</span>
 </div>
 <div class="row">
   <div class="article-list col-4">
-    <h6 class="feed-header">새로운 피드</h6>
+    <h6 class="header feed-header">새로운 피드</h6>
   <app-feed-list
     [articles]="articles"
     (scroll)="fetchMoreFeed()"
   ></app-feed-list>
   </div>
-  <div class="interest-list col4">
-    <h6 class="interest-header">이런 관심사는 어떠세요?</h6>
+  <div class="interest-list col-3">
+    <h6 class="header interest-header">이런 관심사는 어떠세요?</h6>
     <app-interest-list *ngIf = "shouldLoad | async"
     [interests]="interests">
     </app-interest-list>

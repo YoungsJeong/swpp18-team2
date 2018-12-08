@@ -1,9 +1,14 @@
-<div class="interestScroller"
-     infinite-scroll
-     (scrolled)="showMoreInterests()">
-  <div class="container" *ngFor="let interest of interests | slice:0:numberToShow+1">
+<div class="interestScroller" *ngIf = "interests.length >0 else noResults">
+  <div class="container" *ngFor="let interest of interests">
     <app-interest-item
       [interest] = "interest">
     </app-interest-item>
   </div>
 </div>
+
+
+<ng-template #noResults >
+  <div id="noResults">
+    <h1>검색 결과가 없습니다!</h1>
+  </div>
+</ng-template>

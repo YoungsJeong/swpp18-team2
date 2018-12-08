@@ -5,14 +5,15 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from interest.models import Interest, InterestJaccard
-from interest.serializers import InterestSerializer
+from interest.models import Interest, InterestJaccard, InterestTag
+from interest.serializers import InterestSerializer, InterestTagSerializer
 
 
 def jaccardScore(firstSet, secondSet):
     intersectionSet = firstSet.intersection(secondSet)
     return float(len(intersectionSet)) / (len(firstSet) + len(secondSet) - len(intersectionSet))
 
+@api_view(['GET'])
 def batch(request):
     batchRecommendationAll()
     return Response('finished', status=status.HTTP_200_OK)
@@ -31,6 +32,18 @@ def batchRecommendationAll():
                     interestJaccard = interestJaccard[0]
                 interestJaccard.score = score
                 interestJaccard.save()
+    return Response('finished', status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def getInterestTags(request):
+    user = request.user
+    if user.is_anonymous:
+        return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
+    interestTags = InterestTag.objects.all()
+    if interestTags.count() == 0:
+        return Response('No Tags Created', status=status.HTTP_404_NOT_FOUND)
+    return Response(data=InterestTagSerializer(interestTags, many = True).data, status=status.HTTP_200_OK)
+
 
 @api_view(['GET'])
 def getInterestByID(request, pk):
@@ -58,6 +71,25 @@ def getInterestRecommendation(request):
             interests.add(recommendItem.second)
     return Response(data=InterestSerializer(interests, many=True).data, status=status.HTTP_200_OK)
 
+
+@api_view(['GET'])
+def getInterestRecommendationByTag(request):
+    user = request.user
+    if user.is_anonymous:
+        return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
+    interests = user.interests.all()
+    interestTags = request.GET.get('tags', '')
+    if interestTags != '':
+        interestTags = interestTags.split(',')
+        interestTags = [int(id) for id in interestTags]
+    else:
+        interestTags = []
+    recommend = InterestJaccard.objects.filter(first__in=interests).filter(second__tags__in=interestTags).exclude(second__in=interests).order_by('-score').all()
+    interests = set([])
+    for recommendItem in recommend:
+        if recommendItem.second not in interests:
+            interests.add(recommendItem.second)
+    return Response(data=InterestSerializer(interests, many=True).data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def getInterestRecommendationByInterest(request, pk):

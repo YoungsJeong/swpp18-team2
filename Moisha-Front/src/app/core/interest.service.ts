@@ -9,7 +9,8 @@ import {tap} from 'rxjs/operators';
 export interface InterestTag {
   id: number,
   name: string,
-  color: TagColor
+  color: TagColor,
+  noShow: boolean
 }
 export interface Interest {
   id: number,
@@ -37,9 +38,19 @@ export class InterestService {
         params
       });
   }
+  getInterestTags() {
+    return this.http.get<InterestTag[]>('/interest/tags/')
+  }
+  searchInterestByTag(keyword: string, tags) {
+    let params = new HttpParams().set('q', keyword);
+    params = params.append('tags', tags)
+    return this.http.get<Interest[]>('/search/interest/tag', {
+      params
+    });
+  }
   searchTag(search: string): Observable<InterestTag[]> {
     const params = new HttpParams().set('q', search);
-    return this.http.get<InterestTag[]>('/search/interest/tag', {
+    return this.http.get<InterestTag[]>('/search/interesttag', {
       params
     }).pipe(tap((result) => console.log(result)));
   }
@@ -54,6 +65,10 @@ export class InterestService {
   }
   getInterestRecommendation(): Observable<Interest[]> {
     return this.http.get<Interest[]>('/interest/recommend/').pipe(tap((result) => console.log(result)))
+  }
+  getInterestRecommendationByTag(tags): Observable<Interest[]> {
+    const params = new HttpParams().set('tags', tags)
+    return this.http.get<Interest[]>('/interest/recommend/tag/',{params}).pipe(tap((result) => console.log(result)))
   }
   getInterestByID(id: number, create?: boolean){
     let params

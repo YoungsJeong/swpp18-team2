@@ -13,7 +13,8 @@ export interface TagColor {
 export interface ArticleTag {
   id: number,
   name: string,
-  color: TagColor
+  color: TagColor,
+  noShow: boolean
 }
 export interface ArticleType {
   id: number,
@@ -35,7 +36,7 @@ export interface Article {
 export class FeedService {
   searchTag(search: string): Observable<ArticleTag[]> {
     const params = new HttpParams().set('q', search);
-    return this.http.get<InterestTag[]>('/search/article/tag', {
+    return this.http.get<ArticleTag[]>('/search/articletag', {
       params
     }).pipe(tap((result) => console.log(result)));
   }
@@ -50,7 +51,29 @@ export class FeedService {
       params
     });
   }
-  getArticleByInterest(id: number,page?:number, limit?: number) {
+  getArticleByUserByTag(tags, page?: number, limit?: number) {
+    let params = new HttpParams()
+    if(page)
+      params = params.append('page', page.toString());
+    if(limit)
+      params = params.append('limit', limit.toString());
+    params = params.append('tags', tags)
+    return this.http.get<Article[]>('/article/tags/', {
+      params
+    });
+  }
+  getArticleByInterestByTag(id: number, tags,  page?: number, limit?: number) {
+    let params = new HttpParams()
+    if(page)
+      params = params.append('page', page.toString());
+    if(limit)
+      params = params.append('limit', limit.toString());
+    params = params.append('tags', tags)
+    return this.http.get<Article[]>('/article/interest/' + id + '/tags/', {
+      params
+    });
+  }
+  getArticleByInterest(id: number, page?: number, limit?: number) {
     let params = new HttpParams()
     if(page)
       params = params.append('page', page.toString());
@@ -59,6 +82,9 @@ export class FeedService {
     return this.http.get<Article[]>('/article/interest/' + id + '/', {
       params
     });
+  }
+  getArticleTags() {
+    return this.http.get<ArticleTag[]>('/article/tag/')
   }
   createArticle(payload) {
     return this.http.post('/article/create/', payload);

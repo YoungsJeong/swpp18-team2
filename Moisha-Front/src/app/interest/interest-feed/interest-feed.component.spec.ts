@@ -26,7 +26,7 @@ class MockInterestListComponent {
 
 const mockColor: TagColor = {id: 1, name: 'color', rgb: '#ffffff'}
 const mockTag: ArticleTag[] = [
-  {id: 1, name: 'testTag', color: mockColor}
+  {id: 1, name: 'testTag', color: mockColor, noShow: false}
 ]
 const mockType: ArticleType = {id: 1, name: 'testType'}
 const mockArticle: Article[] = [
@@ -37,7 +37,7 @@ const mockArticles: Article[] = [
   {id: 2, title: 'testTitle', content: 'testContent', author: '1', type: mockType, tags: mockTag}
 ]
 const mockInterestTags: InterestTag[] = [
-  { id: 1, name: 'tag1',  color: mockColor}
+  { id: 1, name: 'tag1',  color: mockColor, noShow: false}
 ]
 const mockInterest: Interest[] = [
   {id: 1, name: 'interest1', createUser: 'user1', createdDate: 'now', photoURL: 'test', tags: mockInterestTags}
@@ -48,7 +48,7 @@ describe('InterestFeedComponent', () => {
   let feedService: jasmine.SpyObj<FeedService>;
   let interestService: jasmine.SpyObj<InterestService>;
   beforeEach(async(() => {
-    const feedSpy = jasmine.createSpyObj('FeedService', ['getArticleByInterest'])
+    const feedSpy = jasmine.createSpyObj('FeedService', ['getArticleByInterest', 'getArticleByInterestByTag', 'getArticleTags'])
     const interestSpy = jasmine.createSpyObj('InterestService', ['getInterestByID', 'getInterestRecommendationById'])
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, HttpClientTestingModule],
@@ -76,6 +76,8 @@ describe('InterestFeedComponent', () => {
     component.interestID = 1
     feedService = TestBed.get(FeedService)
     feedService.getArticleByInterest.and.returnValue(of(mockArticle))
+    feedService.getArticleByInterestByTag.and.returnValue(of(mockArticle))
+    feedService.getArticleTags.and.returnValue(of(mockTag))
     interestService = TestBed.get(InterestService)
     interestService.getInterestRecommendationById.and.returnValue(of(mockInterest))
     interestService.getInterestByID.and.returnValue(of(mockInterest))
@@ -89,7 +91,8 @@ describe('InterestFeedComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should be able to fetch more articles', () => {
-    feedService.getArticleByInterest.and.returnValue(of(mockArticles))
+    feedService.getArticleByInterestByTag.and.returnValue(of(mockArticles))
+    console.log(component.articleTags)
     component.fetchMoreFeed()
     expect(component.articles).toEqual(mockArticles)
   });

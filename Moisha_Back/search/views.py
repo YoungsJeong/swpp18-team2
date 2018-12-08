@@ -35,8 +35,7 @@ def searchArticleTag(request):
     q = request.GET.get('q', '')
     if q is '':
         return Response(data=[], status=status.HTTP_200_OK)
-    else:
-        sqs = SearchQuerySet().models(ArticleTag).filter(name__contains=q)
+    sqs = SearchQuerySet().models(ArticleTag).filter(name__contains=q)
     if sqs.count() == 0:
         sqs = SearchQuerySet().models(ArticleTag).autocomplete(autocomplete_search=q)
     serializer_list = []
@@ -53,7 +52,6 @@ def searchInterestTag(request):
         return Response(data=[], status=status.HTTP_200_OK)
     sqs = SearchQuerySet().models(InterestTag).filter(name__contains=q)
     if sqs.count() ==0:
-    #if len(sqs) == 0:
         sqs = SearchQuerySet().models(InterestTag).autocomplete(autocomplete_search=q)
     serializer_list = []
     for sqs_element in sqs:
@@ -75,6 +73,29 @@ def searchInterest(request):
         serializer_list.append(interest)
     serializer = InterestSearchSerializer(serializer_list, many=True)
     return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def searchInterestByTag(request):
+    q = request.GET.get('q', 0)
+    interestTags = request.GET.get('tags', '')
+    if interestTags != '':
+        interestTags = interestTags.split(',')
+        interestTags = [int(id) for id in interestTags]
+    else:
+        interestTags = []
+    if q == '' or q is None or q == ' ':
+        sqs = SearchQuerySet().models(Interest).all()
+    else:
+        sqs = SearchQuerySet().models(Interest).filter(name__contains=q)
+    serializer_list = []
+    for sqs_element in sqs:
+        interest = Interest.objects.filter(id=sqs_element.object.id).filter(tags__in=interestTags)
+        if interest.count() != 0:
+            serializer_list.append(interest[0])
+    serializer = InterestSearchSerializer(serializer_list, many=True)
+    return Response(data=serializer.data, status=status.HTTP_200_OK)
+
 
 
 

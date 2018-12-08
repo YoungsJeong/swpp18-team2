@@ -11,8 +11,10 @@ from interest.models import Interest, InterestJaccard
 urlpatterns = [
     path('<int:pk>/',views.getInterestByID),
     path('create/', views.createInterest),
+    path('tags/', views.getInterestTags),
     path('user/', views.getInterestsByUser),
     path('recommend/', views.getInterestRecommendation),
+    path('recommend/tag/', views.getInterestRecommendationByTag),
     path('recommend/<int:pk>/', views.getInterestRecommendationByInterest),
-    #path('batch/', views.batch),
+    path('batch/', views.batch),
 ]
