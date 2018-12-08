@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from '../auth.guard';
 import {InterestListComponent} from './shared/interest-list/interest-list.component';
+import {ChatComponent} from './component/chat/chat.component';
 
 const routes: Routes = [
 
@@ -36,8 +37,14 @@ const routes: Routes = [
     canLoad: [AuthGuard]
   },
   {
+    path: 'chat',
+    loadComponent: ChatComponent,
+    canLoad: [AuthGuard]
+  },
+  {
     path: '**',
-    redirectTo: '/'
+    redirectTo: '/',
+    component: NotFoundComponent
   }
 ];
 
