@@ -43,7 +43,7 @@ const routes: Routes = [
   }*/
   {
     path: 'chat',
-    loadComponent: ChatComponent,
+    component: ChatComponent,
     canLoad: [AuthGuard]
   }
 ];
