@@ -1,0 +1,6 @@
+<div class="container col-5">
+  <section class="create-app">
+    <h2>게시물 수정</h2>
+    <app-article-edit-form *ngIf = "shouldLoad | async"[article] = "article" (confirm)="editArticle($event)" ></app-article-edit-form>
+  </section>
+</div>

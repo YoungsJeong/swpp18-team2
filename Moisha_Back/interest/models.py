@@ -17,6 +17,7 @@ class Interest(models.Model):
     detail = models.CharField(max_length=300, blank=True)
     createdDate = models.DateTimeField(default = datetime.now)
     createUser = models.ForeignKey('user.User', on_delete = models.SET_DEFAULT, default=1)
+    #managers = models.ManyToManyField('user.User', related_name='manage_interests')
     tags = models.ManyToManyField(InterestTag, related_name='interests')
     photoURL = models.CharField(max_length=500, default='https://raw.githubusercontent.com/swsnu/swpp18-team2/master/Images/empty.png', blank = True)
 

@@ -1,5 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {Interest} from '../../core/interest.service';
 
 @Component({
   selector: 'app-interest-people-detail',
@@ -8,11 +9,11 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class InterestPeopleDetailComponent implements OnInit {
   @Input() user
-  constructor(private modalServie: NgbActiveModal) { }
+  constructor(private modalService: NgbActiveModal) { }
 
   ngOnInit() {
   }
   dismiss() {
-    this.modalServie.dismiss('Cross click')
+    this.modalService.dismiss('Cross click')
   }
 }

@@ -24,7 +24,7 @@ export interface Article {
   id: number,
   title: string,
   content: string,
-  author: string,
+  author: any,
   interest?: Interest,
   type: ArticleType,
   tags: ArticleTag[]
@@ -88,5 +88,14 @@ export class FeedService {
   }
   createArticle(payload) {
     return this.http.post('/article/create/', payload);
+  }
+  editArticle(payload) {
+    return this.http.put('/article/' + payload.articleId + '/edit/', payload);
+  }
+  deleteArticle(id) {
+    return this.http.delete('/article/' + id + '/delete/')
+  }
+  getArticleById(id) {
+    return this.http.get<Article>('/article/' + id + '/');
   }
 }

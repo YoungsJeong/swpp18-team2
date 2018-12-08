@@ -54,6 +54,15 @@ describe('InterestService', () => {
   it('should be created', inject([InterestService], (service: InterestService) => {
     expect(service).toBeTruthy();
   }));
+  it('should be able to get interest tags', async(inject([InterestService], (service: InterestService) => {
+    service.getInterestTags().subscribe((result) => {
+      expect(result).toEqual(mockInterestTags)
+    })
+    const req = httpClient.expectOne(req => req.url.includes(`/interest/tags/`));
+    expect(req.request.method).toBe('GET')
+    req.flush(mockInterestTags);
+    httpClient.verify();
+  })));
   it('should be able to search interest by user', async(inject([InterestService], (service: InterestService) => {
     service.searchInterestByUser('test').subscribe((result) => {
       expect(result).toEqual(mockInterest)
@@ -68,6 +77,15 @@ describe('InterestService', () => {
       expect(result).toEqual(mockInterest)
     })
     const req = httpClient.expectOne(req => req.url.includes(`/search/interest`));
+    expect(req.request.method).toBe('GET')
+    req.flush(mockInterest);
+    httpClient.verify();
+  })));
+  it('should be able to search interest by tag', async(inject([InterestService], (service: InterestService) => {
+    service.searchInterestByTag('test', [1]).subscribe((result) => {
+      expect(result).toEqual(mockInterest)
+    })
+    const req = httpClient.expectOne(req => req.url.includes(`/search/interest/tag`));
     expect(req.request.method).toBe('GET')
     req.flush(mockInterest);
     httpClient.verify();
@@ -103,7 +121,7 @@ describe('InterestService', () => {
     req.flush(mockInterest);
     httpClient.verify();
   })));
-  it('should be able to get recommended interests by it', async(inject([InterestService], (service: InterestService) => {
+  it('should be able to get recommended interests by id', async(inject([InterestService], (service: InterestService) => {
     service.getInterestRecommendationById(1).subscribe((result) => {
       expect(result).toEqual(mockInterest)
     })
@@ -117,6 +135,15 @@ describe('InterestService', () => {
       expect(result).toEqual(mockInterest)
     })
     const req = httpClient.expectOne(req => req.url.includes(`/interest/recommend/`));
+    expect(req.request.method).toBe('GET')
+    req.flush(mockInterest);
+    httpClient.verify();
+  })));
+  it('should be able to get recommended interests by all by tag', async(inject([InterestService], (service: InterestService) => {
+    service.getInterestRecommendationByTag([1]).subscribe((result) => {
+      expect(result).toEqual(mockInterest)
+    })
+    const req = httpClient.expectOne(req => req.url.includes(`/interest/recommend/tag/`));
     expect(req.request.method).toBe('GET')
     req.flush(mockInterest);
     httpClient.verify();

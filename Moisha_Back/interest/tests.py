@@ -27,12 +27,28 @@ class InterestTestCase(TestCase):
         interest.tags.add(interestTag)
         anotherInterest.tags.add(interestTag)
         user.interests.add(interest)
-        user.interests.add(secondInterest)
+        user.interests.add(anotherInterest)
         secondInterest.save()
         anotherInterest.save()
+        anotherUser.interests.add(interest)
+        anotherUser.interests.add(secondInterest)
         anotherUser.save()
         interest.save()
         user.save()
+
+
+    def testBatch(self):
+        response = self.client.get('/api/interest/batch/')
+        self.assertEqual(response.status_code, 200)
+
+
+    def testGetInterestTags(self):
+        response = self.client.get('/api/interest/tags/')
+        self.assertEqual(response.status_code, 400)
+        self.client.login(username='test@test.com', password='test')
+        response = self.client.get('/api/interest/tags/')
+        self.assertEqual(response.status_code, 200)
+
 
     def testInterestRecommendation(self):
         response = self.client.get('/api/interest/recommend/')
@@ -40,6 +56,18 @@ class InterestTestCase(TestCase):
         self.client.login(username='test@test.com', password='test')
         response = self.client.get('/api/interest/recommend/')
         self.assertEqual(response.status_code, 200)
+
+    def testInterestRecommendationByTag(self):
+        response = self.client.get('/api/interest/recommend/tag/')
+        self.assertEqual(response.status_code, 400)
+        self.client.login(username='test@test.com', password='test')
+        response = self.client.get('/api/interest/recommend/tag/')
+        self.assertEqual(response.status_code, 200)
+        response = self.client.get('/api/interest/recommend/tag/',{'tags': '1'})
+        self.assertEqual(response.status_code, 200)
+        response = self.client.get('/api/interest/recommend/tag/',{'tags': '1', 'limit' :1})
+        self.assertEqual(response.status_code, 200)
+
 
     def testInterestRecommendationById(self):
         response = self.client.get('/api/interest/recommend/1/')
@@ -89,7 +117,7 @@ class InterestTestCase(TestCase):
         self.client.login(username='test@test.com', password='test')
         response = self.client.get('/api/interest/1/')
         self.assertEqual(response.status_code, 200)
-        response = self.client.get('/api/interest/2/', {'create': 'true'})
+        response = self.client.get('/api/interest/3/', {'create': 'true'})
         self.assertEqual(response.status_code, 400)
         response = self.client.get('/api/interest/4/')
         self.assertEqual(response.status_code, 404)

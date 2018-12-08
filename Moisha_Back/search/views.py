@@ -8,6 +8,7 @@ from rest_framework.response import Response
 
 from article.models import ArticleTag
 from interest.models import Interest, InterestTag
+from interest.serializers import InterestSerializer
 from search.serializers import DepartmentSearchSerializer, InterestSearchSerializer, ArticleTagSearchSerializer, \
     InterestTagSearchSerializer
 from user.models import Department, User
@@ -64,14 +65,10 @@ def searchInterestTag(request):
 def searchInterest(request):
     q = request.GET.get('q', 0)
     if q == '' or q is None or q == ' ':
-        sqs = SearchQuerySet().models(Interest).all()
+        sqs = Interest.objects.all()
     else:
-        sqs = SearchQuerySet().models(Interest).filter(name__contains=q)
-    serializer_list = []
-    for sqs_element in sqs:
-        interest = Interest.objects.get(id=sqs_element.object.id)
-        serializer_list.append(interest)
-    serializer = InterestSearchSerializer(serializer_list, many=True)
+        sqs = Interest.objects.filter(name__contains=q).all()
+    serializer = InterestSerializer(sqs, many=True)
     return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
@@ -85,15 +82,10 @@ def searchInterestByTag(request):
     else:
         interestTags = []
     if q == '' or q is None or q == ' ':
-        sqs = SearchQuerySet().models(Interest).all()
+        sqs = Interest.objects.filter(tags__in=interestTags).all()
     else:
-        sqs = SearchQuerySet().models(Interest).filter(name__contains=q)
-    serializer_list = []
-    for sqs_element in sqs:
-        interest = Interest.objects.filter(id=sqs_element.object.id).filter(tags__in=interestTags)
-        if interest.count() != 0:
-            serializer_list.append(interest[0])
-    serializer = InterestSearchSerializer(serializer_list, many=True)
+        sqs = Interest.objects.filter(tags__in=interestTags).filter(name__contains=q).all()
+    serializer = InterestSerializer(sqs, many=True)
     return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 

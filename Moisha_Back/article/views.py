@@ -66,6 +66,24 @@ def createArticle(request):
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response(status=200)
 
+@api_view(['PUT'])
+def editArticle(request, pk):
+    user = request.user
+    if user.is_anonymous:
+        return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
+    article = Article.objects.filter(pk = pk)
+    if article.count() != 0:
+        article = article[0]
+        if article.author != user:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        article.title = request.data['title']
+        article.content = request.data['content']
+        articleTags = request.data['articleTags']
+        article.tags.add(*articleTags)
+        article.save()
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_404_NOT_FOUND)
+
 
 @api_view(['GET'])
 def getArticleTags(request):
@@ -73,8 +91,6 @@ def getArticleTags(request):
     if user.is_anonymous:
         return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
     articleTags = ArticleTag.objects.all()
-    if articleTags.count() == 0:
-        return Response('No Tags Created', status=status.HTTP_404_NOT_FOUND)
     return Response(data=ArticleTagSerializer(articleTags, many = True).data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
@@ -84,10 +100,36 @@ def getCommentsByArticle(request, pk):
         return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
     article = Article.objects.filter(pk=pk)
     if article.count() == 0:
-        return Response('Article does not exist', status=status.HTTP_400_BAD_REQUEST)
+        return Response('Article does not exist', status=status.HTTP_404_NOT_FOUND)
     article = article[0]
     comments = article.comments.order_by('createdDate').all()
     return Response(data=CommentSerializer(comments, many = True).data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def getArticleById(request, pk):
+    user = request.user
+    if user.is_anonymous:
+        return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
+    article = Article.objects.filter(pk=pk)
+    if article.count() == 0:
+        return Response('Article does not exist', status=status.HTTP_404_NOT_FOUND)
+    article = article[0]
+    return Response(data=ArticleSerializer(article).data, status=status.HTTP_200_OK)
+
+@api_view(['DELETE'])
+def deleteArticle(request, pk):
+    user = request.user
+    if user.is_anonymous:
+        return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
+    article = Article.objects.filter(pk=pk)
+    if article.count() == 0:
+        return Response('Article does not exist', status=status.HTTP_404_NOT_FOUND)
+    article = article[0]
+    if article.author != user:
+        return Response(status = status.HTTP_401_UNAUTHORIZED)
+    article.delete()
+    return Response(status=status.HTTP_200_OK)
+
 
 @api_view(['GET'])
 def getArticlesByInterest(request, pk):
@@ -126,3 +168,4 @@ def getArticlesByInterestByTag(request, pk):
             articles = Article.objects.filter(interest=pk).filter(tags__in=articleTags).order_by('-createdDate').all()
         return Response(data=ArticleSerializer(articles, many = True).data, status=status.HTTP_200_OK)
     return Response('NO Articles', status=status.HTTP_404_NOT_FOUND)
+

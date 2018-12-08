@@ -16,10 +16,6 @@ export class ArticleCreateComponent implements OnInit {
     if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
       this.auth.getUser()
   }
-  searchInterest(keyword: string) {
-    if (!keyword) keyword = ''
-    this.router.navigate(['search', {keyword: keyword}])
-  }
   createArticle(payload) {
     payload.author = this.auth.user.id
     this.feedService.createArticle(payload).subscribe((interest) =>{

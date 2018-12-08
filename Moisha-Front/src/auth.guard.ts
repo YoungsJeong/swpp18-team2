@@ -43,6 +43,7 @@ export class AuthGuard implements CanLoad {
         this.router.navigate(['intro']);
     } else {
       console.error('unhandled url: ', url);
+      this.router.navigate(['/'])
       return true;
     }
   }

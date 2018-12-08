@@ -3,7 +3,7 @@
   <div class="title">{{article.title}}</div>
     <span *ngFor="let tag of article.tags; let i of index"
           class="badge" [ngStyle] = "{'background-color': tag.color.rgb}">{{tag.name| slice:0:5}}</span>
-  <span class="author">{{article.author}}</span>
+  <span class="author">{{article.author.nickName}}</span>
 </div>
 <div class="card-body">{{article.content}}</div>
 </div>

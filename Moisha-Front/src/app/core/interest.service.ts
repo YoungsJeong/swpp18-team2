@@ -18,7 +18,8 @@ export interface Interest {
   createUser: string,
   createdDate: string,
   photoURL: string,
-  tags: InterestTag[]
+  tags: InterestTag[],
+  managers?: any
 }
 @Injectable({
   providedIn: 'root'
@@ -78,5 +79,4 @@ export class InterestService {
       params
     })
   }
-
 }

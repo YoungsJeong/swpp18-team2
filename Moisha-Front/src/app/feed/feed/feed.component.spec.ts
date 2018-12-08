@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FeedComponent } from './feed.component';
 import {Component, Input} from '@angular/core';
 import {Article, ArticleTag, ArticleType, FeedService, TagColor} from '../../core/feed.service';
-import {of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {RouterTestingModule} from '@angular/router/testing';
 import {Interest, InterestService, InterestTag} from '../../core/interest.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
@@ -16,9 +16,11 @@ const mockTag: ArticleTag[] = [
 const mockType: ArticleType = {id: 1, name: 'testType'}
 const mockArticle: Article[] = [
   {id: 1, title: 'testTitle', content: 'testContent', author: '1', type: mockType, tags: mockTag},
-
 ]
-
+const mockMoreArticle: Article[] = [
+  {id: 1, title: 'testTitle', content: 'testContent', author: '1', type: mockType, tags: mockTag},
+  {id: 2, title: 'testTitle', content: 'testContent', author: '1', type: mockType, tags: mockTag},
+]
 @Component({selector: 'app-filter', template: ''})
 class MockFilterComponent {
   @Input() tags: ArticleTag[]
@@ -46,7 +48,7 @@ describe('FeedComponent', () => {
 
   beforeEach(async(() => {
     const feedSpy = jasmine.createSpyObj('FeedService',
-      ['getArticleByUser','getArticleByUserByTag', 'getArticleTags']);
+      ['getArticleByUser', 'getArticleByUserByTag', 'getArticleTags']);
     const interestSpy = jasmine.createSpyObj('InterestService',
       ['getInterestRecommendation']);
     TestBed.configureTestingModule({
@@ -61,7 +63,7 @@ describe('FeedComponent', () => {
     component = fixture.componentInstance;
     feedService = TestBed.get(FeedService);
     feedService.getArticleByUser.and.returnValue(of(mockArticle))
-    feedService.getArticleByUserByTag.and.returnValue(of(mockArticle))
+    feedService.getArticleByUserByTag.and.returnValue(of(mockMoreArticle))
     feedService.getArticleTags.and.returnValue(of(mockTag))
     interestService = TestBed.get(InterestService)
     interestService.getInterestRecommendation.and.returnValue(of(mockInterest))
@@ -78,5 +80,16 @@ describe('FeedComponent', () => {
   it('should be able to fetch recommended interests', async(() => {
     component.fetchMoreFeed()
     expect(interestService.getInterestRecommendation).toHaveBeenCalled()
+  }));
+  it('should be able to filter by tags', async(() => {
+    component.clickTag(mockTag[0])
+    expect(feedService.getArticleByUserByTag).toHaveBeenCalled()
+    expect(mockTag[0].noShow).toBeTruthy()
+    feedService.getArticleByUserByTag.and.returnValue(Observable.create(observer => {
+      observer.error(new Error('Error!'));
+      observer.complete();
+    }))
+    component.clickTag(mockTag[0])
+    expect(component.articles.length).toEqual(0)
   }));
 });

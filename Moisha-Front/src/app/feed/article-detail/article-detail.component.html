@@ -1,6 +1,10 @@
 <div class="detail">
   <div class="modal-header">
     <h4 class="modal-title" style="text-align: center">{{article?.interest?.name}}의 피드</h4>
+    <span class="author" *ngIf="article.author.id == user.id">
+      <button routerLink="{{article.id}}/edit/" (click) = "dismiss()"><i class="fa fa-pencil-square-o"></i></button>
+      <button routerLink="/" (click) = "deleteArticle()"><i class="fa fa-trash-o"></i></button>
+    </span>
     <button type="button" class="close" aria-label="Close" (click)="dismiss()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -13,7 +17,7 @@
     </tr>
     <tr>
       <th class="head">author</th>
-      <td class="author"><span class="text-secondary">{{article.author}}</span></td>
+      <td class="author"><span class="text-secondary">{{article.author.nickName}}</span></td>
     </tr>
     <tr>
       <th clas="head">tags</th>

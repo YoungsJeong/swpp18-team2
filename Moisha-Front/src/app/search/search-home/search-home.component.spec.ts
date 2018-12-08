@@ -91,4 +91,16 @@ describe('SearchHomeComponent', () => {
     component.searchInterest('')
     expect(component.searchResult).toEqual(mockInterest)
   });
+  it('should be able to filter by tags', async(() => {
+    component.clickTag(mockInterestTags[0])
+    expect(interestService.searchInterestByTag).toHaveBeenCalled()
+    expect(mockInterestTags[0].noShow).toBeTruthy()
+    interestService.searchInterestByTag.and.returnValue(Observable.create(observer => {
+      observer.error(new Error('Error!'));
+      observer.complete();
+    }))
+    component.clickTag(mockInterestTags[0])
+    expect(component.searchResult.length).toEqual(0)
+    expect(interestService.searchInterestByTag).toHaveBeenCalled()
+  }));
 });

@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from article.tag import TagColorSerializer
 from interest.serializers import InterestSerializer
-from user.serializers import UserSerializer
+from user.serializers import UserSerializer, UserDetailSerializer
 from .models import ArticleTag, ArticleType, Article, TagColor
 
 
@@ -35,7 +35,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super(ArticleSerializer, self).to_representation(instance)
         data.update({
-            'author': UserSerializer(instance.author).data['nickName'],
+            'author': UserDetailSerializer(instance.author).data,
             'interest': InterestSerializer(instance.interest).data
         })
         return data

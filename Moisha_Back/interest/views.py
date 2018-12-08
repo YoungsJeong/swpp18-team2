@@ -14,8 +14,25 @@ def jaccardScore(firstSet, secondSet):
     return float(len(intersectionSet)) / (len(firstSet) + len(secondSet) - len(intersectionSet))
 
 @api_view(['GET'])
+
 def batch(request):
-    batchRecommendationAll()
+    RecommendationAll()
+    return Response('finished', status=status.HTTP_200_OK)
+
+
+def RecommendationAll():
+    interests = Interest.objects.all()
+    for firstInterest in interests:
+        for secondInterest in interests:
+            if firstInterest.id != secondInterest.id:
+                score = jaccardScore(firstInterest.members.values('id').all(), secondInterest.members.values('id').all())
+                interestJaccard = InterestJaccard.objects.filter(first = firstInterest, second = secondInterest)
+                if interestJaccard.count() == 0:
+                    interestJaccard = InterestJaccard(first = firstInterest, second = secondInterest)
+                else:
+                    interestJaccard = interestJaccard[0]
+                interestJaccard.score = score
+                interestJaccard.save()
     return Response('finished', status=status.HTTP_200_OK)
 
 @background(schedule = 3)
@@ -40,8 +57,6 @@ def getInterestTags(request):
     if user.is_anonymous:
         return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
     interestTags = InterestTag.objects.all()
-    if interestTags.count() == 0:
-        return Response('No Tags Created', status=status.HTTP_404_NOT_FOUND)
     return Response(data=InterestTagSerializer(interestTags, many = True).data, status=status.HTTP_200_OK)
 
 
@@ -107,8 +122,34 @@ def getInterestRecommendationByInterest(request, pk):
         if recommendItem.second not in interests:
             interests.add(recommendItem.second)
     return Response(data=InterestSerializer(interests, many=True).data, status=status.HTTP_200_OK)
-
-
+'''
+@api_view(['PUT'])
+def updateInterestManagers(request, pk):
+    user = request.user
+    if user.is_anonymous:
+        return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
+    action = request.data['action']
+    if action is '':
+        return Response('Request Must Include Action', status = status.HTTP_400_BAD_REQUEST)
+    userToChange = request.data['user']
+    interest = Interest.objects.filter(pk=pk)
+    if interest.count() != 0:
+        interest = interest[0]
+        managers = interest.managers.all()
+        if user in managers:
+            if action == 'promote' and userToChange not in managers:
+                interest.managers.add(userToChange)
+                interest.save()
+                return Response(data=InterestSerializer(interest).data, status=status.HTTP_200_OK)
+            elif action == 'demote' and userToChange in managers:
+                interest.managers.remove(userToChange)
+                interest.save()
+                return Response(data=InterestSerializer(interest).data, status=status.HTTP_200_OK)
+            else:
+                return Response('Unknown Action', status = status.HTTP_400_BAD_REQUEST)
+        return Response('User is Not Manager', status=status.HTTP_401_UNAUTHORIZED)
+    return Response('No Such Interest',status=status.HTTP_404_NOT_FOUND)
+    '''
 @api_view(['POST'])
 def createInterest(request):
     user = request.user
@@ -121,6 +162,8 @@ def createInterest(request):
     if serializer.is_valid():
         interest = serializer.save()
         interest.tags.add(*data['interestTags'])
+        #interest.managers.add(user)
+        #interest.save()
         user.interests.add(interest)
         user.save()
         return Response(serializer.data)

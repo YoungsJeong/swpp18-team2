@@ -32,6 +32,7 @@ describe('FeedListComponent', () => {
     component = fixture.componentInstance;
     component.articles = mockArticle
     fixture.detectChanges();
+    component.onScrollDown()
   });
 
   it('should create', () => {

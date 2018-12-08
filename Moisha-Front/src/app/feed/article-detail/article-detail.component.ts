@@ -1,8 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Article} from '../../core/feed.service';
+import {Article, FeedService} from '../../core/feed.service';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {Comment, ReplyService} from '../../core/reply.service';
 import {AuthService} from '../../core/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-article-detail',
@@ -13,10 +14,12 @@ export class ArticleDetailComponent implements OnInit {
   @Input() article: Article
   comments: Comment[] = []
   user
-  constructor(private modalServie: NgbActiveModal, private replyService: ReplyService, private authService: AuthService) { }
+  constructor(private modalServie: NgbActiveModal, private replyService: ReplyService, private authService: AuthService, private feedService: FeedService) { }
   ngOnInit() {
     this.getComments()
     this.user = this.authService.user
+    console.log(this.article.author)
+    console.log(this.user)
   }
   getComments() {
     this.comments = []
@@ -27,6 +30,16 @@ export class ArticleDetailComponent implements OnInit {
         }
       }
     })
+  }
+  deleteArticle() {
+    if(confirm('정말 삭제하시겠습니까?')) {
+      this.feedService.deleteArticle(this.article.id).subscribe( result => {
+        console.log(result)
+        location.href = '/'
+        this.dismiss()
+      })
+
+    }
   }
   dismiss() {
     this.modalServie.dismiss('Cross click')

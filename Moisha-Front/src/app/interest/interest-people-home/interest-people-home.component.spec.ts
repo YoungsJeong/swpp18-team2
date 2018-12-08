@@ -3,12 +3,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { InterestPeopleHomeComponent } from './interest-people-home.component';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {AuthService} from '../../core/auth.service';
-import {InterestService} from '../../core/interest.service';
+import {Interest, InterestService, InterestTag} from '../../core/interest.service';
 import {RouterTestingModule} from '@angular/router/testing';
 import {UserService} from '../../core/user.service';
 import {Observable, of} from 'rxjs';
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {TagColor} from '../../core/feed.service';
 
 const mockUser = {id: '1', name: 'test'}
 const mockAnotherUser = {id: '2', name: 'test2'}
@@ -18,7 +19,6 @@ class MockAuthService extends AuthService {
     return of(mockUser)
   }
 }
-
 @Component({selector: 'app-interest-people-list', template: ''})
 class MockInterestPeopleListComponent {
   @Input() users
@@ -30,7 +30,6 @@ describe('InterestPeopleHomeComponent', () => {
   let userService: jasmine.SpyObj<UserService>;
 
   beforeEach(async(() => {
-    const authSpy = jasmine.createSpyObj('AuthService', ['getUser'])
     const userSpy = jasmine.createSpyObj('UserService',['getUserByInterest'])
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, HttpClientTestingModule],

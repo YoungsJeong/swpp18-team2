@@ -3,9 +3,7 @@
        infinite-scroll
        (scrolled)="onScrollDown()">
   <div class="container" *ngFor="let user of users">
-    <app-interest-people
-      [user] = "user">
-    </app-interest-people>
+    <app-interest-people [user] = "user"></app-interest-people>
   </div>
   </div>
 </div>

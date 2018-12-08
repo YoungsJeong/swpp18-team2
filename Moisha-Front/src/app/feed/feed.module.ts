@@ -11,10 +11,13 @@ import { CommentComponent } from './comment/comment.component';
 import { WriteReplyComponent } from './write-reply/write-reply.component';
 import { ArticleCreateComponent } from './article-create/article-create.component';
 import { ArticleFormComponent } from './article-form/article-form.component';
+import { ArticleEditFormComponent } from './article-edit-form/article-edit-form.component';
+import { ArticleEditComponent } from './article-edit/article-edit.component';
 
 @NgModule({
   imports: [SharedModule, FeedRoutingModule],
-  declarations: [ ArticleComponent, FeedListComponent, FeedComponent, HomeComponent, FilterComponent, ArticleDetailComponent, CommentComponent, WriteReplyComponent, ArticleCreateComponent, ArticleFormComponent],
+  declarations: [ ArticleComponent, FeedListComponent, FeedComponent, HomeComponent, FilterComponent, ArticleDetailComponent, CommentComponent, WriteReplyComponent, ArticleCreateComponent, ArticleFormComponent,
+    ArticleEditFormComponent, ArticleEditComponent],
   entryComponents:[ArticleDetailComponent],
   exports: [FilterComponent, ArticleComponent, ArticleDetailComponent, CommentComponent, FeedListComponent, WriteReplyComponent, ArticleCreateComponent]
 })

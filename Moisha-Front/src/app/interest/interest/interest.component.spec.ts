@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { InterestComponent } from './interest.component';
 import {Interest, InterestService, InterestTag} from '../../core/interest.service';
 import {TagColor} from '../../core/feed.service';
-import {of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {Component, Input} from '@angular/core';
 const mockColor: TagColor = {
   id: 1, name: 'color', rgb: '#ffffff'
@@ -49,4 +49,23 @@ describe('InterestComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should be able to filter by tags', async(() => {
+    component.clickTag(mockInterestTags[0])
+    expect(interestService.searchInterestByTag).toHaveBeenCalled()
+    expect(interestService.getInterestRecommendationByTag).toHaveBeenCalled()
+    expect(mockInterestTags[0].noShow).toBeTruthy()
+    interestService.searchInterestByTag.and.returnValue(Observable.create(observer => {
+      observer.error(new Error('Error!'));
+      observer.complete();
+    }))
+    interestService.getInterestRecommendationByTag.and.returnValue(Observable.create(observer => {
+      observer.error(new Error('Error!'));
+      observer.complete();
+    }))
+    component.clickTag(mockInterestTags[0])
+    expect(component.interests.length).toEqual(0)
+    expect(component.interestsRecommend.length).toEqual(0)
+    expect(interestService.searchInterestByTag).toHaveBeenCalled()
+    expect(interestService.getInterestRecommendationByTag).toHaveBeenCalled()
+  }));
 });

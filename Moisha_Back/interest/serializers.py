@@ -18,7 +18,6 @@ class InterestTagSerializer(serializers.ModelSerializer):
 
 class InterestSerializer(serializers.ModelSerializer):
     tags = InterestTagSerializer(read_only=True, many=True)
-
     class Meta:
         model = Interest
         fields = '__all__'
@@ -27,6 +26,6 @@ class InterestSerializer(serializers.ModelSerializer):
         data = super(InterestSerializer, self).to_representation(instance)
         data.update({
             'members': instance.members.count(),
-            'createUser': instance.createUser.nickName
+            'createUser': instance.createUser.nickName,
         })
         return data

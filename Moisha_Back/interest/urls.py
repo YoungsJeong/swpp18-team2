@@ -16,5 +16,6 @@ urlpatterns = [
     path('recommend/', views.getInterestRecommendation),
     path('recommend/tag/', views.getInterestRecommendationByTag),
     path('recommend/<int:pk>/', views.getInterestRecommendationByInterest),
+    #path('<int:pk>/manager/', views.updateInterestManagers),
     path('batch/', views.batch),
 ]

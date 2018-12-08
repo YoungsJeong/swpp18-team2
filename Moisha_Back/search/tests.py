@@ -84,6 +84,18 @@ class SearchTestCase(TestCase):
         response = self.client.get('/api/search/interest/', {'q': 'interest'})
         self.assertEqual(response.status_code, 200)
 
+
+    def testSearchInterestByTag(self):
+        response = self.client.get('/api/search/interest/tag/', {'q': ''})
+        self.assertEqual(response.status_code, 200)
+        response = self.client.get('/api/search/interest/tag/', {'q': ' '})
+        self.assertEqual(response.status_code, 200)
+        response = self.client.get('/api/search/interest/tag/', {'q': 'interest'})
+        self.assertEqual(response.status_code, 200)
+        response = self.client.get('/api/search/interest/tag/', {'q': 'interest', 'tags': '1'})
+        self.assertEqual(response.status_code, 200)
+
+
     def testSearchInterestByUser(self):
         response = self.client.get('/api/search/interest/user/', {'q': ''})
         self.assertEqual(response.status_code, 400)

@@ -9,7 +9,7 @@ import {AuthService} from '../../core/auth.service';
 import {of} from 'rxjs';
 import {Author, Comment, Reply, ReplyService} from '../../core/reply.service';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Article, ArticleTag, ArticleType, TagColor} from '../../core/feed.service';
+import {Article, ArticleTag, ArticleType, FeedService, TagColor} from '../../core/feed.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 
@@ -61,16 +61,20 @@ describe('ArticleDetailComponent', () => {
   let component: ArticleDetailComponent;
   let fixture: ComponentFixture<ArticleDetailComponent>;
   let replyService: jasmine.SpyObj<ReplyService>;
+  let feedService: jasmine.SpyObj<FeedService>;
+
   let authService: AuthService
   beforeEach(async(() => {
     const replySpy = jasmine.createSpyObj('ReplyService',['getCommentsToArticle', 'createComment',
     'editComment', 'deleteComment'])
-
+    const feedSpy = jasmine.createSpyObj('FeedService', ['deleteArticle'])
     TestBed.configureTestingModule({
       imports: [SharedModule, NgbModule.forRoot(), HttpClientTestingModule, RouterTestingModule],
       providers: [NgbModal, NgbActiveModal, NgbModalStack, ScrollBar,
         {provide: AuthService, useClass: MockAuthService},
+        {provide: FeedService, useValue: feedSpy},
         {provide: ReplyService, useValue: replySpy}],
+
       declarations: [ ArticleDetailComponent, MockWriteReplyComponent, MockCommentComponent ]
     })
     .compileComponents();
@@ -85,6 +89,8 @@ describe('ArticleDetailComponent', () => {
     replyService = TestBed.get(ReplyService)
     replyService.createComment.and.returnValue(of(mockComment[0]))
     replyService.getCommentsToArticle.and.returnValue(of(mockComment))
+    feedService = TestBed.get(FeedService)
+    feedService.deleteArticle.and.returnValue(of(mockArticle))
     fixture.detectChanges();
   });
 
@@ -94,6 +100,28 @@ describe('ArticleDetailComponent', () => {
     component.ngOnInit()
     expect(component.comments.length).toEqual(0);
     component.dismiss()
+  });
+  it('should be able to delete article', () => {
+    spyOn(window, 'confirm').and.returnValue(true);
+    const payload = {
+      content: 'test',
+      article: 1,
+      comment: '',
+      author: ''
+    }
+    component.deleteArticle()
+    expect(feedService.deleteArticle).toHaveBeenCalled()
+  });
+  it('should be able to delete article not confirm', () => {
+    spyOn(window, 'confirm').and.returnValue(false);
+    const payload = {
+      content: 'test',
+      article: 1,
+      comment: '',
+      author: ''
+    }
+    component.deleteArticle()
+    expect(feedService.deleteArticle).not.toHaveBeenCalled()
   });
   it('should be able to write reply', () => {
     const getCommentSpy = spyOn(component, 'getComments');

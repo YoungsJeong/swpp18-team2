@@ -35,11 +35,10 @@ const routes: Routes = [
     loadChildren: '../app/profile/profile.module#ProfileModule',
     canLoad: [AuthGuard]
   },
-  /*
   {
     path: '**',
-    component: NotFoundComponent
-  }*/
+    redirectTo: '/'
+  }
 ];
 
 @NgModule({
