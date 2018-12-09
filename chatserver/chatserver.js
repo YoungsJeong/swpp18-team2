@@ -5,7 +5,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -49,7 +49,7 @@ var ChatServer = /** @class */ (function () {
             res.end("Hello world!!!!\n");
         });
         this.server.listen(this.port, function () {
-            _this.log("Server running at http://localhost:" + _this.port);
+            _this.log("Server running at http://13.209.77.39:" + _this.port);
         });
         this.io.on('connect', function (socket) {
             _this.log("Connected client on port " + _this.port);

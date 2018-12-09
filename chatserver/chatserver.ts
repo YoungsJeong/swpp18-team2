@@ -39,7 +39,7 @@ export class ChatServer {
     })
 
     this.server.listen(this.port, () => {
-      this.log(`Server running at http://localhost:${this.port}`)
+      this.log(`Server running at http://13.209.77.39:${this.port}`)
     })
 
     this.io.on('connect', (socket: any) => {

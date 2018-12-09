@@ -18,7 +18,12 @@
 
 # Default server configuration
 #
-
+upstream django_backend {
+    server unix:///tmp/moisha.sock;
+}
+#upstream chat_backend {
+#    server localhost:4577;
+#}
 
 server {
 	listen 80 default_server;
@@ -46,6 +51,20 @@ server {
 	index index.html index.htm;
 
 	server_name _;
+
+    location /socket.io/ {
+        proxy_pass http://localhost:4577/socket.io/;
+    }
+
+    location /api/chat {
+        proxy_pass http://localhost:4577;
+
+    }
+
+    location /api {
+        uwsgi_pass django_backend;
+        include /home/ubuntu/uwsgi_params;
+    }
 
 	location / {
 		# First attempt to serve request as file, then
