@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from '../auth.guard';
 import {InterestListComponent} from './shared/interest-list/interest-list.component';
-import {ChatComponent} from './component/chat/chat.component';
+import {ChatComponent} from './components/chat/chat.component';
 
 const routes: Routes = [
 

@@ -11,10 +11,10 @@ import { AuthService } from '../../core/auth.service'
 
 
 export class ChatComponent implements OnInit {
-  private type = MsgType
+  type = MsgType
   private user
   private ioConnection
-  private messages: Message[] = []
+  messages: Message[] = []
   private messageContent: string
 
   constructor(
