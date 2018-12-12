@@ -5,7 +5,7 @@ import { Message } from '../components/chat/chat-model'
 import * as express from 'express'
 import * as SocketIo from 'socket.io-client'
 
-const BACKEND_URL = 'http://13.209.77.39/api/chat';
+const BACKEND_URL = 'ws://13.209.77.39/';
 
 @Injectable({
   providedIn: 'root'
