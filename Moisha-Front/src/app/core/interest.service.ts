@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Article, TagColor} from './feed.service';
 import {Observable} from 'rxjs';
-import {DepartmentSearchResponse} from './user.service';
 import {tap} from 'rxjs/operators';
 
-
+export interface TagColor {
+  id: number,
+  name: string,
+  rgb: string
+}
 export interface InterestTag {
   id: number,
   name: string,

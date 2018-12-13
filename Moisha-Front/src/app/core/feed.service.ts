@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {DepartmentSearchResponse} from './user.service';
 import {tap} from 'rxjs/operators';
 import {InterestTag, Interest} from './interest.service';
 import {Observable} from 'rxjs';
