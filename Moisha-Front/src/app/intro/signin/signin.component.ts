@@ -32,7 +32,6 @@ export class SigninComponent implements OnInit {
   }
 
   goToSignUp() {
-    console.log();
     this.router.navigate(['/signup']);
   }
 

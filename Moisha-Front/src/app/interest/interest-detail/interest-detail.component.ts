@@ -21,7 +21,9 @@ export class InterestDetailComponent implements OnInit {
   interestID: number;
   isMember = false
   buttonMessage: string
+  error: boolean
   ngOnInit() {
+    this.error = false
     this.interestID = +this.route.snapshot.paramMap.get('id')
     this.setJoinButton()
     this.getInterest()
@@ -29,21 +31,9 @@ export class InterestDetailComponent implements OnInit {
     this.getUsers()
   }
   setJoinButton() {
-    if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
-      this.auth.getUser().subscribe((result) => {
-        for(const interest of result.interests){
-          if(interest.id === this.interestID){
-            this.isMember = true
-            this.buttonMessage = '가입중'
-            return
-          }
-        }
-        this.isMember = false
-        this.buttonMessage = '가입하기'
-      })
-    else {
-      for(const interest of this.auth.user.interests) {
-        if(interest.id === this.interestID){
+    this.interestService.getUserInterests().subscribe((result) => {
+      for (const interest of result) {
+        if (interest.id === this.interestID){
           this.isMember = true
           this.buttonMessage = '가입중'
           return
@@ -51,12 +41,11 @@ export class InterestDetailComponent implements OnInit {
         this.isMember = false
         this.buttonMessage = '가입하기'
       }
-    }
+    })
   }
   getInterest() {
     this.interestService.getInterestByID(this.interestID).subscribe((result) => {
       this.interest = result
-      console.log(result)
     })
   }
   subscribe() {
@@ -64,8 +53,12 @@ export class InterestDetailComponent implements OnInit {
       if(confirm('관심사에서 탈퇴할까요?')){
         this.userService.addInterestToUser(this.interestID, false).subscribe((result) => {
           this.auth.setUser(result)
+          this.error = false
           this.ngOnInit()
-        })
+        },
+          err => {
+            this.error = true
+          })
       }
     }
     else {
@@ -97,7 +90,6 @@ export class InterestDetailComponent implements OnInit {
   getUsers() {
     this.userService.getUserByInterest(this.interestID, undefined, 3).subscribe((result) => {
       this.users = result
-      console.log(result)
     })
   }
 

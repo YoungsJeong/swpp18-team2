@@ -34,13 +34,26 @@ class UserSerializer(serializers.ModelSerializer):
         return User.objects.create_user(**validated_data)
 
 class UserDetailSerializer(serializers.ModelSerializer):
+    #interests = InterestSerializer(read_only=True, many=True)
+    class Meta:
+        model = User
+        exclude = ['password', 'interests', 'is_superuser', 'is_active', 'is_staff', 'last_login', 'groups', 'user_permissions']
+
+    def to_representation(self, instance):
+        data = super(UserDetailSerializer, self).to_representation(instance)
+        data.update({
+            'major': DepartmentSerializer(instance.major).data
+        })
+        return data
+
+class UserInterestSerializer(serializers.ModelSerializer):
     interests = InterestSerializer(read_only=True, many=True)
     class Meta:
         model = User
         exclude = ['password', 'is_superuser', 'is_active', 'is_staff', 'last_login', 'groups', 'user_permissions']
 
     def to_representation(self, instance):
-        data = super(UserDetailSerializer, self).to_representation(instance)
+        data = super(UserInterestSerializer, self).to_representation(instance)
         data.update({
             'major': DepartmentSerializer(instance.major).data
         })

@@ -12,7 +12,7 @@ export class InterestCreateComponent implements OnInit {
   constructor(public auth: AuthService, private interestService: InterestService, private router: Router) { }
   ngOnInit() {
     if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
-      this.auth.getUser().subscribe(console.log);
+      this.auth.getUser().subscribe();
   }
   searchInterest(keyword?: string) {
     if (!keyword) keyword = ''
@@ -21,7 +21,6 @@ export class InterestCreateComponent implements OnInit {
   createInterest(payload) {
     payload.createUser = this.auth.user.id
     this.interestService.createInterest(payload).subscribe((interest: Interest) => {
-      console.log('created :' + interest)
       this.auth.user.interests.push(interest)
       this.router.navigate(['interest/' + interest.id])
     })

@@ -16,7 +16,6 @@ export class ProfileComponent implements OnInit {
     if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
       this.auth.getUser().subscribe((result) => {
         this.shouldLoad = Promise.resolve(true);
-        console.log(result)
       });
     else this.shouldLoad = Promise.resolve(true);
     this.interestService.getUserInterests().subscribe( interests =>

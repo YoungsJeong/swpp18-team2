@@ -55,23 +55,23 @@ export class InterestService {
     const params = new HttpParams().set('q', search);
     return this.http.get<InterestTag[]>('/search/interesttag', {
       params
-    }).pipe(tap((result) => console.log(result)));
+    }).pipe(tap());
   }
   createInterest(payload) {
     return this.http.post('/interest/create/', payload);
   }
   getUserInterests(): Observable<Interest[]> {
-    return this.http.get<Interest[]>('/interest/user').pipe(tap((result) => console.log(result)))
+    return this.http.get<Interest[]>('/interest/user').pipe(tap())
   }
   getInterestRecommendationById(interestId: number): Observable<Interest[]> {
-    return this.http.get<Interest[]>('/interest/recommend/' + interestId + '/').pipe(tap((result) => console.log(result)))
+    return this.http.get<Interest[]>('/interest/recommend/' + interestId + '/').pipe(tap())
   }
   getInterestRecommendation(): Observable<Interest[]> {
-    return this.http.get<Interest[]>('/interest/recommend/').pipe(tap((result) => console.log(result)))
+    return this.http.get<Interest[]>('/interest/recommend/').pipe(tap())
   }
   getInterestRecommendationByTag(tags): Observable<Interest[]> {
     const params = new HttpParams().set('tags', tags)
-    return this.http.get<Interest[]>('/interest/recommend/tag/',{params}).pipe(tap((result) => console.log(result)))
+    return this.http.get<Interest[]>('/interest/recommend/tag/',{params}).pipe(tap())
   }
   getInterestByID(id: number, create?: boolean){
     let params

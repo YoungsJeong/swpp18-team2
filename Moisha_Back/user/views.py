@@ -8,7 +8,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework import status
 from interest.models import Interest
 from .models import User
-from .serializers import UserSerializer, UserDetailSerializer
+from .serializers import UserSerializer, UserDetailSerializer, UserInterestSerializer
 
 
 @api_view(['POST'])
@@ -17,7 +17,7 @@ def logIn(request):
     if serializer.is_valid():
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
-        return Response(data={'token': token.key, 'user_name': user.name}, status=status.HTTP_200_OK)
+        return Response(data={'token': token.key}, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -28,7 +28,7 @@ def signUp(request):
     if serializer.is_valid() and 'password' in data:
         user = serializer.save()
         token, created = Token.objects.get_or_create(user=user)
-        return Response(data={'token': token.key, 'user_name': user.name}, status=status.HTTP_201_CREATED)
+        return Response(data={'token': token.key}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
@@ -87,7 +87,7 @@ def getUserByInterest(request, pk):
             members = interest.members.all()[page:page+limit]
         else:
             members = interest.members.all()
-        return Response(data=UserDetailSerializer(members, many=True).data, status=status.HTTP_200_OK)
+        return Response(data=UserInterestSerializer(members, many=True).data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['PUT'])

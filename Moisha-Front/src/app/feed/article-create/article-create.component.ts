@@ -18,8 +18,7 @@ export class ArticleCreateComponent implements OnInit {
   }
   createArticle(payload) {
     payload.author = this.auth.user.id
-    this.feedService.createArticle(payload).subscribe((interest) =>{
-      console.log('created :' + interest)
+    this.feedService.createArticle(payload).subscribe((interest) => {
       this.router.navigate(['/'])
     })
   }

@@ -25,7 +25,6 @@ export class ArticleEditComponent implements OnInit {
   editArticle(payload) {
     payload.author = this.auth.user.id
     this.feedService.editArticle(payload).subscribe((interest) =>{
-      console.log('editted :' + interest)
       this.router.navigate(['/'])
     })
   }

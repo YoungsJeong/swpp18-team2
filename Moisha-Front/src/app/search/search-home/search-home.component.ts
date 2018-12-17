@@ -17,7 +17,7 @@ export class SearchHomeComponent implements OnInit {
   constructor(public auth: AuthService, private router: Router, private route: ActivatedRoute, private interestService: InterestService) { }
   ngOnInit() {
     if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
-      this.auth.getUser().subscribe(console.log);
+      this.auth.getUser().subscribe();
     this.keyword =  this.route.snapshot.paramMap.get('keyword')
     this.searchInterest(this.keyword)
     this.interestService.getInterestTags().subscribe((result) =>
@@ -43,7 +43,6 @@ export class SearchHomeComponent implements OnInit {
     if (keyword === '' || keyword === null || keyword === undefined)
       keyword = ''
     this.interestService.searchInterest(keyword).subscribe((result) => {
-      console.log(result)
       this.searchResult = result
       this.shouldLoad = Promise.resolve(true)
     })

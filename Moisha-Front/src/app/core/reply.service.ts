@@ -32,7 +32,7 @@ export class ReplyService {
 
   constructor(private http: HttpClient) { }
   getCommentsToArticle(id: number): Observable<Comment[]> {
-    return this.http.get<Comment[]>('/article/' + id + '/comment/').pipe(tap((result) => console.log(result)))
+    return this.http.get<Comment[]>('/article/' + id + '/comment/').pipe(tap())
   }
   createComment(payload) {
     return this.http.post('/comment/', payload);
@@ -41,6 +41,6 @@ export class ReplyService {
     return this.http.delete('/comment/' + id + '/')
   }
   editComment(editPayload) {
-    return this.http.put('/comment/' + editPayload.id + '/', editPayload).pipe(tap(() => console.log('editted')))
+    return this.http.put('/comment/' + editPayload.id + '/', editPayload).pipe(tap())
   }
 }

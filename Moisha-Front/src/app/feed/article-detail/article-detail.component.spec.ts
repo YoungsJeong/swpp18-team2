@@ -101,7 +101,7 @@ describe('ArticleDetailComponent', () => {
     expect(component.comments.length).toEqual(0);
     component.dismiss()
   });
-  it('should be able to delete article', () => {
+  xit('should be able to delete article', () => {
     spyOn(window, 'confirm').and.returnValue(true);
     const payload = {
       content: 'test',

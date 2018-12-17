@@ -18,8 +18,6 @@ export class ArticleDetailComponent implements OnInit {
   ngOnInit() {
     this.getComments()
     this.user = this.authService.user
-    console.log(this.article.author)
-    console.log(this.user)
   }
   getComments() {
     this.comments = []
@@ -34,7 +32,6 @@ export class ArticleDetailComponent implements OnInit {
   deleteArticle() {
     if(confirm('정말 삭제하시겠습니까?')) {
       this.feedService.deleteArticle(this.article.id).subscribe( result => {
-        console.log(result)
         location.href = '/'
         this.dismiss()
       })
@@ -58,7 +55,7 @@ export class ArticleDetailComponent implements OnInit {
         id: payload.id,
         content: newContent
       }
-      this.replyService.editComment(editPayload)
+      this.replyService.editComment(editPayload).subscribe()
     }
   }
   deleteReply(payload) {

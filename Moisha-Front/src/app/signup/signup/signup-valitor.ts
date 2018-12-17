@@ -25,7 +25,7 @@ export class SignupValidator {
       return null;
     }
     const regExp = new RegExp(
-      '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$'
+      '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};\':"\\\\|,.<>\\/?]{8,}$'
     );
     return regExp.test(control.value) ? null : { invalidPassword: true };
   }

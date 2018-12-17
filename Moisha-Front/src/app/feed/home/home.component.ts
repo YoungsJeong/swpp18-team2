@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
-      this.auth.getUser().subscribe(console.log);
+      this.auth.getUser().subscribe();
   }
   searchInterest(keyword: string) {
     if (!keyword) keyword = ''

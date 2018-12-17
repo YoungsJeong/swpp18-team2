@@ -92,7 +92,6 @@ describe('InterestFeedComponent', () => {
   });
   it('should be able to fetch more articles', () => {
     feedService.getArticleByInterestByTag.and.returnValue(of(mockArticles))
-    console.log(component.articleTags)
     component.fetchMoreFeed()
     expect(component.articles).toEqual(mockArticles)
   });

@@ -16,6 +16,11 @@ class InterestTagSerializer(serializers.ModelSerializer):
 
         return data
 
+class InterestSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Interest
+        fields = 'name', 'id'
+
 class InterestSerializer(serializers.ModelSerializer):
     tags = InterestTagSerializer(read_only=True, many=True)
     class Meta:

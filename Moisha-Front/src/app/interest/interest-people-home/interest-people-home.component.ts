@@ -19,7 +19,7 @@ export class InterestPeopleHomeComponent implements OnInit {
   ngOnInit() {
     this.interestID = +this.route.snapshot.paramMap.get('id')
     if(!this.auth.user || this.auth.user === null || this.auth.user === undefined)
-      this.auth.getUser().subscribe(console.log);
+      this.auth.getUser().subscribe();
     this.getUsers()
   }
   fetchMorePeople() {

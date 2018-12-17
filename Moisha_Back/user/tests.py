@@ -103,7 +103,6 @@ class UserTestCase(TestCase):
         self.assertEquals(response.status_code, 400)
         response = self.client.post('/api/user/login/', self.user, follow=True)
         data = json.loads(response.content.decode('utf-8'))
-        self.assertEquals(data['user_name'], 'test')
         self.assertEquals(response.status_code, 200)
 
     def testSignUp(self):
@@ -112,7 +111,6 @@ class UserTestCase(TestCase):
         self.assertEquals(response.status_code, 400)
         response = self.client.post('/api/user/signup/', data=self.signup)
         data = json.loads(response.content.decode('utf-8'))
-        self.assertEquals(data['user_name'], 'testSignup')
         self.assertEquals(response.status_code, 201)
 
     def testGetUserInfo(self):

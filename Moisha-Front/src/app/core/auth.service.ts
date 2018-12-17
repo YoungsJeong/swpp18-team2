@@ -74,7 +74,6 @@ export class AuthService {
   }
   setUser(user) {
     this.user = user;
-    console.log('user: ', user);
   }
   getUser() {
     return this.http.get('/user/info').pipe(

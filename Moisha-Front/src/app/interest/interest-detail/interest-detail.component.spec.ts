@@ -66,7 +66,7 @@ describe('InterestDetailComponent', () => {
   let userService: jasmine.SpyObj<UserService>;
   beforeEach(async(() => {
 
-    const interestSpy = jasmine.createSpyObj('InterestService', ['getInterestByID'])
+    const interestSpy = jasmine.createSpyObj('InterestService', ['getInterestByID', 'getUserInterests'])
     const feedSpy = jasmine.createSpyObj('FeedService', ['getArticleByInterest'])
     const userSpy = jasmine.createSpyObj('UserService',['getUserByInterest', 'addInterestToUser'])
 
@@ -101,6 +101,7 @@ describe('InterestDetailComponent', () => {
     interestService = TestBed.get(InterestService)
     feedService.getArticleByInterest.and.returnValue(of(mockArticles))
     interestService.getInterestByID.and.returnValue(of(mockInterest[0]))
+    interestService.getUserInterests.and.returnValue(of(mockInterest))
     userService.getUserByInterest.and.returnValue(of(mockUsers))
     userService.addInterestToUser.and.returnValue(of(mockUser))
     authService.setUser(mockUser)

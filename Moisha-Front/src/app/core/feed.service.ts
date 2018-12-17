@@ -37,7 +37,7 @@ export class FeedService {
     const params = new HttpParams().set('q', search);
     return this.http.get<ArticleTag[]>('/search/articletag', {
       params
-    }).pipe(tap((result) => console.log(result)));
+    }).pipe(tap());
   }
   constructor(private http: HttpClient) { }
   getArticleByUser(page?: number, limit?: number) {

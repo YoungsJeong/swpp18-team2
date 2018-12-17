@@ -25,7 +25,9 @@ SECRET_KEY = '58dzq(^nu7s8hv90-a)zfhdiiaua4!csn(s*ldx5@j@)bvfu)1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['api.moisha.ml', 'http://ec2-13-125-100-78.ap-northeast-2.compute.amazonaws.com/', 'localhost']
+ALLOWED_HOSTS = ['localhost',
+                 '.ap-northeast-2.compute.amazonaws.com',
+                 '.moisha.tk',]
 
 
 # Application definition
@@ -48,10 +50,6 @@ INSTALLED_APPS = [
     'interest',
     'search',
 ]
-MIDDLEWARE_CLASSES = (
-    'Moisha_Back.middleware.HaystackBatchFlushMiddleware',
-)
-
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -86,25 +84,24 @@ WSGI_APPLICATION = 'Moisha_Back.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'HOST': 'moisha.cdo24monyjoa.ap-northeast-2.rds.amazonaws.com',
-#        'PORT': '5432',
-#        'NAME': 'deploy',
-#        'USER': 'root',
-#        'PASSWORD': 'as154712',
-#    }
-#}
-
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': 'moisha.cdo24monyjoa.ap-northeast-2.rds.amazonaws.com',
+        'PORT': '5432',
+        'NAME': 'deploy',
+        'USER': 'root',
+        'PASSWORD': 'as154712',
+    }
+}
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 

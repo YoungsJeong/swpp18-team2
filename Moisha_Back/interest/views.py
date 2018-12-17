@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from interest.models import Interest, InterestJaccard, InterestTag
-from interest.serializers import InterestSerializer, InterestTagSerializer
+from interest.serializers import InterestSerializer, InterestTagSerializer, InterestSimpleSerializer
 
 
 def jaccardScore(firstSet, secondSet):
@@ -174,4 +174,4 @@ def getInterestsByUser(request):
     user = request.user
     if user.is_anonymous:
         return Response('Anonymous user is not allowed', status=status.HTTP_400_BAD_REQUEST)
-    return Response(data=InterestSerializer(user.interests, many=True).data, status=status.HTTP_200_OK)
+    return Response(data=InterestSimpleSerializer(user.interests, many=True).data, status=status.HTTP_200_OK)
